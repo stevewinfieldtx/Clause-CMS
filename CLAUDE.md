@@ -36,7 +36,7 @@ Then open the dashboard: `http://localhost:4321/admin/?key=<secret>`
 ### Required Railway env vars
 | Var | Purpose |
 |---|---|
-| `MONGODB_URI` | Railway Mongo connection string — persistent storage (required) |
+| `MONGO_URL` (or `MONGODB_URI`) | Railway Mongo connection string — persistent storage (required). Code accepts `MONGODB_URI`, `MONGO_URL`, or `MONGO_PUBLIC_URL`. |
 | `ADMIN_KEY` | Owner master key for the dashboard (required — don't leave default) |
 | `OPENROUTER_API_KEY` | Natural-language chat editing (optional; click-to-edit works without it) |
 | `OPENROUTER_MODEL_ID` | Optional model slug (defaults to `anthropic/claude-sonnet-4.5`) |

@@ -21,11 +21,11 @@ Why MongoDB on Railway and not just files: Railway wipes a container's local dis
 5. Open the **app service → Variables** and add:
    | Variable | Value |
    |---|---|
-   | `MONGODB_URI` | *(paste the Mongo connection string)* |
+   | `MONGO_URL` | `${{MongoDB.MONGO_URL}}` *(Add Reference → MongoDB → MONGO_URL)* |
    | `ADMIN_KEY` | *(your private master key — make one up)* |
    | `OPENROUTER_API_KEY` | *(optional — enables chat editing)* |
    | `OPENROUTER_MODEL_ID` | *(optional — e.g. `anthropic/claude-sonnet-4.5`)* |
-   - Tip: instead of pasting, you can reference the DB service: `MONGODB_URI = ${{MongoDB.MONGO_URL}}`.
+   - The app accepts `MONGO_URL`, `MONGO_PUBLIC_URL`, or `MONGODB_URI` — any one works. Use the **private** `MONGO_URL` (same project = free + faster).
 6. App service → **Settings → Networking → Generate Domain** to get a public URL.
 7. Visit `https://<your-domain>/admin/?key=<your ADMIN_KEY>` — that's your dashboard.
 
