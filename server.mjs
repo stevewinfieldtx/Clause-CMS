@@ -281,6 +281,34 @@ app.use((req, res, next) => {
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
 });
+
+// Security headers. The always-safe set goes on every response; a Content-Security-
+// Policy is scoped to the published /live/ sites only — the admin console and editor
+// rely on inline + postMessage + contenteditable machinery that a strict CSP would break.
+app.use((req, res, next) => {
+  res.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains');
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.set('X-Frame-Options', 'SAMEORIGIN');
+  res.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), interest-cohort=()');
+  if (req.path.startsWith('/live/')) {
+    const pub = (getConfig().publicUrl || '').replace(/\/+$/, ''); // form handler may post here
+    res.set('Content-Security-Policy', [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://www.clarity.ms https://*.clarity.ms",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com data:",
+      "img-src 'self' data: https:",
+      `connect-src 'self' https://*.clarity.ms https://formspree.io${pub ? ' ' + pub : ''}`,
+      "frame-src 'self' https://www.youtube.com https://player.vimeo.com",
+      "frame-ancestors 'self'",
+      "base-uri 'self'",
+      "form-action 'self' https://formspree.io",
+      'upgrade-insecure-requests',
+    ].join('; '));
+  }
+  next();
+});
 app.use('/assets', express.static(join(ROOT, 'site/assets')));
 app.use('/editor', express.static(join(ROOT, 'editor')));
 app.use('/admin', express.static(join(ROOT, 'admin')));
