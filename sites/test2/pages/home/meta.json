@@ -1,0 +1,23 @@
+{
+  "sections": [],
+  "collections": [
+    {
+      "id": "col1",
+      "count": 4,
+      "itemTag": "div",
+      "label": "Page items"
+    },
+    {
+      "id": "col2",
+      "count": 6,
+      "itemTag": "div",
+      "label": "Page items"
+    },
+    {
+      "id": "col3",
+      "count": 2,
+      "itemTag": "div",
+      "label": "Page items"
+    }
+  ]
+}

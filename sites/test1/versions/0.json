@@ -1,0 +1,637 @@
+{
+  "seq": 0,
+  "ts": "2026-06-27T21:05:50.609Z",
+  "summary": "Initial version",
+  "state": {
+    "order": [
+      "home"
+    ],
+    "home": "home",
+    "pagesMeta": {
+      "home": {
+        "title": "Home",
+        "path": "/"
+      }
+    },
+    "pages": {
+      "home": {
+        "template": "<!DOCTYPE html><html lang=\"en\"><head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title data-cms=\"cms-62\">WireX-Systems — Dominate Your Market with Autonomous Agents</title>\n  <meta name=\"description\" content=\"Stop bleeding leads. WireX-Systems deploys ruthless, 24/7 AI automation, speed-to-lead voice agents, and instant system remediation.\" data-cms=\"cms-63\">\n  <link rel=\"icon\" href=\"https://placehold.co/32x32/0a0a0a/34d399.png?text=W\">\n  <link rel=\"canonical\" href=\"https://wirex-systems.com/\">\n  <meta name=\"robots\" content=\"index,follow\">\n\n  <!-- Open Graph -->\n  <meta property=\"og:title\" content=\"WireX-Systems — Autonomous Business Scaling\" data-cms=\"cms-64\">\n  <meta property=\"og:description\" content=\"We build fast, aggressive speed-to-lead automation for serious service businesses.\" data-cms=\"cms-65\">\n  <meta property=\"og:image\" content=\"https://images.unsplash.com/photo-1633398980838-518fdf9eb7f6?auto=format&amp;fit=crop&amp;w=1200&amp;h=630&amp;q=80\" data-cms=\"cms-66\">\n\n  <!-- Twitter -->\n  <meta name=\"twitter:card\" content=\"summary_large_image\">\n  <meta name=\"twitter:title\" content=\"WireX-Systems — Autonomous Business Scaling\" data-cms=\"cms-67\">\n  <meta name=\"twitter:description\" content=\"We build fast, aggressive speed-to-lead automation for serious service businesses.\" data-cms=\"cms-68\">\n\n  <style>\n    /* --- ADVANCED DESIGN SYSTEM --- */\n    :root {\n      --brand-hue: 150;\n      --brand: hsl(var(--brand-hue) 60% 50%);\n      --brand-dark: hsl(var(--brand-hue) 80% 30%);\n      --surface: hsl(245 85% 6%);\n      --surface-mid: rgba(255, 255, 255, 0.04);\n      --text: #ffffff;\n      --text-muted: #a1a1aa;\n      --radius: 12px;\n      --radius-lg: 24px;\n      --font-main: system-ui, -apple-system, sans-serif;\n    }\n\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    html { scroll-behavior: smooth; font-family: var(--font-main); background-color: var(--surface); color: var(--text); overflow-x: hidden; }\n    body { min-height: 100vh; position: relative; }\n    \n    img { max-width: 100%; height: auto; display: block; }\n    a { text-decoration: none; color: inherit; }\n    ul { list-style: none; }\n\n    /* --- CUTTING-EDGE EFFECTS --- */\n    .noise::after {\n      content: '';\n      position: fixed;\n      inset: 0;\n      background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E\");\n      pointer-events: none;\n      z-index: 9999;\n    }\n\n    .mesh-bg {\n      position: fixed;\n      inset: 0;\n      z-index: -1;\n      background-color: hsl(245 85% 8%);\n      background-image:\n        radial-gradient(at 20% 20%, hsl(150 85% 20%) 0%, transparent 50%),\n        radial-gradient(at 80% 10%, hsl(245 85% 30%) 0%, transparent 40%),\n        radial-gradient(at 60% 80%, hsl(200 85% 20%) 0%, transparent 45%);\n    }\n\n    @keyframes gradient-shift {\n      0%, 100% { background-position: 0% 50%; }\n      50% { background-position: 100% 50%; }\n    }\n    \n    .gradient-text {\n      background: linear-gradient(135deg, #34d399, #60a5fa, #a78bfa, #34d399);\n      background-size: 300%;\n      -webkit-background-clip: text;\n      -webkit-text-fill-color: transparent;\n      background-clip: text;\n      animation: gradient-shift 4s ease infinite;\n    }\n\n    /* --- GLASSMORPHISM & GLOW --- */\n    .glass-card {\n      background: rgba(255, 255, 255, 0.04);\n      backdrop-filter: blur(24px) saturate(180%);\n      -webkit-backdrop-filter: blur(24px) saturate(180%);\n      border: 1px solid rgba(255, 255, 255, 0.1);\n      border-radius: var(--radius-lg);\n      padding: 2.5rem;\n      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;\n      transform-style: preserve-3d;\n    }\n    .glass-card:hover {\n      transform: translateY(-10px) rotateX(2deg);\n      box-shadow: 0 32px 64px rgba(0,0,0,0.6);\n      border-color: rgba(255, 255, 255, 0.2);\n    }\n\n    .glow-btn {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      padding: 1rem 2rem;\n      border-radius: var(--radius);\n      font-weight: 700;\n      font-size: 1.125rem;\n      background: var(--brand);\n      color: #000;\n      box-shadow: 0 0 24px color-mix(in srgb, var(--brand) 60%, transparent),\n                  0 0 64px color-mix(in srgb, var(--brand) 30%, transparent);\n      transition: all 0.3s ease;\n      border: none;\n      cursor: pointer;\n    }\n    .glow-btn:hover {\n      box-shadow: 0 0 32px color-mix(in srgb, var(--brand) 80%, transparent),\n                  0 0 96px color-mix(in srgb, var(--brand) 50%, transparent);\n      transform: scale(1.05);\n    }\n\n    .btn-ghost {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      padding: 1rem 2rem;\n      border-radius: var(--radius);\n      font-weight: 600;\n      background: transparent;\n      color: var(--text);\n      border: 1px solid rgba(255,255,255,0.2);\n      transition: all 0.3s ease;\n    }\n    .btn-ghost:hover {\n      background: rgba(255,255,255,0.1);\n      border-color: var(--text);\n    }\n\n    /* --- SCROLL ANIMATIONS --- */\n    @keyframes fade-up {\n      from { opacity: 0; transform: translateY(60px); }\n      to   { opacity: 1; transform: translateY(0); }\n    }\n    @keyframes slide-in-left {\n      from { opacity: 0; transform: translateX(-80px); }\n      to   { opacity: 1; transform: translateX(0); }\n    }\n    @keyframes slide-in-right {\n      from { opacity: 0; transform: translateX(80px); }\n      to   { opacity: 1; transform: translateX(0); }\n    }\n    \n    .reveal-up { animation: fade-up linear both; animation-timeline: view(); animation-range: entry 0% entry 25%; }\n    .reveal-left { animation: slide-in-left linear both; animation-timeline: view(); animation-range: entry 0% entry 25%; }\n    .reveal-right { animation: slide-in-right linear both; animation-timeline: view(); animation-range: entry 0% entry 25%; }\n\n    /* --- TYPOGRAPHY & LAYOUT --- */\n    .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 2rem; }\n    section { padding: 8rem 0; position: relative; }\n    \n    h1 { font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem; font-weight: 800; }\n    h2 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; font-weight: 700; }\n    h3 { font-size: 1.75rem; margin-bottom: 1rem; font-weight: 600; color: #fff; }\n    p { font-size: 1.25rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem; }\n    strong { color: #fff; }\n\n    /* --- NAVIGATION --- */\n    header { position: sticky; top: 0; z-index: 100; background: rgba(10, 10, 15, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }\n    nav { display: flex; justify-content: space-between; align-items: center; height: 90px; padding: 0 2rem; max-width: 1400px; margin: 0 auto; }\n    .logo-text { font-size: 1.75rem; font-weight: 900; letter-spacing: -1px; }\n    \n    .nav-links { display: flex; gap: 3rem; align-items: center; }\n    .nav-links a { font-weight: 600; color: var(--text-muted); transition: color 0.2s; font-size: 1.1rem; }\n    .nav-links a:hover { color: var(--text); }\n    \n    #menu-toggle { display: none; }\n    .hamburger { display: none; font-size: 2rem; cursor: pointer; color: white; }\n\n    /* --- HERO WRAPPER --- */\n    .hero-wrapper { position: relative; min-height: 95vh; display: flex; align-items: center; overflow: hidden; }\n    .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; mix-blend-mode: luminosity; }\n    .hero-content { position: relative; z-index: 1; max-width: 900px; padding-top: 4rem; }\n    .hero-ctas { display: flex; gap: 1.5rem; margin-top: 3rem; }\n\n    /* --- BENTO GRID (FEATURES) --- */\n    .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem; }\n    .bento > div { padding: 3rem; }\n    .card-wide { grid-column: span 8; }\n    .card-tall { grid-column: span 4; grid-row: span 2; }\n    .card-small { grid-column: span 4; }\n\n    /* --- COLLECTIONS (PRICING & FAQ) --- */\n    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }\n    .pricing-card { display: flex; flex-direction: column; }\n    .pricing-card[data-featured=\"true\"] { border: 2px solid var(--brand); transform: scale(1.02); background: rgba(52, 211, 153, 0.05); }\n    .price-wrap { margin: 1.5rem 0 2.5rem; }\n    .price { font-size: 4rem; font-weight: 900; color: #fff; line-height: 1; margin: 0; }\n    .price-sub { font-size: 1rem; color: var(--brand); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem; }\n    .feature-list { margin-bottom: 3rem; flex-grow: 1; }\n    .feature-list li { margin-bottom: 1rem; display: flex; gap: 1rem; align-items: flex-start; font-size: 1.125rem; color: #d4d4d8; }\n    .feature-list li::before { content: '→'; color: var(--brand); font-weight: bold; }\n\n    .faq-list { display: flex; flex-direction: column; gap: 1rem; max-width: 900px; margin: 0 auto; }\n    details { background: var(--surface-mid); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius); transition: all 0.3s; }\n    details:hover { border-color: rgba(255,255,255,0.2); }\n    summary { padding: 1.5rem 2rem; font-size: 1.25rem; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }\n    summary::-webkit-details-marker { display: none; }\n    summary::after { content: '+'; color: var(--brand); font-size: 1.5rem; font-weight: 300; transition: transform 0.3s; }\n    details[open] summary::after { transform: rotate(45deg); color: #fff; }\n    details p { padding: 0 2rem 2rem; margin: 0; font-size: 1.125rem; }\n\n    /* --- RESPONSIVE --- */\n    @media (max-width: 1024px) {\n      .bento .card-wide { grid-column: span 12; }\n      .bento .card-tall { grid-column: span 6; grid-row: span 1; }\n      .bento .card-small { grid-column: span 6; }\n    }\n    @media (max-width: 768px) {\n      .hamburger { display: block; }\n      .nav-links { display: none; position: absolute; top: 90px; left: 0; width: 100%; background: var(--surface); padding: 2rem; flex-direction: column; gap: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); }\n      #menu-toggle:checked ~ .nav-links { display: flex; }\n      .hero-ctas { flex-direction: column; }\n      .bento > div { grid-column: span 12 !important; }\n      h1 { font-size: 3rem; }\n    }\n  </style>\n</head>\n<body class=\"noise\">\n  <div class=\"mesh-bg\"></div>\n\n  <header>\n    <nav>\n      <a href=\"/\" class=\"logo-link\"><span class=\"logo-text\" data-cms=\"cms-1\">WIREX-SYSTEMS</span></a>\n      <input type=\"checkbox\" id=\"menu-toggle\">\n      <label for=\"menu-toggle\" class=\"hamburger\">☰</label>\n      <ul class=\"nav-links\" data-cms-collection=\"col1\">\n        <li data-cms-item=\"col1\"><a href=\"#platform\" data-cms=\"cms-2\">The Platform</a></li>\n        <li data-cms-item=\"col1\"><a href=\"#execution\" data-cms=\"cms-3\">Execution</a></li>\n        <li data-cms-item=\"col1\"><a href=\"#pricing\" data-cms=\"cms-4\">Pricing</a></li>\n        <li data-cms-item=\"col1\"><a href=\"#contact\" class=\"glow-btn\" style=\"padding: 0.75rem 1.5rem; font-size: 1rem;\" data-cms=\"cms-5\">Deploy Now</a></li>\n      </ul>\n    </nav>\n  </header>\n\n  <main data-cms-collection=\"col2\">\n    <section id=\"hero\" class=\"hero-wrapper\">\n      <img src=\"https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&amp;fit=crop&amp;w=2000&amp;q=80\" alt=\"Server room representing AI backend infrastructure\" class=\"hero-bg\" data-cms-img=\"cms-61\">\n      <div class=\"container\">\n        <div class=\"hero-content reveal-up\">\n          <h1>Stop Bleeding Leads. <br><span class=\"gradient-text\" data-cms=\"cms-6\">Deploy Autonomous Agents.</span></h1>\n          <p data-cms=\"cms-7\">You are losing money every minute your team takes to respond. WireX-Systems builds ruthless, 24/7 AI-driven conversational agents and automated speed-to-lead pipelines that crush your competition while you sleep.</p>\n          <div class=\"hero-ctas\">\n            <a href=\"#pricing\" class=\"glow-btn\" data-cms=\"cms-8\">Get Started Today</a>\n            <a href=\"#platform\" class=\"btn-ghost\" data-cms=\"cms-9\">See How It Works</a>\n          </div>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"platform\" data-cms-item=\"col2\">\n      <div class=\"container\">\n        <h2 class=\"reveal-up\" data-cms=\"cms-10\">The Manual Era is Dead.</h2>\n        <p class=\"reveal-up\" data-cms=\"cms-11\">We engineer infrastructure that works relentlessly. Stop paying for bloated consulting. Start scaling with systems.</p>\n        \n        <div class=\"bento reveal-up\" data-cms-collection=\"col3\">\n          <div class=\"glass-card card-wide reveal-left\">\n            <h3 data-cms=\"cms-12\">Zero-Latency Speed-to-Lead</h3>\n            <p>If you don't respond to a prospect in 5 minutes, your close rate drops by 80%. Our automated SMS and conversational sequences engage, qualify, and secure leads the exact second they enter your funnel. <strong data-cms=\"cms-13\">We do not leave money on the table.</strong></p>\n            <a href=\"#contact\" class=\"btn-ghost\" data-cms=\"cms-14\">View Case Studies</a>\n          </div>\n          \n          <div class=\"glass-card card-tall reveal-right\">\n            <h3 data-cms=\"cms-15\">Automated Remediation</h3>\n            <p>Stop paying consultants $30,000 for \"manual system cleanups\" before an AI audit. That is a scam. <em data-cms=\"cms-16\">Our intelligent agents perform structural engineering remediation automatically</em>, stripping out the dead weight so you can deploy AI immediately.</p>\n          </div>\n\n          <div class=\"glass-card card-small reveal-up\" data-cms-item=\"col3\">\n            <h3 data-cms=\"cms-17\">24/7 Voice Synthesis</h3>\n            <p data-cms=\"cms-18\">Deploy conversational agents that sound terrifyingly human. They handle objections, pull contextual data, and book calendar slots flawlessly.</p>\n          </div>\n\n          <div class=\"glass-card card-small reveal-up\" data-cms-item=\"col3\">\n            <h3 data-cms=\"cms-19\">Channel Partner Mastery</h3>\n            <p data-cms=\"cms-20\">Built explicitly for MSPs and VARs looking to revitalize their practice. If your margins are shrinking, our automation stacks are your way out.</p>\n          </div>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"pricing\" data-cms-item=\"col2\">\n      <div class=\"container\">\n        <h2 class=\"reveal-up text-center\" data-cms=\"cms-21\">Transparent Deployment</h2>\n        <p class=\"reveal-up text-center\" data-cms=\"cms-22\">No hidden fees. No endless consulting retainers. Just brutal efficiency.</p>\n        \n        <div class=\"pricing-grid reveal-up\" data-cms-collection=\"col4\">\n          <!-- PRICING COLLECTION ITEM 1 -->\n          <div class=\"glass-card pricing-card\" data-featured=\"false\" data-cms-item=\"col4\">\n            <h3 data-cms=\"cms-23\">Speed-to-Lead Core</h3>\n            <div class=\"price-wrap\">\n              <p class=\"price\" data-cms=\"cms-24\">$899</p>\n              <p class=\"price-sub\" data-cms=\"cms-25\">Per Month</p>\n            </div>\n            <ul class=\"feature-list\" data-cms-collection=\"col5\">\n              <li data-cms=\"cms-26\" data-cms-item=\"col5\">Instant SMS &amp; Email Sequences</li>\n              <li data-cms=\"cms-27\" data-cms-item=\"col5\">Basic CRM Data Sync</li>\n              <li data-cms=\"cms-28\" data-cms-item=\"col5\">Standard Analytics Dashboard</li>\n              <li data-cms=\"cms-29\" data-cms-item=\"col5\">99.9% Uptime Guarantee</li>\n            </ul>\n            <a href=\"#contact\" class=\"btn-ghost\" data-cms=\"cms-30\">Deploy Core</a>\n          </div>\n\n          <!-- PRICING COLLECTION ITEM 2 -->\n          <div class=\"glass-card pricing-card\" data-featured=\"true\" data-cms-item=\"col4\">\n            <h3 data-cms=\"cms-31\">Autonomous Pro</h3>\n            <div class=\"price-wrap\">\n              <p class=\"price\" data-cms=\"cms-32\">$2,400</p>\n              <p class=\"price-sub\" data-cms=\"cms-33\">Per Month — Maximum Leverage</p>\n            </div>\n            <ul class=\"feature-list\" data-cms-collection=\"col6\">\n              <li data-cms=\"cms-34\" data-cms-item=\"col6\">Full 24/7 Voice Agent Synthesis</li>\n              <li data-cms=\"cms-35\" data-cms-item=\"col6\">Automated Calendar Booking</li>\n              <li data-cms=\"cms-36\" data-cms-item=\"col6\">Advanced Objection Handling</li>\n              <li data-cms=\"cms-37\" data-cms-item=\"col6\">Priority Engineering Support</li>\n            </ul>\n            <a href=\"#contact\" class=\"glow-btn\" data-cms=\"cms-38\">Deploy Pro Now</a>\n          </div>\n\n          <!-- PRICING COLLECTION ITEM 3 -->\n          <div class=\"glass-card pricing-card\" data-featured=\"false\" data-cms-item=\"col4\">\n            <h3 data-cms=\"cms-39\">Enterprise MSP</h3>\n            <div class=\"price-wrap\">\n              <p class=\"price\" data-cms=\"cms-40\">Custom</p>\n              <p class=\"price-sub\" data-cms=\"cms-41\">Infrastructure Overhaul</p>\n            </div>\n            <ul class=\"feature-list\" data-cms-collection=\"col7\">\n              <li data-cms=\"cms-42\" data-cms-item=\"col7\">Automated System Remediation</li>\n              <li data-cms=\"cms-43\" data-cms-item=\"col7\">White-labeled Partner Deployments</li>\n              <li data-cms=\"cms-44\" data-cms-item=\"col7\">Bespoke API Integrations</li>\n              <li data-cms=\"cms-45\" data-cms-item=\"col7\">Dedicated Growth Architect</li>\n            </ul>\n            <a href=\"#contact\" class=\"btn-ghost\" data-cms=\"cms-46\">Book Audit</a>\n          </div>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"faq\" data-cms-item=\"col2\">\n      <div class=\"container\">\n        <h2 class=\"reveal-up text-center\" data-cms=\"cms-47\">Cut Through The Noise</h2>\n        <div class=\"faq-list reveal-up\" data-cms-collection=\"col8\">\n          \n          <!-- FAQ COLLECTION ITEM -->\n          <details data-cms-item=\"col8\">\n            <summary><span data-cms=\"cms-48\">Do I need to clean up my data before deploying?</span></summary>\n            <p data-cms=\"cms-49\">Absolutely not. The industry lies to you, telling you that you need a massive manual cleanup project first. Our AI agents handle system remediation automatically on deployment.</p>\n          </details>\n\n          <!-- FAQ COLLECTION ITEM -->\n          <details data-cms-item=\"col8\">\n            <summary><span data-cms=\"cms-50\">How long does it take to go live?</span></summary>\n            <p data-cms=\"cms-51\">If you have your API keys ready, we can deploy the base Speed-to-Lead core within 48 hours. Custom Voice AI environments take roughly 14 days of supervised training.</p>\n          </details>\n\n          <!-- FAQ COLLECTION ITEM -->\n          <details data-cms-item=\"col8\">\n            <summary><span data-cms=\"cms-52\">Can the Voice AI actually book meetings?</span></summary>\n            <p data-cms=\"cms-53\">Yes. It integrates directly with your scheduling software, reads live availability, and drops the qualified prospect straight onto your calendar.</p>\n          </details>\n\n        </div>\n      </div>\n    </section>\n\n    <section id=\"contact\" data-cms-item=\"col2\">\n      <div class=\"container text-center reveal-up\">\n        <h2 data-cms=\"cms-54\">Stop Waiting. Start Scaling.</h2>\n        <p data-cms=\"cms-55\">The market doesn't wait for manual labor. Lock in your consultation now.</p>\n        <a href=\"mailto:deploy@wirex-systems.com\" class=\"glow-btn\" style=\"margin-top: 1.5rem;\" data-cms=\"cms-56\">Initialize Deployment</a>\n      </div>\n    </section>\n  </main>\n\n  <footer style=\"padding: 4rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem;\">\n    <div class=\"container\" style=\"display: flex; flex-direction: column; align-items: center; gap: 2rem;\">\n      <span class=\"logo-text\" style=\"color: var(--text-muted); font-size: 1.25rem;\" data-cms=\"cms-57\">WIREX-SYSTEMS</span>\n      <nav style=\"display: flex; gap: 2rem; height: auto;\" data-cms-collection=\"col9\">\n        <a href=\"/privacy\" style=\"color: var(--text-muted);\" data-cms=\"cms-58\" data-cms-item=\"col9\">Privacy Protocol</a>\n        <a href=\"/terms\" style=\"color: var(--text-muted);\" data-cms=\"cms-59\" data-cms-item=\"col9\">Terms of Service</a>\n      </nav>\n      <p style=\"margin: 0; font-size: 0.875rem;\" data-cms=\"cms-60\">© 2026 WireX-Systems Architecture. Built for dominance.</p>\n    </div>\n  </footer>\n\n\n</body></html>",
+        "schema": {
+          "cms-1": {
+            "type": "text",
+            "label": "Text: \"WIREX-SYSTEMS\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-2": {
+            "type": "text",
+            "label": "Link: \"The Platform\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-3": {
+            "type": "text",
+            "label": "Link: \"Execution\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-4": {
+            "type": "text",
+            "label": "Link: \"Pricing\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-5": {
+            "type": "text",
+            "label": "Link: \"Deploy Now\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-6": {
+            "type": "text",
+            "label": "Text: \"Deploy Autonomous Agents.\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-7": {
+            "type": "text",
+            "label": "Text: \"You are losing money every minute yo…\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-8": {
+            "type": "text",
+            "label": "Link: \"Get Started Today\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-9": {
+            "type": "text",
+            "label": "Link: \"See How It Works\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-10": {
+            "type": "text",
+            "label": "Heading: \"The Manual Era is Dead.\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-11": {
+            "type": "text",
+            "label": "Text: \"We engineer infrastructure that work…\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-12": {
+            "type": "text",
+            "label": "Heading: \"Zero-Latency Speed-to-Lead\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-13": {
+            "type": "text",
+            "label": "Text: \"We do not leave money on the table.\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-14": {
+            "type": "text",
+            "label": "Link: \"View Case Studies\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-15": {
+            "type": "text",
+            "label": "Heading: \"Automated Remediation\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-16": {
+            "type": "text",
+            "label": "Text: \"Our intelligent agents perform struc…\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-17": {
+            "type": "text",
+            "label": "Heading: \"24/7 Voice Synthesis\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-18": {
+            "type": "text",
+            "label": "Text: \"Deploy conversational agents that so…\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-19": {
+            "type": "text",
+            "label": "Heading: \"Channel Partner Mastery\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-20": {
+            "type": "text",
+            "label": "Text: \"Built explicitly for MSPs and VARs l…\"",
+            "group": "Platform",
+            "rich": false,
+            "allow": []
+          },
+          "cms-21": {
+            "type": "text",
+            "label": "Heading: \"Transparent Deployment\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-22": {
+            "type": "text",
+            "label": "Text: \"No hidden fees. No endless consultin…\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-23": {
+            "type": "text",
+            "label": "Heading: \"Speed-to-Lead Core\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-24": {
+            "type": "text",
+            "label": "Text: \"$899\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-25": {
+            "type": "text",
+            "label": "Text: \"Per Month\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-26": {
+            "type": "text",
+            "label": "List item: \"Instant SMS & Email Sequences\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-27": {
+            "type": "text",
+            "label": "List item: \"Basic CRM Data Sync\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-28": {
+            "type": "text",
+            "label": "List item: \"Standard Analytics Dashboard\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-29": {
+            "type": "text",
+            "label": "List item: \"99.9% Uptime Guarantee\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-30": {
+            "type": "text",
+            "label": "Link: \"Deploy Core\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-31": {
+            "type": "text",
+            "label": "Heading: \"Autonomous Pro\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-32": {
+            "type": "text",
+            "label": "Text: \"$2,400\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-33": {
+            "type": "text",
+            "label": "Text: \"Per Month — Maximum Leverage\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-34": {
+            "type": "text",
+            "label": "List item: \"Full 24/7 Voice Agent Synthesis\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-35": {
+            "type": "text",
+            "label": "List item: \"Automated Calendar Booking\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-36": {
+            "type": "text",
+            "label": "List item: \"Advanced Objection Handling\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-37": {
+            "type": "text",
+            "label": "List item: \"Priority Engineering Support\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-38": {
+            "type": "text",
+            "label": "Link: \"Deploy Pro Now\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-39": {
+            "type": "text",
+            "label": "Heading: \"Enterprise MSP\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-40": {
+            "type": "text",
+            "label": "Text: \"Custom\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-41": {
+            "type": "text",
+            "label": "Text: \"Infrastructure Overhaul\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-42": {
+            "type": "text",
+            "label": "List item: \"Automated System Remediation\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-43": {
+            "type": "text",
+            "label": "List item: \"White-labeled Partner Deployments\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-44": {
+            "type": "text",
+            "label": "List item: \"Bespoke API Integrations\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-45": {
+            "type": "text",
+            "label": "List item: \"Dedicated Growth Architect\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-46": {
+            "type": "text",
+            "label": "Link: \"Book Audit\"",
+            "group": "Pricing",
+            "rich": false,
+            "allow": []
+          },
+          "cms-47": {
+            "type": "text",
+            "label": "Heading: \"Cut Through The Noise\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-48": {
+            "type": "text",
+            "label": "Text: \"Do I need to clean up my data before…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-49": {
+            "type": "text",
+            "label": "Text: \"Absolutely not. The industry lies to…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-50": {
+            "type": "text",
+            "label": "Text: \"How long does it take to go live?\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-51": {
+            "type": "text",
+            "label": "Text: \"If you have your API keys ready, we …\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-52": {
+            "type": "text",
+            "label": "Text: \"Can the Voice AI actually book meeti…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-53": {
+            "type": "text",
+            "label": "Text: \"Yes. It integrates directly with you…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-54": {
+            "type": "text",
+            "label": "Heading: \"Stop Waiting. Start Scaling.\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-55": {
+            "type": "text",
+            "label": "Text: \"The market doesn't wait for manual l…\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-56": {
+            "type": "text",
+            "label": "Link: \"Initialize Deployment\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-57": {
+            "type": "text",
+            "label": "Text: \"WIREX-SYSTEMS\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-58": {
+            "type": "text",
+            "label": "Link: \"Privacy Protocol\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-59": {
+            "type": "text",
+            "label": "Link: \"Terms of Service\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-60": {
+            "type": "text",
+            "label": "Text: \"© 2026 WireX-Systems Architecture. B…\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-61": {
+            "type": "image",
+            "label": "Image: Server room representing AI backend infra",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-62": {
+            "type": "text",
+            "label": "Browser tab title",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-63": {
+            "type": "meta-attr",
+            "label": "Google meta description",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-64": {
+            "type": "meta-attr",
+            "label": "Social share title",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-65": {
+            "type": "meta-attr",
+            "label": "Social share description",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-66": {
+            "type": "meta-attr",
+            "label": "Social share image URL",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-67": {
+            "type": "meta-attr",
+            "label": "Twitter card title",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-68": {
+            "type": "meta-attr",
+            "label": "Twitter card description",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          }
+        },
+        "content": {
+          "cms-1": "WIREX-SYSTEMS",
+          "cms-2": "The Platform",
+          "cms-3": "Execution",
+          "cms-4": "Pricing",
+          "cms-5": "Deploy Now",
+          "cms-6": "Deploy Autonomous Agents.",
+          "cms-7": "You are losing money every minute your team takes to respond. WireX-Systems builds ruthless, 24/7 AI-driven conversational agents and automated speed-to-lead pipelines that crush your competition while you sleep.",
+          "cms-8": "Get Started Today",
+          "cms-9": "See How It Works",
+          "cms-10": "The Manual Era is Dead.",
+          "cms-11": "We engineer infrastructure that works relentlessly. Stop paying for bloated consulting. Start scaling with systems.",
+          "cms-12": "Zero-Latency Speed-to-Lead",
+          "cms-13": "We do not leave money on the table.",
+          "cms-14": "View Case Studies",
+          "cms-15": "Automated Remediation",
+          "cms-16": "Our intelligent agents perform structural engineering remediation automatically",
+          "cms-17": "24/7 Voice Synthesis",
+          "cms-18": "Deploy conversational agents that sound terrifyingly human. They handle objections, pull contextual data, and book calendar slots flawlessly.",
+          "cms-19": "Channel Partner Mastery",
+          "cms-20": "Built explicitly for MSPs and VARs looking to revitalize their practice. If your margins are shrinking, our automation stacks are your way out.",
+          "cms-21": "Transparent Deployment",
+          "cms-22": "No hidden fees. No endless consulting retainers. Just brutal efficiency.",
+          "cms-23": "Speed-to-Lead Core",
+          "cms-24": "$899",
+          "cms-25": "Per Month",
+          "cms-26": "Instant SMS & Email Sequences",
+          "cms-27": "Basic CRM Data Sync",
+          "cms-28": "Standard Analytics Dashboard",
+          "cms-29": "99.9% Uptime Guarantee",
+          "cms-30": "Deploy Core",
+          "cms-31": "Autonomous Pro",
+          "cms-32": "$2,400",
+          "cms-33": "Per Month — Maximum Leverage",
+          "cms-34": "Full 24/7 Voice Agent Synthesis",
+          "cms-35": "Automated Calendar Booking",
+          "cms-36": "Advanced Objection Handling",
+          "cms-37": "Priority Engineering Support",
+          "cms-38": "Deploy Pro Now",
+          "cms-39": "Enterprise MSP",
+          "cms-40": "Custom",
+          "cms-41": "Infrastructure Overhaul",
+          "cms-42": "Automated System Remediation",
+          "cms-43": "White-labeled Partner Deployments",
+          "cms-44": "Bespoke API Integrations",
+          "cms-45": "Dedicated Growth Architect",
+          "cms-46": "Book Audit",
+          "cms-47": "Cut Through The Noise",
+          "cms-48": "Do I need to clean up my data before deploying?",
+          "cms-49": "Absolutely not. The industry lies to you, telling you that you need a massive manual cleanup project first. Our AI agents handle system remediation automatically on deployment.",
+          "cms-50": "How long does it take to go live?",
+          "cms-51": "If you have your API keys ready, we can deploy the base Speed-to-Lead core within 48 hours. Custom Voice AI environments take roughly 14 days of supervised training.",
+          "cms-52": "Can the Voice AI actually book meetings?",
+          "cms-53": "Yes. It integrates directly with your scheduling software, reads live availability, and drops the qualified prospect straight onto your calendar.",
+          "cms-54": "Stop Waiting. Start Scaling.",
+          "cms-55": "The market doesn't wait for manual labor. Lock in your consultation now.",
+          "cms-56": "Initialize Deployment",
+          "cms-57": "WIREX-SYSTEMS",
+          "cms-58": "Privacy Protocol",
+          "cms-59": "Terms of Service",
+          "cms-60": "© 2026 WireX-Systems Architecture. Built for dominance.",
+          "cms-61": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2000&q=80",
+          "cms-62": "WireX-Systems — Dominate Your Market with Autonomous Agents",
+          "cms-63": "Stop bleeding leads. WireX-Systems deploys ruthless, 24/7 AI automation, speed-to-lead voice agents, and instant system remediation.",
+          "cms-64": "WireX-Systems — Autonomous Business Scaling",
+          "cms-65": "We build fast, aggressive speed-to-lead automation for serious service businesses.",
+          "cms-66": "https://images.unsplash.com/photo-1633398980838-518fdf9eb7f6?auto=format&fit=crop&w=1200&h=630&q=80",
+          "cms-67": "WireX-Systems — Autonomous Business Scaling",
+          "cms-68": "We build fast, aggressive speed-to-lead automation for serious service businesses."
+        },
+        "sections": [
+          "header",
+          "nav",
+          "main",
+          "#hero",
+          "#platform",
+          "#pricing",
+          "#faq",
+          "#contact",
+          "footer"
+        ],
+        "collections": [
+          {
+            "id": "col1",
+            "count": 4,
+            "itemTag": "li",
+            "label": "nav items"
+          },
+          {
+            "id": "col2",
+            "count": 4,
+            "itemTag": "section",
+            "label": "main items"
+          },
+          {
+            "id": "col3",
+            "count": 2,
+            "itemTag": "div",
+            "label": "platform items"
+          },
+          {
+            "id": "col4",
+            "count": 3,
+            "itemTag": "div",
+            "label": "pricing items"
+          },
+          {
+            "id": "col5",
+            "count": 4,
+            "itemTag": "li",
+            "label": "pricing items"
+          },
+          {
+            "id": "col6",
+            "count": 4,
+            "itemTag": "li",
+            "label": "pricing items"
+          },
+          {
+            "id": "col7",
+            "count": 4,
+            "itemTag": "li",
+            "label": "pricing items"
+          },
+          {
+            "id": "col8",
+            "count": 3,
+            "itemTag": "details",
+            "label": "faq items"
+          },
+          {
+            "id": "col9",
+            "count": 2,
+            "itemTag": "a",
+            "label": "nav items"
+          }
+        ]
+      }
+    }
+  }
+}

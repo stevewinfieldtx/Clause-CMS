@@ -1,0 +1,69 @@
+{
+  "sections": [
+    "header",
+    "nav",
+    "main",
+    "#hero",
+    "#platform",
+    "#pricing",
+    "#faq",
+    "#contact",
+    "footer"
+  ],
+  "collections": [
+    {
+      "id": "col1",
+      "count": 4,
+      "itemTag": "li",
+      "label": "nav items"
+    },
+    {
+      "id": "col2",
+      "count": 4,
+      "itemTag": "section",
+      "label": "main items"
+    },
+    {
+      "id": "col3",
+      "count": 2,
+      "itemTag": "div",
+      "label": "platform items"
+    },
+    {
+      "id": "col4",
+      "count": 3,
+      "itemTag": "div",
+      "label": "pricing items"
+    },
+    {
+      "id": "col5",
+      "count": 4,
+      "itemTag": "li",
+      "label": "pricing items"
+    },
+    {
+      "id": "col6",
+      "count": 4,
+      "itemTag": "li",
+      "label": "pricing items"
+    },
+    {
+      "id": "col7",
+      "count": 4,
+      "itemTag": "li",
+      "label": "pricing items"
+    },
+    {
+      "id": "col8",
+      "count": 3,
+      "itemTag": "details",
+      "label": "faq items"
+    },
+    {
+      "id": "col9",
+      "count": 2,
+      "itemTag": "a",
+      "label": "nav items"
+    }
+  ]
+}

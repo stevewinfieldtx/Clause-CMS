@@ -1,0 +1,56 @@
+{
+  "sections": [
+    "#site-header",
+    "nav",
+    "main",
+    "#hero",
+    "#features",
+    "#social-proof",
+    "#cta",
+    "#site-footer"
+  ],
+  "collections": [
+    {
+      "id": "col1",
+      "count": 3,
+      "itemTag": "a",
+      "label": "site-header items"
+    },
+    {
+      "id": "col2",
+      "count": 4,
+      "itemTag": "li",
+      "label": "nav items"
+    },
+    {
+      "id": "col3",
+      "count": 4,
+      "itemTag": "section",
+      "label": "main items"
+    },
+    {
+      "id": "col4",
+      "count": 4,
+      "itemTag": "article",
+      "label": "features items"
+    },
+    {
+      "id": "col5",
+      "count": 2,
+      "itemTag": "div",
+      "label": "site-footer items"
+    },
+    {
+      "id": "col6",
+      "count": 3,
+      "itemTag": "a",
+      "label": "site-footer items"
+    },
+    {
+      "id": "col7",
+      "count": 3,
+      "itemTag": "a",
+      "label": "site-footer items"
+    }
+  ]
+}

@@ -1,0 +1,1531 @@
+{
+  "cms-1": {
+    "type": "text",
+    "label": "Link: \"Skip to content\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-2": {
+    "type": "text",
+    "label": "Link: \"bizcise Platform\"",
+    "group": "Header",
+    "rich": false,
+    "allow": []
+  },
+  "cms-3": {
+    "type": "text",
+    "label": "Link: \"Market Activation\"",
+    "group": "Header",
+    "rich": false,
+    "allow": []
+  },
+  "cms-4": {
+    "type": "text",
+    "label": "Link: \"About bizcise\"",
+    "group": "Header",
+    "rich": false,
+    "allow": []
+  },
+  "cms-5": {
+    "type": "text",
+    "label": "Link: \"FAQ\"",
+    "group": "Header",
+    "rich": false,
+    "allow": []
+  },
+  "cms-6": {
+    "type": "text",
+    "label": "Link: \"Contact us\"",
+    "group": "Header",
+    "rich": false,
+    "allow": []
+  },
+  "cms-7": {
+    "type": "text",
+    "label": "Link: \"Get Partner Clarity\"",
+    "group": "Header",
+    "rich": false,
+    "allow": []
+  },
+  "cms-8": {
+    "type": "text",
+    "label": "Text: \"Partner Ecosystem Intelligence\"",
+    "group": "Hero",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-9": {
+    "type": "text",
+    "label": "Text: \"Confident GTM Decisions\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-10": {
+    "type": "text",
+    "label": "Text: \"bizcise brings clarity to partner-le…\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-11": {
+    "type": "text",
+    "label": "Link: \"Get Partner Clarity\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-12": {
+    "type": "text",
+    "label": "Link: \"Explore the platform\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-13": {
+    "type": "text",
+    "label": "Text: \"Where Businesses Go to Grow.\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-14": {
+    "type": "text",
+    "label": "Text: \"bizcise — partner clarity\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-15": {
+    "type": "text",
+    "label": "Text: \"High\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-16": {
+    "type": "text",
+    "label": "Text: \"Low\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-17": {
+    "type": "text",
+    "label": "Text: \"Revenue signal\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-18": {
+    "type": "text",
+    "label": "Text: \"CLARITY\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-19": {
+    "type": "text",
+    "label": "Text: \"Focus investment here →\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-20": {
+    "type": "text",
+    "label": "Heading: \"Get partner clarity in your inbox\"",
+    "group": "Get Clarity",
+    "rich": false,
+    "allow": []
+  },
+  "cms-21": {
+    "type": "text",
+    "label": "Text: \"See which partners drive revenue and…\"",
+    "group": "Get Clarity",
+    "rich": false,
+    "allow": []
+  },
+  "cms-22": {
+    "type": "text",
+    "label": "Text: \"Work email\"",
+    "group": "Get Clarity",
+    "rich": false,
+    "allow": []
+  },
+  "cms-23": {
+    "type": "text",
+    "label": "Button: \"Request a walkthrough\"",
+    "group": "Get Clarity",
+    "rich": false,
+    "allow": []
+  },
+  "cms-24": {
+    "type": "text",
+    "label": "Link: \"privacy policy\"",
+    "group": "Get Clarity",
+    "rich": false,
+    "allow": []
+  },
+  "cms-25": {
+    "type": "text",
+    "label": "Text: \"Built for the partner ecosystems beh…\"",
+    "group": "Trusted By",
+    "rich": false,
+    "allow": []
+  },
+  "cms-26": {
+    "type": "text",
+    "label": "Text: \"The problem isn't data — it's clarity\"",
+    "group": "Why Bizcise",
+    "rich": false,
+    "allow": []
+  },
+  "cms-27": {
+    "type": "text",
+    "label": "Heading: \"Most vendors don't struggle with a l…\"",
+    "group": "Why Bizcise",
+    "rich": false,
+    "allow": []
+  },
+  "cms-28": {
+    "type": "text",
+    "label": "Text: \"bizcise consolidates partner intelli…\"",
+    "group": "Why Bizcise",
+    "rich": false,
+    "allow": []
+  },
+  "cms-29": {
+    "type": "text",
+    "label": "Heading: \"Fragmented signals\"",
+    "group": "Why Bizcise",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-30": {
+    "type": "text",
+    "label": "Text: \"Partner ecosystems generate massive …\"",
+    "group": "Why Bizcise",
+    "rich": false,
+    "allow": []
+  },
+  "cms-31": {
+    "type": "text",
+    "label": "Heading: \"Performance that lags reality\"",
+    "group": "Why Bizcise",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-32": {
+    "type": "text",
+    "label": "Text: \"Performance indicators lag reality, …\"",
+    "group": "Why Bizcise",
+    "rich": false,
+    "allow": []
+  },
+  "cms-33": {
+    "type": "text",
+    "label": "Heading: \"High-stakes decisions, blind\"",
+    "group": "Why Bizcise",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-34": {
+    "type": "text",
+    "label": "Text: \"The result: high-stakes GTM and MDF …\"",
+    "group": "Why Bizcise",
+    "rich": false,
+    "allow": []
+  },
+  "cms-35": {
+    "type": "text",
+    "label": "Text: \"The bizcise Clarity Loop\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-36": {
+    "type": "text",
+    "label": "Text: \"clarity into action\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-37": {
+    "type": "text",
+    "label": "Text: \"The bizcise Clarity Loop continuousl…\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-38": {
+    "type": "text",
+    "label": "Text: \"Market demand signals\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-39": {
+    "type": "text",
+    "label": "Text: \"Partner intelligence\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-40": {
+    "type": "text",
+    "label": "Text: \"Prioritization\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-41": {
+    "type": "text",
+    "label": "Text: \"Activation\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-42": {
+    "type": "text",
+    "label": "Text: \"Performance feedback\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-43": {
+    "type": "text",
+    "label": "Text: \"Performance feedback flows back into…\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-44": {
+    "type": "text",
+    "label": "Heading: \"Clarity → Action\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-45": {
+    "type": "text",
+    "label": "Text: \"When teams understand which partners…\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-46": {
+    "type": "text",
+    "label": "Heading: \"Clarity compounds over time\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-47": {
+    "type": "text",
+    "label": "Text: \"As partner ecosystems evolve, the lo…\"",
+    "group": "Clarity Loop",
+    "rich": false,
+    "allow": []
+  },
+  "cms-48": {
+    "type": "text",
+    "label": "Text: \"The bizcise Platform\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-49": {
+    "type": "text",
+    "label": "Heading: \"Partner ecosystem intelligence that …\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-50": {
+    "type": "text",
+    "label": "Text: \"The bizcise platform provides visibi…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-51": {
+    "type": "text",
+    "label": "Heading: \"Partner Intelligence\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-52": {
+    "type": "text",
+    "label": "Text: \"bizcise surfaces what's happening ac…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-53": {
+    "type": "text",
+    "label": "Text: \"Partner presence and positioning\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-54": {
+    "type": "text",
+    "label": "Text: \"0%\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-55": {
+    "type": "text",
+    "label": "Text: \"Early partner activity signals\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-56": {
+    "type": "text",
+    "label": "Text: \"20%\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-57": {
+    "type": "text",
+    "label": "Text: \"Ecosystem coverage and gaps\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-58": {
+    "type": "text",
+    "label": "Text: \"40%\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-59": {
+    "type": "text",
+    "label": "Text: \"Competitive ecosystem dynamics\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-60": {
+    "type": "text",
+    "label": "Text: \"55%\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-61": {
+    "type": "text",
+    "label": "Heading: \"Partner Performance Assessment\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-62": {
+    "type": "text",
+    "label": "Text: \"bizcise evaluates partner effectiven…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-63": {
+    "type": "text",
+    "label": "List item: \"Prioritize partners with confidence\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-64": {
+    "type": "text",
+    "label": "List item: \"Allocate MDF and enablement more eff…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-65": {
+    "type": "text",
+    "label": "List item: \"Identify underperforming partners ea…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-66": {
+    "type": "text",
+    "label": "Heading: \"Partner Discovery & Focus\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-67": {
+    "type": "text",
+    "label": "Text: \"bizcise helps you identify emerging,…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-68": {
+    "type": "text",
+    "label": "List item: \"Partner recruitment targeting\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-69": {
+    "type": "text",
+    "label": "List item: \"Ecosystem expansion planning\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-70": {
+    "type": "text",
+    "label": "List item: \"GTM investment prioritization\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-71": {
+    "type": "text",
+    "label": "Heading: \"Market Demand Signals\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-72": {
+    "type": "text",
+    "label": "Text: \"bizcise surfaces where buyer interes…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-73": {
+    "type": "text",
+    "label": "List item: \"Better alignment between demand and …\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-74": {
+    "type": "text",
+    "label": "List item: \"Improved regional planning\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-75": {
+    "type": "text",
+    "label": "List item: \"Stronger ecosystem investment decisi…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-76": {
+    "type": "text",
+    "label": "Heading: \"A Continuous Clarity System\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-77": {
+    "type": "text",
+    "label": "Text: \"As new partner and market signals em…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-78": {
+    "type": "text",
+    "label": "Text: \"The bizcise platform enables organiz…\"",
+    "group": "Platform",
+    "rich": false,
+    "allow": []
+  },
+  "cms-79": {
+    "type": "text",
+    "label": "Text: \"Outcomes\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-80": {
+    "type": "text",
+    "label": "Heading: \"When vendors use bizcise, they gain …\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-81": {
+    "type": "text",
+    "label": "Heading: \"Invest where it converts\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-82": {
+    "type": "text",
+    "label": "Text: \"Focus GTM and MDF investment on the …\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-83": {
+    "type": "text",
+    "label": "Heading: \"Align every team\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-84": {
+    "type": "text",
+    "label": "Text: \"Align sales, channel, marketing, and…\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-85": {
+    "type": "text",
+    "label": "Heading: \"Decide with confidence\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-86": {
+    "type": "text",
+    "label": "Text: \"Make faster, defensible GTM decision…\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-87": {
+    "type": "text",
+    "label": "Text: \"Market Activation\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-88": {
+    "type": "text",
+    "label": "Text: \"confident market execution\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-89": {
+    "type": "text",
+    "label": "Text: \"Most organizations don't lack data —…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-90": {
+    "type": "text",
+    "label": "Heading: \"Why market activation breaks down\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-91": {
+    "type": "text",
+    "label": "Text: \"Channel and partner teams operate in…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-92": {
+    "type": "text",
+    "label": "Heading: \"From clarity to activation\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-93": {
+    "type": "text",
+    "label": "Text: \"With a clear view of the ecosystem, …\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-94": {
+    "type": "text",
+    "label": "Heading: \"Targeted Partner Recruitment\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-95": {
+    "type": "text",
+    "label": "Text: \"Recruit the right partners — not jus…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-96": {
+    "type": "text",
+    "label": "List item: \"Identify high-value partner gaps acr…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-97": {
+    "type": "text",
+    "label": "List item: \"Prioritize partners aligned to real …\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-98": {
+    "type": "text",
+    "label": "List item: \"Focus recruitment on partners with p…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-99": {
+    "type": "text",
+    "label": "Text: \"Outcome: recruitment becomes targete…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-100": {
+    "type": "text",
+    "label": "Heading: \"Focused Enablement\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-101": {
+    "type": "text",
+    "label": "Text: \"Enablement is aligned to partner cap…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-102": {
+    "type": "text",
+    "label": "List item: \"Prioritize enablement for high-impac…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-103": {
+    "type": "text",
+    "label": "List item: \"Align content and training to real m…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-104": {
+    "type": "text",
+    "label": "Text: \"Outcome: stronger partner performanc…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-105": {
+    "type": "text",
+    "label": "Heading: \"Demand-Aligned Campaigns\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-106": {
+    "type": "text",
+    "label": "Text: \"Campaigns are mapped to validated op…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-107": {
+    "type": "text",
+    "label": "List item: \"Target customers based on real deman…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-108": {
+    "type": "text",
+    "label": "List item: \"Align campaigns to partner strengths\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-109": {
+    "type": "text",
+    "label": "Text: \"Outcome: higher quality engagement a…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-110": {
+    "type": "text",
+    "label": "Heading: \"A continuous clarity loop\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-111": {
+    "type": "text",
+    "label": "Text: \"Activation is part of a continuous s…\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-112": {
+    "type": "text",
+    "label": "Heading: \"What this enables\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-113": {
+    "type": "text",
+    "label": "List item: \"Clear partner prioritization\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-114": {
+    "type": "text",
+    "label": "List item: \"More effective investment allocation\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-115": {
+    "type": "text",
+    "label": "List item: \"Reduced low-impact activity\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-116": {
+    "type": "text",
+    "label": "List item: \"Stronger alignment across teams\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-117": {
+    "type": "text",
+    "label": "List item: \"Faster, more confident decisions\"",
+    "group": "Market Activation",
+    "rich": false,
+    "allow": []
+  },
+  "cms-118": {
+    "type": "text",
+    "label": "Text: \"Positioning\"",
+    "group": "Positioning",
+    "rich": false,
+    "allow": []
+  },
+  "cms-119": {
+    "type": "text",
+    "label": "Heading: \"bizcise complements — not replaces —…\"",
+    "group": "Positioning",
+    "rich": false,
+    "allow": []
+  },
+  "cms-120": {
+    "type": "text",
+    "label": "Text: \"bizcise complements PRMs, enablement…\"",
+    "group": "Positioning",
+    "rich": false,
+    "allow": []
+  },
+  "cms-121": {
+    "type": "text",
+    "label": "Text: \"Those systems execute. bizcise decid…\"",
+    "group": "Positioning",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-122": {
+    "type": "text",
+    "label": "Text: \"About bizcise\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-123": {
+    "type": "text",
+    "label": "Heading: \"Why bizcise exists\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-124": {
+    "type": "text",
+    "label": "Text: \"bizcise was built to bring clarity t…\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-125": {
+    "type": "text",
+    "label": "Heading: \"Why bizcise\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-126": {
+    "type": "text",
+    "label": "Text: \"The problem isn't data. It's clarity…\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-127": {
+    "type": "text",
+    "label": "Heading: \"What bizcise does\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-128": {
+    "type": "text",
+    "label": "Text: \"bizcise helps vendors clearly see wh…\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-129": {
+    "type": "text",
+    "label": "Heading: \"The bizcise approach\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-130": {
+    "type": "text",
+    "label": "Text: \"bizcise operates as a continuous cla…\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-131": {
+    "type": "text",
+    "label": "Heading: \"Credibility\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-132": {
+    "type": "text",
+    "label": "Text: \"bizcise brings together deep experie…\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-133": {
+    "type": "text",
+    "label": "Heading: \"Who bizcise is for\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-134": {
+    "type": "text",
+    "label": "Text: \"bizcise is built for organizations t…\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-135": {
+    "type": "text",
+    "label": "List item: \"VP / Director of Channel Programs\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-136": {
+    "type": "text",
+    "label": "List item: \"VP, Channel Sales\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-137": {
+    "type": "text",
+    "label": "List item: \"VP, Channel Marketing\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-138": {
+    "type": "text",
+    "label": "List item: \"Data & Analytics teams supporting GTM\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-139": {
+    "type": "text",
+    "label": "Text: \"bizcise exists to replace guesswork …\"",
+    "group": "About",
+    "rich": false,
+    "allow": []
+  },
+  "cms-140": {
+    "type": "text",
+    "label": "Text: \"FAQ\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-141": {
+    "type": "text",
+    "label": "Heading: \"Frequently asked questions\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-142": {
+    "type": "text",
+    "label": "Text: \"Clear answers about partner ecosyste…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-143": {
+    "type": "text",
+    "label": "Text: \"What is bizcise?\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-144": {
+    "type": "text",
+    "label": "Text: \"bizcise is partner ecosystem intelli…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-145": {
+    "type": "text",
+    "label": "Text: \"Who is bizcise for?\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-146": {
+    "type": "text",
+    "label": "Text: \"bizcise is built for organizations t…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-147": {
+    "type": "text",
+    "label": "Text: \"How is bizcise different from a PRM …\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-148": {
+    "type": "text",
+    "label": "Text: \"bizcise complements — not replaces —…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-149": {
+    "type": "text",
+    "label": "Text: \"What is the bizcise Clarity Loop?\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-150": {
+    "type": "text",
+    "label": "Text: \"The Clarity Loop is a continuous sys…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-151": {
+    "type": "text",
+    "label": "Text: \"What outcomes can vendors expect?\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-152": {
+    "type": "text",
+    "label": "Text: \"Vendors use bizcise to focus GTM and…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-153": {
+    "type": "text",
+    "label": "Text: \"How do I get started with bizcise?\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-154": {
+    "type": "text",
+    "label": "Text: \"Start a conversation about partner e…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-155": {
+    "type": "text",
+    "label": "Heading: \"Stop guessing. Start investing with …\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-156": {
+    "type": "text",
+    "label": "Text: \"Optimize your channel strategy, maxi…\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-157": {
+    "type": "text",
+    "label": "Link: \"Get Partner Clarity\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-158": {
+    "type": "text",
+    "label": "Text: \"Contact us\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-159": {
+    "type": "text",
+    "label": "Heading: \"Talk to bizcise\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-160": {
+    "type": "text",
+    "label": "Text: \"Start a conversation about partner e…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-161": {
+    "type": "text",
+    "label": "Text: \"Whether you're exploring partner rec…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-162": {
+    "type": "text",
+    "label": "Text: \"We look forward to helping you bring…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-163": {
+    "type": "text",
+    "label": "Link: \"nigelpostings@bizcise.com\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-164": {
+    "type": "text",
+    "label": "Link: \"info@bizcise.com\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-165": {
+    "type": "text",
+    "label": "Link: \"+1 (555) 010-0100\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-166": {
+    "type": "text",
+    "label": "Link: \"Connect on LinkedIn\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-167": {
+    "type": "text",
+    "label": "Heading: \"Send us a message\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-168": {
+    "type": "text",
+    "label": "Text: \"Your name\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-169": {
+    "type": "text",
+    "label": "Text: \"Work email\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-170": {
+    "type": "text",
+    "label": "Text: \"Company\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-171": {
+    "type": "text",
+    "label": "Text: \"What are you working on?\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-172": {
+    "type": "text",
+    "label": "Button: \"Send Message\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-173": {
+    "type": "text",
+    "label": "Link: \"privacy policy\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-174": {
+    "type": "text",
+    "label": "Text: \"Legal\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-175": {
+    "type": "text",
+    "label": "Heading: \"Privacy & terms\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-176": {
+    "type": "text",
+    "label": "Text: \"A plain-English summary of how bizci…\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-177": {
+    "type": "text",
+    "label": "Text: \"Privacy policy\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-178": {
+    "type": "text",
+    "label": "Text: \"What we collect.\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-179": {
+    "type": "text",
+    "label": "Text: \"Why we collect it.\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-180": {
+    "type": "text",
+    "label": "Text: \"Analytics & cookies.\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-181": {
+    "type": "text",
+    "label": "Text: \"Your choices.\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-182": {
+    "type": "text",
+    "label": "Link: \"info@bizcise.com\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-183": {
+    "type": "text",
+    "label": "Text: \"This policy is provided to meet base…\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-184": {
+    "type": "text",
+    "label": "Text: \"Terms of service\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-185": {
+    "type": "text",
+    "label": "Link: \"info@bizcise.com\"",
+    "group": "Privacy",
+    "rich": false,
+    "allow": []
+  },
+  "cms-186": {
+    "type": "text",
+    "label": "Text: \"bizcise\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-187": {
+    "type": "text",
+    "label": "Text: \"Optimize Your Channel Strategy, Maxi…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-188": {
+    "type": "text",
+    "label": "Heading: \"Explore\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-189": {
+    "type": "text",
+    "label": "Link: \"bizcise Platform\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-190": {
+    "type": "text",
+    "label": "Link: \"Market Activation\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-191": {
+    "type": "text",
+    "label": "Link: \"About bizcise\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-192": {
+    "type": "text",
+    "label": "Link: \"FAQ\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-193": {
+    "type": "text",
+    "label": "Link: \"Contact us\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-194": {
+    "type": "text",
+    "label": "Heading: \"Connect\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-195": {
+    "type": "text",
+    "label": "Link: \"Email: info@bizcise.com\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-196": {
+    "type": "text",
+    "label": "Link: \"LinkedIn\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-197": {
+    "type": "text",
+    "label": "Link: \"Privacy policy\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-198": {
+    "type": "text",
+    "label": "Link: \"Terms of service\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-199": {
+    "type": "text",
+    "label": "Link: \"Security\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-200": {
+    "type": "text",
+    "label": "Text: \"© 2026 bizcise. All rights reserved.\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-201": {
+    "type": "text",
+    "label": "Text: \"Designed & Developed by CXGlobals\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-202": {
+    "type": "text",
+    "label": "Link: \"privacy policy\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-203": {
+    "type": "text",
+    "label": "Text: \"Got it\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-204": {
+    "type": "image",
+    "label": "Image: bizcise logo",
+    "group": "Header",
+    "rich": false,
+    "allow": []
+  },
+  "cms-205": {
+    "type": "image",
+    "label": "Image: HP logo",
+    "group": "Trusted By",
+    "rich": false,
+    "allow": []
+  },
+  "cms-206": {
+    "type": "image",
+    "label": "Image: SAP logo",
+    "group": "Trusted By",
+    "rich": false,
+    "allow": []
+  },
+  "cms-207": {
+    "type": "image",
+    "label": "Image: Cisco logo",
+    "group": "Trusted By",
+    "rich": false,
+    "allow": []
+  },
+  "cms-208": {
+    "type": "image",
+    "label": "Image: Dell logo",
+    "group": "Trusted By",
+    "rich": false,
+    "allow": []
+  },
+  "cms-209": {
+    "type": "image",
+    "label": "Image: Lenovo logo",
+    "group": "Trusted By",
+    "rich": false,
+    "allow": []
+  },
+  "cms-210": {
+    "type": "image",
+    "label": "Image: bizcise logo",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-211": {
+    "type": "text",
+    "label": "Browser tab title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-212": {
+    "type": "meta-attr",
+    "label": "Google meta description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-213": {
+    "type": "meta-attr",
+    "label": "Social share title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-214": {
+    "type": "meta-attr",
+    "label": "Social share description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-215": {
+    "type": "meta-attr",
+    "label": "Social share image URL",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-216": {
+    "type": "meta-attr",
+    "label": "Twitter card title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-217": {
+    "type": "meta-attr",
+    "label": "Twitter card description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  }
+}

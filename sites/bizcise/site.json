@@ -1,0 +1,14 @@
+{
+  "order": [
+    "home"
+  ],
+  "home": "home",
+  "pages": {
+    "home": {
+      "title": "bizcise — Partner Intelligence",
+      "path": "/"
+    }
+  },
+  "vercel": null,
+  "clarity": null
+}

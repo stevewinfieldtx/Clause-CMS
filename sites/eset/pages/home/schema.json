@@ -1,0 +1,296 @@
+{
+  "cms-1": {
+    "type": "text",
+    "label": "Heading: \"Multilayered Endpoint Security That …\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-2": {
+    "type": "text",
+    "label": "Text: \"ESET Endpoint Antivirus pairs the pr…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-3": {
+    "type": "text",
+    "label": "Link: \"Schedule a Security Assessment\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-4": {
+    "type": "text",
+    "label": "Link: \"Explore the Technology\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-5": {
+    "type": "text",
+    "label": "Heading: \"Ransomware\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-6": {
+    "type": "text",
+    "label": "Text: \"Behavioral analysis evaluates every …\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-7": {
+    "type": "text",
+    "label": "Heading: \"Zero-Day Threats\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-8": {
+    "type": "text",
+    "label": "Text: \"Heuristics and machine learning iden…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-9": {
+    "type": "text",
+    "label": "Heading: \"Targeted Attacks\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-10": {
+    "type": "text",
+    "label": "Text: \"Advanced persistent threats blocked …\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-11": {
+    "type": "text",
+    "label": "Heading: \"Data Breaches\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-12": {
+    "type": "text",
+    "label": "Text: \"Prevents unauthorized exfiltration a…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-13": {
+    "type": "text",
+    "label": "Heading: \"Machine Learning\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-14": {
+    "type": "text",
+    "label": "Text: \"Used since 1997. Neural networks cla…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-15": {
+    "type": "text",
+    "label": "Heading: \"Ransomware Shield\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-16": {
+    "type": "text",
+    "label": "Text: \"Monitors every process. Blocks ranso…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-17": {
+    "type": "text",
+    "label": "Heading: \"Network Attack Protection\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-18": {
+    "type": "text",
+    "label": "Text: \"Detects vulnerabilities at the netwo…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-19": {
+    "type": "text",
+    "label": "Heading: \"Advanced Memory Scanner\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-20": {
+    "type": "text",
+    "label": "Text: \"Scans processes once they decloak in…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-21": {
+    "type": "text",
+    "label": "Heading: \"In-Product Sandbox\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-22": {
+    "type": "text",
+    "label": "Text: \"Executes suspicious samples in isola…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-23": {
+    "type": "text",
+    "label": "Heading: \"Exploit Blocker\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-24": {
+    "type": "text",
+    "label": "Text: \"Monitors browsers, readers, email cl…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-25": {
+    "type": "text",
+    "label": "Text: \"Proven protection while leaving syst…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-26": {
+    "type": "text",
+    "label": "Text: \"One console. Every device. Deploy an…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-27": {
+    "type": "text",
+    "label": "Text: \"Windows\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-28": {
+    "type": "text",
+    "label": "Text: \"macOS\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-29": {
+    "type": "text",
+    "label": "Text: \"Linux\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-30": {
+    "type": "text",
+    "label": "Text: \"Android\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-31": {
+    "type": "text",
+    "label": "Text: \"iOS\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-32": {
+    "type": "text",
+    "label": "Text: \"VMware\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-33": {
+    "type": "text",
+    "label": "Text: \"Built-in controls and reporting mapp…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-34": {
+    "type": "text",
+    "label": "Text: \"HIPAA\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-35": {
+    "type": "text",
+    "label": "Text: \"GDPR\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-36": {
+    "type": "text",
+    "label": "Text: \"NIS2\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-37": {
+    "type": "text",
+    "label": "Text: \"PCI DSS\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-38": {
+    "type": "text",
+    "label": "Text: \"SOC 2\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-39": {
+    "type": "text",
+    "label": "Text: \"NIST CSF\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-40": {
+    "type": "text",
+    "label": "Heading: \"Ready to Close the Security Gaps?\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-41": {
+    "type": "text",
+    "label": "Text: \"Free endpoint security assessment. W…\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  },
+  "cms-42": {
+    "type": "text",
+    "label": "Link: \"Get Your Free Assessment\"",
+    "group": "Page",
+    "rich": false,
+    "allow": []
+  }
+}

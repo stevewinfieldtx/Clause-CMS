@@ -1,0 +1,488 @@
+{
+  "seq": 0,
+  "ts": "2026-06-28T03:17:51.507Z",
+  "summary": "Initial version",
+  "state": {
+    "order": [
+      "home"
+    ],
+    "home": "home",
+    "pagesMeta": {
+      "home": {
+        "title": "Home",
+        "path": "/"
+      }
+    },
+    "pages": {
+      "home": {
+        "template": "<!DOCTYPE html><html lang=\"en\"><head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title data-cms=\"cms-47\">Guardz: Agentic Cybersecurity Platform for MSPs</title>\n    <meta name=\"description\" content=\"Guardz is the agentic cybersecurity platform with 24/7 MDR trusted by MSPs to protect SMB clients from phishing, account takeovers, data loss &amp; ransomware.\" data-cms=\"cms-48\">\n    <meta property=\"og:title\" content=\"Guardz: Cybersecurity Built for MSPs\" data-cms=\"cms-49\">\n    <meta property=\"og:description\" content=\"Protect your clients with AI-native security. Unify email, endpoint, and cloud protection.\" data-cms=\"cms-50\">\n    <meta property=\"og:image\" content=\"https://images.unsplash.com/photo-1563986768609-322da13575f2?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80\" data-cms=\"cms-51\">\n    <link rel=\"icon\" href=\"https://guardz.com/favicon.ico\">\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&amp;display=swap\" rel=\"stylesheet\">\n    <style>\n        /* Base & Reset */\n        *, *::before, *::after {\n            box-sizing: border-box;\n            margin: 0;\n            padding: 0;\n        }\n        \n        html {\n            scroll-behavior: smooth;\n        }\n\n        body {\n            font-family: 'Inter', sans-serif;\n            background-color: #050810;\n            color: #ffffff;\n            line-height: 1.6;\n            display: flex;\n            justify-content: center;\n            min-height: 100vh;\n            width: 100%;\n        }\n\n        /* CMS Container */\n        .poster-container {\n            width: 720px;\n            min-height: 960px;\n            background: linear-gradient(180deg, #050810 0%, #0A1122 100%);\n            position: relative;\n            overflow: hidden;\n            display: flex;\n            flex-direction: column;\n            box-shadow: 0 0 50px rgba(0,0,0,0.5);\n        }\n\n        /* Typography & Util */\n        .sr-only {\n            position: absolute;\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0, 0, 0, 0);\n            border: 0;\n        }\n\n        /* Layout Elements */\n        header, main, footer {\n            width: 100%;\n            padding: 0 5%;\n        }\n\n        /* Background Visuals (CSS Only as per rules) */\n        .bg-glow {\n            position: absolute;\n            border-radius: 50%;\n            filter: blur(80px);\n            z-index: 0;\n            opacity: 0.4;\n        }\n        .glow-1 {\n            width: 400px;\n            height: 400px;\n            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);\n            top: -100px;\n            right: -100px;\n        }\n        .glow-2 {\n            width: 300px;\n            height: 300px;\n            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);\n            bottom: 20%;\n            left: -50px;\n        }\n\n        /* Header */\n        header {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            padding-top: 24px;\n            padding-bottom: 24px;\n            z-index: 10;\n            position: relative;\n        }\n        \n        .logo {\n            font-size: 28px;\n            font-weight: 800;\n            letter-spacing: -1px;\n            color: #ffffff;\n            text-decoration: none;\n            display: flex;\n            align-items: center;\n            gap: 8px;\n        }\n        \n        .logo-icon {\n            color: #3b82f6;\n        }\n\n        nav ul {\n            display: flex;\n            list-style: none;\n            gap: 24px;\n        }\n\n        nav a {\n            color: #94a3b8;\n            text-decoration: none;\n            font-weight: 500;\n            font-size: 14px;\n            transition: color 0.3s;\n            display: flex;\n            align-items: center;\n        }\n\n        nav a:hover {\n            color: #ffffff;\n        }\n\n        /* Main Content */\n        main {\n            z-index: 10;\n            flex-grow: 1;\n            display: flex;\n            flex-direction: column;\n            gap: 64px;\n            padding-bottom: 64px;\n        }\n\n        /* Hero Section */\n        section#hero {\n            text-align: center;\n            padding-top: 48px;\n            padding-bottom: 24px;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            gap: 24px;\n        }\n\n        h1 {\n            font-size: 48px;\n            font-weight: 800;\n            line-height: 1.1;\n            letter-spacing: -2px;\n            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);\n            -webkit-background-clip: text;\n            -webkit-text-fill-color: transparent;\n            max-width: 90%;\n        }\n\n        .hero-sub {\n            font-size: 18px;\n            color: #94a3b8;\n            max-width: 600px;\n        }\n\n        .hero-cta {\n            background-color: #3b82f6;\n            color: #ffffff;\n            padding: 16px 32px;\n            border-radius: 8px;\n            text-decoration: none;\n            font-weight: 600;\n            font-size: 16px;\n            display: inline-flex;\n            align-items: center;\n            gap: 8px;\n            margin-top: 16px;\n            transition: transform 0.2s, background-color 0.2s;\n        }\n\n        .hero-cta:hover {\n            background-color: #2563eb;\n            transform: translateY(-2px);\n        }\n\n        /* Image Container */\n        .hero-visual {\n            width: 100%;\n            height: 300px;\n            margin-top: 32px;\n            position: relative;\n            border-radius: 12px;\n            overflow: hidden;\n            border: 1px solid rgba(255,255,255,0.1);\n            display: flex;\n            align-items: center;\n            justify-content: center;\n        }\n        \n        .hero-visual img {\n            width: 100%;\n            height: 100%;\n            object-fit: cover;\n            opacity: 0.6;\n        }\n        \n        .dashboard-overlay {\n            position: absolute;\n            inset: 0;\n            background: linear-gradient(to bottom, transparent 0%, #050810 90%);\n        }\n\n        /* Features Section */\n        section#features {\n            display: flex;\n            flex-direction: column;\n            gap: 32px;\n        }\n\n        .section-header {\n            text-align: center;\n            margin-bottom: 16px;\n        }\n\n        h2 {\n            font-size: 32px;\n            font-weight: 700;\n            margin-bottom: 16px;\n            color: #ffffff;\n        }\n        \n        .section-desc {\n            color: #64748b;\n            font-size: 16px;\n        }\n\n        .features-grid {\n            display: grid;\n            grid-template-columns: 1fr 1fr;\n            gap: 24px;\n        }\n\n        .feature-card {\n            background: rgba(255, 255, 255, 0.03);\n            border: 1px solid rgba(255, 255, 255, 0.08);\n            padding: 32px 24px;\n            border-radius: 16px;\n            transition: all 0.3s ease;\n            display: flex;\n            flex-direction: column;\n            gap: 16px;\n        }\n\n        .feature-card:hover {\n            background: rgba(255, 255, 255, 0.06);\n            border-color: rgba(59, 130, 246, 0.3);\n            transform: translateY(-4px);\n        }\n\n        .icon-box {\n            width: 48px;\n            height: 48px;\n            background: rgba(59, 130, 246, 0.1);\n            border-radius: 10px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: #3b82f6;\n        }\n\n        h3 {\n            font-size: 18px;\n            font-weight: 600;\n            color: #f1f5f9;\n        }\n\n        .feature-text {\n            font-size: 14px;\n            color: #94a3b8;\n            line-height: 1.6;\n        }\n\n        /* Testimonials */\n        section#social-proof {\n            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.5) 100%);\n            border-top: 1px solid rgba(255,255,255,0.05);\n            border-bottom: 1px solid rgba(255,255,255,0.05);\n            padding: 64px 5%;\n            margin: 0 -5%; /* Extend to edges */\n            width: 110%; /* Hack for margin padding */\n        }\n\n        .testimonial-card {\n            max-width: 500px;\n            margin: 0 auto;\n            text-align: center;\n        }\n\n        blockquote {\n            font-size: 20px;\n            font-style: italic;\n            color: #e2e8f0;\n            margin-bottom: 24px;\n            position: relative;\n            line-height: 1.5;\n        }\n        \n        blockquote::before {\n            content: '“';\n            font-size: 60px;\n            color: #3b82f6;\n            position: absolute;\n            top: -30px;\n            left: -20px;\n            opacity: 0.5;\n            font-family: serif;\n        }\n\n        .author-name {\n            color: #3b82f6;\n            font-weight: 600;\n        }\n\n        .author-role {\n            color: #64748b;\n            font-size: 14px;\n        }\n\n        /* Comparison / CTA Section */\n        section#cta {\n            text-align: center;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            gap: 24px;\n        }\n\n        .cta-box {\n            background: #1e293b;\n            border: 1px solid rgba(255,255,255,0.1);\n            padding: 48px 32px;\n            border-radius: 20px;\n            max-width: 600px;\n            box-shadow: 0 20px 40px rgba(0,0,0,0.3);\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            gap: 16px;\n        }\n        \n        .cta-box h2 {\n            color: #ffffff;\n            font-size: 28px;\n        }\n\n        /* Footer */\n        footer {\n            border-top: 1px solid rgba(255,255,255,0.05);\n            padding-top: 32px;\n            padding-bottom: 32px;\n            z-index: 10;\n        }\n\n        .footer-content {\n            display: flex;\n            justify-content: space-between;\n            align-items: flex-start;\n            gap: 32px;\n        }\n        \n        .footer-brand p {\n            color: #64748b;\n            font-size: 12px;\n            margin-top: 12px;\n            max-width: 200px;\n        }\n\n        .footer-links {\n            display: flex;\n            gap: 48px;\n        }\n        \n        .footer-col {\n            display: flex;\n            flex-direction: column;\n            gap: 12px;\n        }\n        \n        .footer-col span {\n            color: #94a3b8;\n            font-size: 12px;\n            font-weight: 600;\n            text-transform: uppercase;\n            letter-spacing: 1px;\n        }\n        \n        .footer-col a {\n            color: #64748b;\n            text-decoration: none;\n            font-size: 14px;\n        }\n\n        .footer-col a:hover {\n            color: #3b82f6;\n        }\n\n        /* Mobile Menu Toggle (CSS Only) - simplified for this width */\n        @media (max-width: 600px) {\n            .nav-desktop { display: none; }\n            .menu-toggle { display: block; }\n            /* Hide menu by default */\n            .mobile-menu {\n                display: none;\n                position: absolute;\n                top: 70px;\n                left: 0;\n                width: 100%;\n                background: #050810;\n                padding: 24px;\n                flex-direction: column;\n                gap: 16px;\n                border-bottom: 1px solid #334155;\n                z-index: 100;\n            }\n            .menu-toggle:checked + .mobile-menu {\n                display: flex;\n            }\n            .menu-btn {\n                background: none;\n                border: none;\n                color: white;\n                font-size: 24px;\n                cursor: pointer;\n            }\n        }\n        @media (min-width: 601px) {\n            .menu-toggle, .mobile-menu { display: none; }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"poster-container\">\n        <!-- Background Decor -->\n        <div class=\"bg-glow glow-1\" aria-hidden=\"true\"></div>\n        <div class=\"bg-glow glow-2\" aria-hidden=\"true\"></div>\n\n        <header id=\"site-header\">\n            <a href=\"/\" class=\"logo\">\n                <span data-cms=\"cms-1\">Guardz</span>\n                <i class=\"material-icons logo-icon\" data-cms=\"cms-2\">shield</i>\n            </a>\n            \n            <!-- CSS Only Mobile Menu -->\n            <input type=\"checkbox\" id=\"menu-toggle\" class=\"menu-toggle sr-only\" aria-label=\"Toggle navigation\">\n            <label for=\"menu-toggle\" class=\"menu-btn\" aria-hidden=\"true\">\n                <i class=\"material-icons\" data-cms=\"cms-3\">menu</i>\n            </label>\n            <div class=\"mobile-menu\" data-cms-collection=\"col1\">\n                <a href=\"#features\" data-cms=\"cms-4\" data-cms-item=\"col1\">Features</a>\n                <a href=\"#social-proof\" data-cms=\"cms-5\" data-cms-item=\"col1\">Testimonials</a>\n                <a href=\"https://guardz.com/contact\" data-cms=\"cms-6\" data-cms-item=\"col1\">Contact</a>\n            </div>\n\n            <nav class=\"nav-desktop\" aria-label=\"Main Navigation\">\n                <ul data-cms-collection=\"col2\">\n                    <li data-cms-item=\"col2\"><a href=\"#features\" data-cms=\"cms-7\">Features</a></li>\n                    <li data-cms-item=\"col2\"><a href=\"#social-proof\" data-cms=\"cms-8\">Proof</a></li>\n                    <li data-cms-item=\"col2\"><a href=\"https://guardz.com/pricing\" data-cms=\"cms-9\">Pricing</a></li>\n                    <li data-cms-item=\"col2\"><a href=\"https://guardz.com/login\" data-cms=\"cms-10\">Login</a></li>\n                </ul>\n            </nav>\n        </header>\n\n        <main data-cms-collection=\"col3\">\n            <section id=\"hero\" data-cms-item=\"col3\">\n                <h1 data-cms=\"cms-11\">Agentic Cybersecurity Built for MSPs</h1>\n                <p class=\"hero-sub\" data-cms=\"cms-12\">Protect your SMB clients with 24/7 managed detection and response, AI-driven threat hunting, and unified security controls.</p>\n                \n                <a href=\"https://guardz.com/trial\" class=\"hero-cta\">\n                    <span data-cms=\"cms-13\">Start Free Trial</span>\n                    <i class=\"material-icons\" data-cms=\"cms-14\">arrow_forward</i>\n                </a>\n\n                <div class=\"hero-visual\">\n                    <!-- Using img tag as per rules: \"Use <img> not background-image\" -->\n                    <img src=\"https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=1200&amp;q=80\" alt=\"Cybersecurity dashboard showing network protection analytics\" data-cms-img=\"cms-46\">\n                    <div class=\"dashboard-overlay\"></div>\n                </div>\n            </section>\n\n            <section id=\"features\" data-cms-item=\"col3\">\n                <div class=\"section-header\">\n                    <h2 data-cms=\"cms-15\">Unified Protection</h2>\n                    <p class=\"section-desc\" data-cms=\"cms-16\">One platform to secure email, endpoint, cloud, and identity.</p>\n                </div>\n\n                <div class=\"features-grid\" data-cms-collection=\"col4\">\n                    <article class=\"feature-card\" data-cms-item=\"col4\">\n                        <div class=\"icon-box\">\n                            <i class=\"material-icons\" data-cms=\"cms-17\">phishing</i>\n                        </div>\n                        <h3 data-cms=\"cms-18\">Phishing Defense</h3>\n                        <p class=\"feature-text\" data-cms=\"cms-19\">Automatically detect and block malicious emails before they reach the inbox, training users to spot threats.</p>\n                    </article>\n\n                    <article class=\"feature-card\" data-cms-item=\"col4\">\n                        <div class=\"icon-box\">\n                            <i class=\"material-icons\" data-cms=\"cms-20\">gpp_good</i>\n                        </div>\n                        <h3 data-cms=\"cms-21\">Ransomware Shield</h3>\n                        <p class=\"feature-text\" data-cms=\"cms-22\">Advanced AI behavioral analysis stops ransomware in its tracks, securing critical business data from encryption.</p>\n                    </article>\n\n                    <article class=\"feature-card\" data-cms-item=\"col4\">\n                        <div class=\"icon-box\">\n                            <i class=\"material-icons\" data-cms=\"cms-23\">admin_panel_settings</i>\n                        </div>\n                        <h3 data-cms=\"cms-24\">Account Takeover</h3>\n                        <p class=\"feature-text\" data-cms=\"cms-25\">Monitor identity access and enforce MFA to prevent unauthorized access to sensitive accounts and data.</p>\n                    </article>\n\n                    <article class=\"feature-card\" data-cms-item=\"col4\">\n                        <div class=\"icon-box\">\n                            <i class=\"material-icons\" data-cms=\"cms-26\">cloud_sync</i>\n                        </div>\n                        <h3 data-cms=\"cms-27\">Cloud Security</h3>\n                        <p class=\"feature-text\" data-cms=\"cms-28\">Monitor Google Workspace and Microsoft 365 for data leakage and misconfigurations in real-time.</p>\n                    </article>\n                </div>\n            </section>\n\n            <section id=\"social-proof\" data-cms-item=\"col3\">\n                <div class=\"testimonial-card\">\n                    <blockquote data-cms=\"cms-29\">\n                        Guardz transformed how we manage security. It's not just a tool; it's an extension of our team that keeps our clients safe 24/7.\n                    </blockquote>\n                    <p class=\"author-name\" data-cms=\"cms-30\">Sarah Jenkins</p>\n                    <p class=\"author-role\" data-cms=\"cms-31\">CEO, TechSecure MSP</p>\n                </div>\n            </section>\n\n            <section id=\"cta\" data-cms-item=\"col3\">\n                <div class=\"cta-box\">\n                    <i class=\"material-icons\" style=\"font-size: 40px; color: #3b82f6;\" data-cms=\"cms-32\">verified_user</i>\n                    <h2 data-cms=\"cms-33\">Secure Your Clients Today</h2>\n                    <p class=\"section-desc\" data-cms=\"cms-34\">Join thousands of MSPs who trust Guardz for their SMB security needs.</p>\n                    <a href=\"https://guardz.com/demo\" class=\"hero-cta\" style=\"width: 100%; justify-content: center; background: #ffffff; color: #0f172a;\">\n                        <span data-cms=\"cms-35\">Request a Demo</span>\n                    </a>\n                </div>\n            </section>\n        </main>\n\n        <footer id=\"site-footer\">\n            <div class=\"footer-content\">\n                <div class=\"footer-brand\">\n                    <a href=\"/\" class=\"logo\" style=\"font-size: 20px;\" data-cms=\"cms-36\">Guardz</a>\n                    <p data-cms=\"cms-37\">Empowering MSPs with AI-native cybersecurity solutions.</p>\n                </div>\n                <div class=\"footer-links\" data-cms-collection=\"col5\">\n                    <div class=\"footer-col\" data-cms-item=\"col5\" data-cms-collection=\"col6\">\n                        <span data-cms=\"cms-38\">Product</span>\n                        <a href=\"https://guardz.com/platform\" data-cms=\"cms-39\" data-cms-item=\"col6\">Platform</a>\n                        <a href=\"https://guardz.com/pricing\" data-cms=\"cms-40\" data-cms-item=\"col6\">Pricing</a>\n                        <a href=\"https://guardz.com/integrations\" data-cms=\"cms-41\" data-cms-item=\"col6\">Integrations</a>\n                    </div>\n                    <div class=\"footer-col\" data-cms-item=\"col5\" data-cms-collection=\"col7\">\n                        <span data-cms=\"cms-42\">Company</span>\n                        <a href=\"https://guardz.com/about\" data-cms=\"cms-43\" data-cms-item=\"col7\">About</a>\n                        <a href=\"https://guardz.com/blog\" data-cms=\"cms-44\" data-cms-item=\"col7\">Blog</a>\n                        <a href=\"https://guardz.com/careers\" data-cms=\"cms-45\" data-cms-item=\"col7\">Careers</a>\n                    </div>\n                </div>\n            </div>\n        </footer>\n    </div>\n\n</body></html>",
+        "schema": {
+          "cms-1": {
+            "type": "text",
+            "label": "Text: \"Guardz\"",
+            "group": "Site Header",
+            "rich": false,
+            "allow": []
+          },
+          "cms-2": {
+            "type": "text",
+            "label": "Text: \"shield\"",
+            "group": "Site Header",
+            "rich": false,
+            "allow": []
+          },
+          "cms-3": {
+            "type": "text",
+            "label": "Text: \"menu\"",
+            "group": "Site Header",
+            "rich": false,
+            "allow": []
+          },
+          "cms-4": {
+            "type": "text",
+            "label": "Link: \"Features\"",
+            "group": "Site Header",
+            "rich": false,
+            "allow": []
+          },
+          "cms-5": {
+            "type": "text",
+            "label": "Link: \"Testimonials\"",
+            "group": "Site Header",
+            "rich": false,
+            "allow": []
+          },
+          "cms-6": {
+            "type": "text",
+            "label": "Link: \"Contact\"",
+            "group": "Site Header",
+            "rich": false,
+            "allow": []
+          },
+          "cms-7": {
+            "type": "text",
+            "label": "Link: \"Features\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-8": {
+            "type": "text",
+            "label": "Link: \"Proof\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-9": {
+            "type": "text",
+            "label": "Link: \"Pricing\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-10": {
+            "type": "text",
+            "label": "Link: \"Login\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-11": {
+            "type": "text",
+            "label": "Heading: \"Agentic Cybersecurity Built for MSPs\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-12": {
+            "type": "text",
+            "label": "Text: \"Protect your SMB clients with 24/7 m…\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-13": {
+            "type": "text",
+            "label": "Text: \"Start Free Trial\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-14": {
+            "type": "text",
+            "label": "Text: \"arrow_forward\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-15": {
+            "type": "text",
+            "label": "Heading: \"Unified Protection\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-16": {
+            "type": "text",
+            "label": "Text: \"One platform to secure email, endpoi…\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-17": {
+            "type": "text",
+            "label": "Text: \"phishing\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-18": {
+            "type": "text",
+            "label": "Heading: \"Phishing Defense\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-19": {
+            "type": "text",
+            "label": "Text: \"Automatically detect and block malic…\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-20": {
+            "type": "text",
+            "label": "Text: \"gpp_good\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-21": {
+            "type": "text",
+            "label": "Heading: \"Ransomware Shield\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-22": {
+            "type": "text",
+            "label": "Text: \"Advanced AI behavioral analysis stop…\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-23": {
+            "type": "text",
+            "label": "Text: \"admin_panel_settings\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-24": {
+            "type": "text",
+            "label": "Heading: \"Account Takeover\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-25": {
+            "type": "text",
+            "label": "Text: \"Monitor identity access and enforce …\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-26": {
+            "type": "text",
+            "label": "Text: \"cloud_sync\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-27": {
+            "type": "text",
+            "label": "Heading: \"Cloud Security\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-28": {
+            "type": "text",
+            "label": "Text: \"Monitor Google Workspace and Microso…\"",
+            "group": "Features",
+            "rich": false,
+            "allow": []
+          },
+          "cms-29": {
+            "type": "text",
+            "label": "Quote: \"Guardz transformed how we manage sec…\"",
+            "group": "Social Proof",
+            "rich": false,
+            "allow": []
+          },
+          "cms-30": {
+            "type": "text",
+            "label": "Text: \"Sarah Jenkins\"",
+            "group": "Social Proof",
+            "rich": false,
+            "allow": []
+          },
+          "cms-31": {
+            "type": "text",
+            "label": "Text: \"CEO, TechSecure MSP\"",
+            "group": "Social Proof",
+            "rich": false,
+            "allow": []
+          },
+          "cms-32": {
+            "type": "text",
+            "label": "Text: \"verified_user\"",
+            "group": "Cta",
+            "rich": false,
+            "allow": []
+          },
+          "cms-33": {
+            "type": "text",
+            "label": "Heading: \"Secure Your Clients Today\"",
+            "group": "Cta",
+            "rich": false,
+            "allow": []
+          },
+          "cms-34": {
+            "type": "text",
+            "label": "Text: \"Join thousands of MSPs who trust Gua…\"",
+            "group": "Cta",
+            "rich": false,
+            "allow": []
+          },
+          "cms-35": {
+            "type": "text",
+            "label": "Text: \"Request a Demo\"",
+            "group": "Cta",
+            "rich": false,
+            "allow": []
+          },
+          "cms-36": {
+            "type": "text",
+            "label": "Link: \"Guardz\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-37": {
+            "type": "text",
+            "label": "Text: \"Empowering MSPs with AI-native cyber…\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-38": {
+            "type": "text",
+            "label": "Text: \"Product\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-39": {
+            "type": "text",
+            "label": "Link: \"Platform\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-40": {
+            "type": "text",
+            "label": "Link: \"Pricing\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-41": {
+            "type": "text",
+            "label": "Link: \"Integrations\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-42": {
+            "type": "text",
+            "label": "Text: \"Company\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-43": {
+            "type": "text",
+            "label": "Link: \"About\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-44": {
+            "type": "text",
+            "label": "Link: \"Blog\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-45": {
+            "type": "text",
+            "label": "Link: \"Careers\"",
+            "group": "Site Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-46": {
+            "type": "image",
+            "label": "Image: Cybersecurity dashboard showing network p",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-47": {
+            "type": "text",
+            "label": "Browser tab title",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-48": {
+            "type": "meta-attr",
+            "label": "Google meta description",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-49": {
+            "type": "meta-attr",
+            "label": "Social share title",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-50": {
+            "type": "meta-attr",
+            "label": "Social share description",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-51": {
+            "type": "meta-attr",
+            "label": "Social share image URL",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          }
+        },
+        "content": {
+          "cms-1": "Guardz",
+          "cms-2": "shield",
+          "cms-3": "menu",
+          "cms-4": "Features",
+          "cms-5": "Testimonials",
+          "cms-6": "Contact",
+          "cms-7": "Features",
+          "cms-8": "Proof",
+          "cms-9": "Pricing",
+          "cms-10": "Login",
+          "cms-11": "Agentic Cybersecurity Built for MSPs",
+          "cms-12": "Protect your SMB clients with 24/7 managed detection and response, AI-driven threat hunting, and unified security controls.",
+          "cms-13": "Start Free Trial",
+          "cms-14": "arrow_forward",
+          "cms-15": "Unified Protection",
+          "cms-16": "One platform to secure email, endpoint, cloud, and identity.",
+          "cms-17": "phishing",
+          "cms-18": "Phishing Defense",
+          "cms-19": "Automatically detect and block malicious emails before they reach the inbox, training users to spot threats.",
+          "cms-20": "gpp_good",
+          "cms-21": "Ransomware Shield",
+          "cms-22": "Advanced AI behavioral analysis stops ransomware in its tracks, securing critical business data from encryption.",
+          "cms-23": "admin_panel_settings",
+          "cms-24": "Account Takeover",
+          "cms-25": "Monitor identity access and enforce MFA to prevent unauthorized access to sensitive accounts and data.",
+          "cms-26": "cloud_sync",
+          "cms-27": "Cloud Security",
+          "cms-28": "Monitor Google Workspace and Microsoft 365 for data leakage and misconfigurations in real-time.",
+          "cms-29": "Guardz transformed how we manage security. It's not just a tool; it's an extension of our team that keeps our clients safe 24/7.",
+          "cms-30": "Sarah Jenkins",
+          "cms-31": "CEO, TechSecure MSP",
+          "cms-32": "verified_user",
+          "cms-33": "Secure Your Clients Today",
+          "cms-34": "Join thousands of MSPs who trust Guardz for their SMB security needs.",
+          "cms-35": "Request a Demo",
+          "cms-36": "Guardz",
+          "cms-37": "Empowering MSPs with AI-native cybersecurity solutions.",
+          "cms-38": "Product",
+          "cms-39": "Platform",
+          "cms-40": "Pricing",
+          "cms-41": "Integrations",
+          "cms-42": "Company",
+          "cms-43": "About",
+          "cms-44": "Blog",
+          "cms-45": "Careers",
+          "cms-46": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+          "cms-47": "Guardz: Agentic Cybersecurity Platform for MSPs",
+          "cms-48": "Guardz is the agentic cybersecurity platform with 24/7 MDR trusted by MSPs to protect SMB clients from phishing, account takeovers, data loss & ransomware.",
+          "cms-49": "Guardz: Cybersecurity Built for MSPs",
+          "cms-50": "Protect your clients with AI-native security. Unify email, endpoint, and cloud protection.",
+          "cms-51": "https://images.unsplash.com/photo-1563986768609-322da13575f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+        },
+        "sections": [
+          "#site-header",
+          "nav",
+          "main",
+          "#hero",
+          "#features",
+          "#social-proof",
+          "#cta",
+          "#site-footer"
+        ],
+        "collections": [
+          {
+            "id": "col1",
+            "count": 3,
+            "itemTag": "a",
+            "label": "site-header items"
+          },
+          {
+            "id": "col2",
+            "count": 4,
+            "itemTag": "li",
+            "label": "nav items"
+          },
+          {
+            "id": "col3",
+            "count": 4,
+            "itemTag": "section",
+            "label": "main items"
+          },
+          {
+            "id": "col4",
+            "count": 4,
+            "itemTag": "article",
+            "label": "features items"
+          },
+          {
+            "id": "col5",
+            "count": 2,
+            "itemTag": "div",
+            "label": "site-footer items"
+          },
+          {
+            "id": "col6",
+            "count": 3,
+            "itemTag": "a",
+            "label": "site-footer items"
+          },
+          {
+            "id": "col7",
+            "count": 3,
+            "itemTag": "a",
+            "label": "site-footer items"
+          }
+        ]
+      }
+    }
+  }
+}
