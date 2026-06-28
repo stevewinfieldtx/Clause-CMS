@@ -21,11 +21,11 @@ import { dirname, join } from 'node:path';
 import { render } from './lib/render.mjs';
 import { validate } from './lib/guardian.mjs';
 import { plan, plannerMode } from './lib/agent.mjs';
-import { autotag } from './lib/autotag.mjs';
+import { autotag, autotagSnippet } from './lib/autotag.mjs';
 import { applyStructure } from './lib/structure.mjs';
 import { deployer, vercelDeploy, vercelWhoami } from './lib/deploy.mjs';
 import { effectiveSeo, SEO_FIELDS, STYLE_SPEC, sectionList } from './lib/fields.mjs';
-import { getConfig, setConfig, aiCreds } from './lib/config.mjs';
+import { getConfig, setConfig, aiCreds, loadConfig } from './lib/config.mjs';
 import { randomBytes, createHash } from 'node:crypto';
 
 const ADMIN_KEY = process.env.ADMIN_KEY || 'owner-dev';
@@ -255,6 +255,7 @@ function auditLog(name, entry) {
     if (m.migrated) console.log(`MongoDB connected (db: ${m.db}) — migrated ${m.migrated} files from disk on first run.`);
     else { const n = await hydrateToFs(); console.log(`MongoDB connected (db: ${m.db}) — hydrated ${n} files from the database.`); }
   }
+  await loadConfig();                                  // load agency settings from the store (survives redeploys)
   for (const d of readdirSync(SITES_DIR, { withFileTypes: true })) if (d.isDirectory()) loadSite(d.name);
 }
 
@@ -339,6 +340,7 @@ function injectEditor(html, schema) {
     sbar.style.display='flex';sbar.style.top=Math.max(6,top)+'px';sbar.style.left=Math.min(r.left+96,window.innerWidth-sbar.offsetWidth-8)+'px';}
   function selectSection(sec){deselect();csec=sec;sbar.innerHTML='';
     var b=document.createElement('button');b.innerHTML='✎ Edit this section';b.onclick=function(e){e.preventDefault();e.stopPropagation();var first=sec.querySelector('[data-cms],[data-cms-img]');if(first){clearSection();select(first);first.scrollIntoView&&0;}};sbar.appendChild(b);
+    var ab=document.createElement('button');ab.innerHTML='＋ Add block';ab.onclick=function(e){e.preventDefault();e.stopPropagation();var sel=sec.id?'#'+sec.id:sec.tagName.toLowerCase();parent.postMessage({type:'cms-add-block',section:sel,label:sectionLabel(sec)},'*');};sbar.appendChild(ab);
     placeSection();parent.postMessage({type:'cms-section',label:sectionLabel(sec)},'*');}
   function flashEl(el){if(!el)return;var r=el.getBoundingClientRect();flash.style.display='block';flash.style.opacity='1';flash.style.left=(r.left-3)+'px';flash.style.top=(r.top-3)+'px';flash.style.width=(r.width+2)+'px';flash.style.height=(r.height+2)+'px';clearTimeout(flash._t);flash._t=setTimeout(function(){flash.style.opacity='0';setTimeout(function(){flash.style.display='none';},400);},1000);}
   var current=null;
@@ -403,12 +405,16 @@ function injectEditor(html, schema) {
     if(d.type==='scroll-to'){var sc=document.querySelector(d.sel);if(sc){var top=0,n=sc;while(n){top+=n.offsetTop||0;n=n.offsetParent;}var se=document.scrollingElement||document.documentElement;se.scrollTop=Math.max(0,top-16);setTimeout(function(){flashEl(sc);},40);}}
     if(d.type==='flash'){(d.ids||[]).forEach(function(id){flashEl(document.querySelector('[data-cms="'+id+'"],[data-cms-img="'+id+'"]'));});}
     if(d.type==='select-in'){var sec=document.querySelector(d.sel);if(sec){var first=sec.querySelector('[data-cms],[data-cms-img]')||(sec.matches('[data-cms],[data-cms-img]')?sec:null);if(first)select(first);}}
+    if(d.type==='exec-format'&&current&&RICH.has(idOf(current))){current.focus();document.execCommand(d.cmd,false,null);send(idOf(current),current.innerHTML);}
+    if(d.type==='deselect'){deselect();clearSection();}
   });
 })();</script>`;
   return html.replace('</body>', overlay + '</body>');
 }
 
-app.get('/', (_req, res) => res.redirect('/editor/'));
+// Owner's home base is the Agency Console. (Clients reach the editor via the
+// per-site link the owner shares, not the bare root.)
+app.get('/', (_req, res) => res.redirect('/admin/'));
 
 // LIVE site (static release). Home + each page.
 app.get('/live/:name', (req, res) => {
@@ -527,6 +533,62 @@ app.post('/api/structure', authWrite, (req, res) => {
 });
 
 app.post('/api/discard', authWrite, (req, res) => { const s = need(req, res); if (!s) return; clearDrafts(get(req)); res.json({ ok: true }); });
+
+// ─── block library ──────────────────────────────────────────────────────────
+const BLOCKS = {
+  heading:    { label: 'Heading',       icon: 'H', html: '<h2 style="margin:24px 0 8px">New heading</h2>' },
+  paragraph:  { label: 'Paragraph',     icon: '¶', html: '<p style="margin:0 0 16px;line-height:1.65">New paragraph — click to edit.</p>' },
+  image:      { label: 'Image',         icon: '🖼', html: '<img src="https://placehold.co/1200x600/eeeeee/999999?text=Image" alt="Add an image" style="width:100%;height:auto;display:block;border-radius:8px;margin:16px 0">' },
+  video:      { label: 'YouTube / Vimeo', icon: '▶', html: '<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:16px 0"><iframe data-cms-embed src="https://www.youtube.com/embed/dQw4w9WgXcQ" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen loading="lazy"></iframe></div>' },
+  button:     { label: 'Button',        icon: '⬡', html: '<div style="margin:20px 0"><a href="#" style="display:inline-block;padding:13px 28px;background:#111;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px">Click here</a></div>' },
+  quote:      { label: 'Quote',         icon: '"', html: '<blockquote style="border-left:4px solid #111;margin:24px 0;padding:12px 20px;font-style:italic;color:#444">Add your quote here.</blockquote>' },
+  divider:    { label: 'Divider',       icon: '—', html: '<hr style="border:0;border-top:1px solid #e0e0e0;margin:40px 0">' },
+  spacer:     { label: 'Spacer',        icon: '↕', html: '<div style="height:48px"></div>' },
+  columns:    { label: 'Two columns',   icon: '⊞', html: '<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:24px 0"><div><h3 style="margin:0 0 8px">Left heading</h3><p style="margin:0;line-height:1.6">Left column text goes here.</p></div><div><h3 style="margin:0 0 8px">Right heading</h3><p style="margin:0;line-height:1.6">Right column text goes here.</p></div></div>' },
+  'img-text': { label: 'Image + Text',  icon: '▤', html: '<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin:24px 0"><img src="https://placehold.co/800x600/eeeeee/999999?text=Image" alt="Add an image" style="width:100%;border-radius:8px"><div><h3 style="margin:0 0 10px">Heading</h3><p style="margin:0;line-height:1.65">Supporting text goes here — click to edit.</p></div></div>' },
+};
+
+app.get('/api/blocks', requireOwner, (_req, res) => {
+  res.json({ blocks: Object.entries(BLOCKS).map(([type, b]) => ({ type, label: b.label, icon: b.icon })) });
+});
+
+app.post('/api/blocks/add', authWrite, (req, res) => {
+  const s = need(req, res); if (!s) return;
+  const slug = pageOf(req, s);
+  const { section, type, position = 'end' } = req.body || {};
+  const block = BLOCKS[type];
+  if (!block) return res.status(400).json({ error: `Unknown block type "${type}".` });
+
+  const base = s.draft[slug] || s.pages[slug];
+  const maxN = Math.max(0, ...Object.keys(base.schema).map((id) => parseInt(id.replace('cms-', '')) || 0));
+
+  // Autotag just the new block HTML, continuing from the highest existing id
+  const { snippetTagged, schema: blockSchema, content: blockContent } = autotagSnippet(block.html, maxN, null);
+
+  // Insert tagged block into the page template
+  const $ = load(base.templateHtml, { decodeEntities: false });
+  let target = section ? $(section) : null;
+  if (!target || !target.length) target = $('main').length ? $('main') : $('body');
+  if (position === 'start') target.prepend(snippetTagged);
+  else target.append(snippetTagged);
+  const newTemplateHtml = $.html();
+
+  // Merge — existing content always wins over placeholder defaults
+  const newSchema = { ...base.schema, ...blockSchema };
+  const newContent = { ...blockContent, ...base.content };
+
+  // Structural invariant check
+  try {
+    const $c = load(render(newTemplateHtml, newSchema, newContent));
+    for (const sel of base.sections) {
+      if ($c(sel).length === 0) return res.status(400).json({ error: `Structural check failed: "${sel}" would disappear.` });
+    }
+  } catch (e) { return res.status(400).json({ error: `Could not apply safely: ${e.message}` }); }
+
+  s.draft[slug] = { templateHtml: newTemplateHtml, schema: newSchema, sections: base.sections, collections: base.collections, content: newContent };
+  writeDraft(get(req), slug, s.draft[slug]);
+  res.json({ ok: true, added: block.label, newFields: Object.keys(blockSchema).length });
+});
 
 const isEditable = (base, id) => base.schema[id] || id.startsWith('seo:') || id.startsWith('style:') || id.startsWith('link:');
 // Stage browser edits into the persisted per-page draft (survives reload) — does NOT go live.
@@ -814,7 +876,7 @@ app.post('/api/admin/config', requireOwner, async (req, res) => {
     catch (e) { return res.status(400).json({ error: 'Vercel: ' + e.message }); }
   }
   if (req.body?.clearVercel) { patch.vercelToken = ''; patch.vercelAccount = ''; }
-  setConfig(patch);
+  await setConfig(patch);
   res.json({ ok: true, provider: aiCreds().provider, vercelAccount: getConfig().vercelAccount || null });
 });
 

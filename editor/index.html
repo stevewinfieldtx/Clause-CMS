@@ -195,6 +195,27 @@
   .scope.show{display:inline-flex} .scope b{color:#fff} .scope .x{cursor:pointer;color:#9bc1ff;font-weight:700;margin-left:2px}
   /* autosave status */
   #saveStat{font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+  /* color picker in inspector */
+  .cinput{-webkit-appearance:none;appearance:none;width:100%;height:36px;border-radius:8px;border:0;box-shadow:inset 0 0 0 1px var(--line);padding:2px 4px;cursor:pointer;background:var(--panel-2)}
+  .cinput::-webkit-color-swatch-wrapper{padding:0}.cinput::-webkit-color-swatch{border:0;border-radius:5px}
+  /* rich text format toolbar */
+  .richtbar{display:flex;gap:4px;margin-bottom:8px}
+  .richtbar button{height:28px;min-width:28px;padding:0 8px;border:0;border-radius:6px;background:var(--panel-3);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-2);font:600 13px/1 'Geist';cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .richtbar button:hover{color:var(--ink);background:var(--panel-2)} .richtbar button.on{color:#fff;background:rgba(10,114,239,.18);box-shadow:inset 0 0 0 1.5px var(--blue)}
+  /* char count */
+  .charct{font-size:11px;color:var(--ink-3);text-align:right;margin-top:3px}
+  /* block picker */
+  .bpick{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(6,6,9,.7);backdrop-filter:blur(4px)}
+  .bpick.show{display:flex;animation:pop .16s ease}
+  .bpcard{background:#15151a;width:min(640px,94vw);border-radius:20px;box-shadow:0 40px 110px rgba(0,0,0,.6),inset 0 0 0 1px #2c2c32;overflow:hidden}
+  .bphead{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line)}
+  .bphead h3{margin:0;font-size:15px;font-weight:600}.bphead .bpsec{font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px}
+  .bpclose{width:32px;height:32px;border-radius:8px;border:0;background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-2);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}.bpclose:hover{color:var(--ink)}
+  .bpgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;padding:20px}
+  .bptyp{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 10px;background:var(--panel-2);border-radius:12px;box-shadow:inset 0 0 0 1px var(--line);border:0;color:var(--ink-2);cursor:pointer;font-family:inherit;transition:.15s}
+  .bptyp:hover{background:var(--panel-3);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--blue)}
+  .bptyp .bpic{font-size:22px;line-height:1}.bptyp .bplb{font-size:12px;font-weight:500;text-align:center}
+  .bpfoot{padding:14px 22px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3)}
   /* coach tour */
   #tour{position:fixed;inset:0;z-index:300;display:none}
   #tour.show{display:block}
@@ -285,6 +306,7 @@
   <div id="tour"></div>
   <input type="file" id="imgFile" accept="image/*" style="display:none">
   <input type="file" id="imgFileSeo" accept="image/*" style="display:none">
+  <div class="bpick" id="blockPicker"></div>
   <div id="pagesPanel" class="panel left"></div>
   <div id="seoPanel" class="seomodal"></div>
   <div class="main">
@@ -305,6 +327,7 @@
       <div class="log" id="log"></div>
       <div class="composer">
         <div class="scope" id="scope"></div>
+        <div id="chipsRow" class="chips"></div>
         <div class="inwrap">
           <textarea id="input" rows="1" placeholder="Ask AI to change anything…"></textarea>
           <div class="inbar">
@@ -331,6 +354,7 @@ let SITE=_qs.get('site')||sessionStorage.getItem('cms_site')||'';
 let KEY=_qs.get('key')||sessionStorage.getItem('cms_key')||'';
 if(SITE)sessionStorage.setItem('cms_site',SITE); if(KEY)sessionStorage.setItem('cms_key',KEY);
 let PAGE=sessionStorage.getItem('cms_page')||'', sel=null, seoState=null, styleSpec=null, seoFields=[], planner='local', advOpen=false;
+let schemaCache={};  // id → {label,group,type,rich,allow,value}
 const KQ=()=>KEY?('&key='+encodeURIComponent(KEY)):'';
 const PQ=()=>'&page='+encodeURIComponent(PAGE);
 let pendingByPage={}, hasDraft=false, pagesList=[];   // hasDraft = server holds a saved-but-unpublished draft
@@ -379,7 +403,7 @@ async function init(){
   else if(isOwner){mb.className='badge warn';mb.style.display='';mb.textContent='⚠ Add AI key';mb.onclick=()=>window.open('/admin/?key=owner-dev','_blank');}
   else mb.style.display='none';           // client doesn't manage keys
   $('#howBtn').onclick=()=>{$('#howBtn').classList.toggle('open');$('#howBody').classList.toggle('open');};
-  await loadPages();await loadVersions();await loadReview();refreshInbox();
+  await loadPages();await loadVersions();await loadReview();refreshInbox();loadChips();
   bubble('bot',`${isOwner?'Editing':'Welcome — you can edit'} <b style="color:#f0f0f2">${esc(SITE)}</b>. Click any text to change it, select something to tweak its link/spacing on the right. <b>Save</b> keeps a draft; <b>Publish</b> pushes it live.`);
   maybeTour();
 }
@@ -517,6 +541,7 @@ window.addEventListener('message',async e=>{
   else if(d.type==='cms-open'){sel=sel&&sel.id===d.id?sel:{id:d.id,tag:'',text:'',href:d.panel==='link'?'':null,img:d.panel==='image'};showPanel('#inspPanel');renderInspector();setTimeout(()=>{const t=$(d.panel==='link'?'#insLink':'#inspPanel .dialgrp');if(t){t.scrollIntoView({block:'nearest'});if(t.focus)t.focus();}},60);}
   else if(d.type==='cms-ai'){input.value=`Change the ${(d.kind||'text').toLowerCase()} “${(d.text||'').slice(0,40)}” to `;input.focus();input.dispatchEvent(new Event('input'));toast('✨ Finish your request and hit enter');}
   else if(d.type==='cms-nav'){const m=d.href.match(/\/live\/[^/]+\/?([^/?#]*)/);switchPage(m&&m[1]?m[1]:(pagesList.find(p=>p.home)||{}).slug);}
+  else if(d.type==='cms-add-block'){openBlockPicker(d.section,d.label);}
   else if(d.type==='cms-structure'){
     const r=await (await fetch('/api/structure?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({op:d.op,col:d.col,index:d.index})})).json();
     if(r.ok){hasDraft=true;updateBar();await loadPreview();toast('✏️ '+r.message);}else bubble('bot','⛔ '+(r.error||'Could not change layout.'));
@@ -550,7 +575,18 @@ $('#saveBtn').onclick=save;$('#publishBtn').onclick=publish;$('#discardBtn').onc
 function closeMenu(){$('#pubMenu').classList.remove('show');}
 $('#pubMenuBtn').onclick=(e)=>{e.stopPropagation();$('#pubMenu').classList.toggle('show');};
 document.addEventListener('click',e=>{if(!e.target.closest('.mwrap'))closeMenu();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#seoPanel').classList.contains('show'))closeSeo();});
+document.addEventListener('keydown',e=>{
+  const mod=e.metaKey||e.ctrlKey;
+  if(mod&&!e.shiftKey&&e.key==='s'){e.preventDefault();save();return;}
+  if(mod&&e.shiftKey&&(e.key==='p'||e.key==='P')){e.preventDefault();publish();return;}
+  if(e.key==='Escape'){
+    if($('#seoPanel').classList.contains('show')){closeSeo();return;}
+    const anyDock=DOCK.some(id=>$(id).classList.contains('show'));
+    if(anyDock){closeDock();return;}
+    const anyPanel=PANELS.some(id=>$(id).classList.contains('show'));
+    if(anyPanel){PANELS.forEach(x=>$(x).classList.remove('show'));syncDock();return;}
+  }
+});
 // resizable chat panel
 (function(){const r=$('#rsz');if(!r)return;const saved=localStorage.getItem('cms_chatw');if(saved)document.documentElement.style.setProperty('--chatw',saved+'px');
   let drag=false;
@@ -687,37 +723,120 @@ function renderSeoLive(){
   seoFields.forEach(f=>{const el=$(`#seoPanel [data-seo="${f.key}"]`);if(!el)return;if(f.limit){const lab=el.closest('.f').querySelector('.ct');if(lab){const v=seoVal(f.key);lab.textContent=v.length+'/'+f.limit;lab.className='ct '+(v.length>f.limit?'bad':v.length>f.limit*0.9?'warn':'ok');}}});
 }
 
+/* ── block picker ── */
+let blockPickerSection=null;
+async function openBlockPicker(section,label){
+  blockPickerSection=section;
+  const bp=$('#blockPicker');
+  bp.innerHTML=`<div class="bpcard"><div class="bphead"><h3>Add a block <span class="bpsec">to ${esc(label||section)}</span></h3><button class="bpclose" id="bpX">✕</button></div><div class="bpgrid" id="bpGrid"><div class="selnote" style="padding:20px;color:var(--ink-3)">Loading…</div></div><div class="bpfoot">Blocks are added at the end of the section and become immediately editable.</div></div>`;
+  bp.classList.add('show');
+  $('#bpX').onclick=closeBlockPicker;
+  bp.onclick=e=>{if(e.target===bp)closeBlockPicker();};
+  const r=await (await fetch('/api/blocks'+(KEY?'?key='+encodeURIComponent(KEY):''))).json();
+  const grid=$('#bpGrid');if(!grid)return;
+  grid.innerHTML=(r.blocks||[]).map(b=>`<button class="bptyp" data-btype="${esc(b.type)}"><span class="bpic">${esc(b.icon)}</span><span class="bplb">${esc(b.label)}</span></button>`).join('');
+  grid.querySelectorAll('[data-btype]').forEach(btn=>btn.onclick=()=>addBlock(btn.dataset.btype));
+}
+function closeBlockPicker(){$('#blockPicker').classList.remove('show');blockPickerSection=null;}
+async function addBlock(type){
+  closeBlockPicker();
+  const t=bubble('bot','<span class="spin"></span> Adding block…');
+  const r=await (await fetch('/api/blocks/add?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({section:blockPickerSection,type})})).json();
+  t.remove();
+  if(r.ok){hasDraft=true;updateBar();await loadPreview();loadChips();toast(`✓ ${r.added} added — click it to edit`);}
+  else bubble('bot','⛔ '+(r.error||'Could not add block.'));
+}
+
+/* ── contextual AI chips ── */
+async function loadChips(){
+  try{
+    const st=await (await fetch('/api/state?site='+SITE+PQ()+KQ())).json();
+    cacheSchema(st);if(!styleSpec){seoState=st.seo;seoFields=st.seoFields;styleSpec=st.styleSpec;}
+    const groups=st.groups||{};
+    const chips=[];
+    // headline chip — first heading found
+    for(const[g,fields] of Object.entries(groups)){const h=fields.find(f=>/^Heading:/i.test(f.label));if(h){chips.push('Rewrite the '+g+' heading to be more compelling');break;}}
+    // CTA chip — first button/link
+    for(const[g,fields] of Object.entries(groups)){const b=fields.find(f=>/^Button:|^Link:/i.test(f.label));if(b&&b.value){chips.push('Make the "'+b.value.slice(0,22)+'" button more urgent');break;}}
+    // body copy chip — first long paragraph
+    for(const[g,fields] of Object.entries(groups)){const p=fields.find(f=>/^Text:/i.test(f.label)&&(f.value||'').length>60);if(p){chips.push('Shorten the '+g+' description');break;}}
+    chips.push('Rewrite in a more professional tone');
+    const row=$('#chipsRow');
+    if(row){row.innerHTML=chips.slice(0,4).map(t=>`<span class="chip">${esc(t)}</span>`).join('');
+      row.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{input.value=ch.textContent;input.focus();input.dispatchEvent(new Event('input'));});}
+  }catch(e){}
+}
+
 /* ── element inspector ── */
 function openInspectorOnSelect(){if(!$('#seoPanel').classList.contains('show')&&!$('#pagesPanel').classList.contains('show')&&!$('#histPanel').classList.contains('show')){showPanel('#inspPanel');}renderInspector();}
-function ensureSpec(cb){if(styleSpec)return cb();fetch('/api/state?site='+SITE+PQ()+KQ()).then(r=>r.json()).then(st=>{seoState=st.seo;seoFields=st.seoFields;styleSpec=st.styleSpec;cb();});}
+function ensureSpec(cb){if(styleSpec)return cb();fetch('/api/state?site='+SITE+PQ()+KQ()).then(r=>r.json()).then(st=>{seoState=st.seo;seoFields=st.seoFields;styleSpec=st.styleSpec;cacheSchema(st);cb();});}
+function cacheSchema(st){schemaCache={};Object.values(st.groups||{}).forEach(fields=>fields.forEach(f=>{schemaCache[f.id]=f;}));}
 function renderInspector(){
   const p=$('#inspPanel');
   if(!styleSpec){ensureSpec(renderInspector);return;}
   if(!sel){p.innerHTML='<h4>Element</h4><div class="selnote">👆 Click any text, button or heading on the left. Its content, link, spacing and size will appear here.</div>';return;}
   let h=`<h4>Element <span class="insTag">${esc(sel.img?'IMAGE':sel.tag||'')}</span></h4>`;
+  const fieldDef=schemaCache[sel.id]||{};
   if(sel.img){
     const curSrc=pending()[sel.id]!==undefined?pending()[sel.id]:curImgSrc(sel.id);
     h+=`<div class="f"><label>Image</label>${curSrc?`<img class="imgbig" src="${esc(absUrl(curSrc))}">`:''}<button class="upbtn" id="insUpload">⤒ Upload from your computer</button><input id="insImgUrl" placeholder="…or paste an image URL" style="margin-top:9px"><div class="hint">JPG, PNG, WebP or GIF — straight from your device.</div></div>`;
   } else {
-    const txt=pending()[sel.id]!==undefined?strip(pending()[sel.id]):sel.text;
-    h+=`<div class="f"><label>Text</label><textarea id="insText" rows="2">${esc(txt)}</textarea><div class="hint">Edit here if it's hard to click (e.g. a button).</div></div>`;
+    const isRich=!!fieldDef.rich;
+    const rawVal=pending()[sel.id]!==undefined?pending()[sel.id]:(isRich?(fieldDef.value||sel.text):sel.text);
+    const txt=isRich?strip(rawVal):rawVal;
+    if(isRich){
+      h+=`<div class="f"><label>Text <span style="font-size:10px;color:var(--ink-3);font-weight:400">(rich)</span></label>
+        <div class="richtbar" id="richtbar">
+          <button data-fmt="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+          <button data-fmt="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+          <button data-fmt="underline" title="Underline"><u>U</u></button>
+          <button data-fmt="strikeThrough" title="Strikethrough"><s>S</s></button>
+        </div>
+        <textarea id="insText" rows="3">${esc(txt)}</textarea>
+        <div class="hint">Formatting applied in the preview — Bold/Italic via toolbar or Ctrl+B/I.</div></div>`;
+    } else {
+      h+=`<div class="f"><label>Text</label><textarea id="insText" rows="2">${esc(txt)}</textarea><div class="charct" id="insCharCt">${txt.length} chars</div><div class="hint">Edit here if it's hard to click (e.g. a button).</div></div>`;
+    }
     if(sel.href!==null&&sel.href!==undefined){const lv=pending()['link:'+sel.id]!==undefined?pending()['link:'+sel.id]:sel.href;
       h+=`<div class="f"><label>Link URL</label><input id="insLink" value="${esc(lv)}" placeholder="/pricing  or  https://…  or  mailto:you@x.com"><div class="hint">Where this button/link goes. Use /about for a page, or a full https:// address.</div></div>`;}
   }
-  const dial=(prop)=>{const sp=styleSpec[prop];if(!sp)return '';const cur=pending()['style:'+sel.id+':'+prop];const def=(sp.min+sp.max)/2;const v=cur!==undefined?parseFloat(cur):def;const fill=Math.round((v-sp.min)/(sp.max-sp.min)*100);
-    return `<div class="dial"><div class="top"><span class="lab">${esc(sp.label)}</span><span class="val" data-rv="${prop}">${cur!==undefined?cur+(sp.unit||''):'auto'}</span></div><input class="rng" type="range" data-st="${prop}" min="${sp.min}" max="${sp.max}" step="${prop==='lineHeight'?0.05:1}" value="${v}" style="--fill:${fill}%"></div>`;};
   const ICON_SP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/></svg>';
   const ICON_TY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2M9 19h6M12 5v14"/></svg>';
+  const ICON_CO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+  const dial=(prop)=>{
+    const sp=styleSpec[prop];if(!sp)return '';
+    const cur=pending()['style:'+sel.id+':'+prop];
+    if(sp.type==='color'){
+      const hexVal=cur||'';
+      return `<div class="dial"><div class="top"><span class="lab">${esc(sp.label)}</span><span class="val" data-rv="${prop}">${hexVal||'auto'}</span></div><input class="cinput" type="color" data-stc="${prop}" value="${hexVal||'#000000'}"></div>`;
+    }
+    if(sp.enum)return '';  // handled separately (textAlign)
+    const def=(sp.min+sp.max)/2;const v=cur!==undefined?parseFloat(cur):def;const fill=Math.round((v-sp.min)/(sp.max-sp.min)*100);
+    return `<div class="dial"><div class="top"><span class="lab">${esc(sp.label)}</span><span class="val" data-rv="${prop}">${cur!==undefined?cur+(sp.unit||''):'auto'}</span></div><input class="rng" type="range" data-st="${prop}" min="${sp.min}" max="${sp.max}" step="${prop==='lineHeight'?0.05:1}" value="${v}" style="--fill:${fill}%"></div>`;
+  };
   h+=`<div class="dialgrp"><div class="gt">${ICON_SP} Spacing</div>${['marginTop','marginBottom','paddingTop','paddingBottom'].map(dial).join('')}</div>`;
   const curAl=pending()['style:'+sel.id+':textAlign']||'';
   h+=`<div class="dialgrp"><div class="gt">${ICON_TY} Type &amp; alignment</div>${['fontSize','lineHeight','letterSpacing'].map(dial).join('')}<div class="dial"><div class="top"><span class="lab">${styleSpec.textAlign.label}</span></div><div class="alignbtns">${styleSpec.textAlign.enum.map(a=>`<button data-al="${a}" class="${a===curAl?'on':''}" title="${a}">${ALIGN_SVG[a]}</button>`).join('')}</div></div></div>`;
+  if(!sel.img)h+=`<div class="dialgrp"><div class="gt">${ICON_CO} Color</div>${['color','backgroundColor'].map(dial).join('')}</div>`;
   h+=`<div class="foot"><span>Bounded so it can't break the layout.</span><button id="insSave">Save draft</button></div>`;
   p.innerHTML=h;
-  const it=$('#insText');if(it)it.oninput=()=>{pending()[sel.id]=it.value;toFrame({type:'set-text',id:sel.id,value:it.value});updateBar();};
+  const it=$('#insText');
+  if(it){
+    const isRich2=!!fieldDef.rich;
+    it.oninput=()=>{
+      const v=it.value;
+      if(!isRich2){const cc=$('#insCharCt');if(cc)cc.textContent=v.length+' chars';}
+      pending()[sel.id]=v;toFrame({type:'set-text',id:sel.id,value:v});updateBar();
+    };
+    if(isRich2){
+      p.querySelectorAll('[data-fmt]').forEach(b=>b.onclick=()=>{toFrame({type:'exec-format',cmd:b.dataset.fmt});});
+    }
+  }
   const il=$('#insLink');if(il)il.oninput=()=>{pending()['link:'+sel.id]=il.value;updateBar();};
   const iu=$('#insUpload');if(iu)iu.onclick=()=>{imgTarget=sel.id;$('#imgFile').click();};
   const ix=$('#insImgUrl');if(ix)ix.oninput=()=>setImage(sel.id,ix.value);
   p.querySelectorAll('[data-st]').forEach(r=>r.oninput=()=>{const prop=r.dataset.st,sp=styleSpec[prop];const pct=Math.round((r.value-sp.min)/(sp.max-sp.min)*100);r.style.setProperty('--fill',pct+'%');pending()['style:'+sel.id+':'+prop]=r.value;toFrame({type:'apply-style',id:sel.id,css:sp.css,value:r.value+(sp.unit||'')});p.querySelector(`[data-rv="${prop}"]`).textContent=r.value+(sp.unit||'');updateBar();});
+  p.querySelectorAll('[data-stc]').forEach(r=>r.oninput=()=>{const prop=r.dataset.stc,sp=styleSpec[prop];pending()['style:'+sel.id+':'+prop]=r.value;toFrame({type:'apply-style',id:sel.id,css:sp.css,value:r.value});const rv=p.querySelector(`[data-rv="${prop}"]`);if(rv)rv.textContent=r.value;updateBar();});
   p.querySelectorAll('[data-al]').forEach(b=>b.onclick=()=>{pending()['style:'+sel.id+':textAlign']=b.dataset.al;toFrame({type:'apply-style',id:sel.id,css:'text-align',value:b.dataset.al});p.querySelectorAll('[data-al]').forEach(x=>x.classList.toggle('on',x===b));updateBar();});
   $('#insSave').onclick=save;
 }

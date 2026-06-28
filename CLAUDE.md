@@ -31,7 +31,7 @@ Then open the dashboard: `http://localhost:4321/admin/?key=<secret>`
 - **One Railway service** runs this Node app (dashboard + every client's live site).
 - **One Railway MongoDB service** holds all site data, versions, passwords, forms — the persistent source of truth. Set `MONGODB_URI` on the app from the Mongo service.
 - The app reads `process.env.PORT` (Railway injects it) — no change needed.
-- AI editing uses **OpenRouter** by default. Set `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL_ID`) as **env vars** so they survive redeploys, rather than only the UI (`cms-config.json` lives on the ephemeral fs and resets on redeploy).
+- AI editing uses **OpenRouter** by default. Set `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL_ID`) as **env vars** for a clean, version-controlled default. Settings saved in the Agency Console UI now persist too — `config.mjs` stores them through the store layer (MongoDB in prod), so they survive redeploys. Env vars act as the fallback when no UI value is set.
 
 ### Required Railway env vars
 | Var | Purpose |
