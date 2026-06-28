@@ -82,7 +82,7 @@ function writePage(name, slug, p) {
 }
 function writeCfg(name) {
   const s = sites[name];
-  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, vercel: s.vercel || null, clarity: s.clarity || null }, null, 2));
+  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, vercel: s.vercel || null, clarity: s.clarity || null, convai: s.convai || null }, null, 2));
 }
 
 /* ───── drafts: staged-but-not-live edits, persisted so a Save survives reload/restart ───── */
@@ -164,7 +164,7 @@ function loadSite(name) {
   const pages = {};
   for (const slug of cfg.order) pages[slug] = readPage(name, slug);
   sites[name] = {
-    pages, order: cfg.order, home: cfg.home, pagesMeta: cfg.pages, vercel: cfg.vercel || null, clarity: cfg.clarity || null,
+    pages, order: cfg.order, home: cfg.home, pagesMeta: cfg.pages, vercel: cfg.vercel || null, clarity: cfg.clarity || null, convai: cfg.convai || null,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
@@ -197,9 +197,25 @@ function wireClarity(html, name) {
   const script = `<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${JSON.stringify(String(id))});</script>`;
   return html.includes('</head>') ? html.replace('</head>', script + '</head>') : script + html;
 }
+// ElevenLabs Conversational AI widget — also a <script>, injected at build time.
+// Resolution: per-site agent id → global config → ELEVENLABS_AGENT_ID env var.
+// The <elevenlabs-convai> web component renders a chat/voice bubble (bottom-right by default).
+function convaiId(name) {
+  return (sites[name]?.convai) || getConfig().convai || process.env.ELEVENLABS_AGENT_ID || '';
+}
+function wireConvai(html, name) {
+  const id = convaiId(name);
+  if (!id) return html;
+  const widget = `<elevenlabs-convai agent-id="${String(id).replace(/"/g, '')}"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>`;
+  return html.includes('</body>') ? html.replace('</body>', widget + '</body>') : html + widget;
+}
 function publishedPageHtml(name, slug) {
   const p = sites[name].pages[slug];
-  return wireClarity(wireForms(withBase(render(p.templateHtml, p.schema, p.content)), name), name);
+  let html = withBase(render(p.templateHtml, p.schema, p.content));
+  html = wireForms(html, name);
+  html = wireClarity(html, name);
+  html = wireConvai(html, name);
+  return html;
 }
 
 /* ───── deploy: build the whole static site for a version ───── */
@@ -290,17 +306,20 @@ app.use((req, res, next) => {
   res.set('X-Content-Type-Options', 'nosniff');
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.set('X-Frame-Options', 'SAMEORIGIN');
-  res.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), interest-cohort=()');
+  // microphone=(self) so the ElevenLabs voice widget can use the mic on the live sites.
+  res.set('Permissions-Policy', 'geolocation=(), microphone=(self), camera=(), interest-cohort=()');
   if (req.path.startsWith('/live/')) {
     const pub = (getConfig().publicUrl || '').replace(/\/+$/, ''); // form handler may post here
     res.set('Content-Security-Policy', [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.clarity.ms https://*.clarity.ms",
+      "script-src 'self' 'unsafe-inline' https://www.clarity.ms https://*.clarity.ms https://unpkg.com https://*.elevenlabs.io",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com data:",
+      "font-src 'self' https://fonts.gstatic.com https://*.elevenlabs.io data:",
       "img-src 'self' data: https:",
-      `connect-src 'self' https://*.clarity.ms https://formspree.io${pub ? ' ' + pub : ''}`,
-      "frame-src 'self' https://www.youtube.com https://player.vimeo.com",
+      `connect-src 'self' https://*.clarity.ms https://formspree.io https://*.elevenlabs.io wss://*.elevenlabs.io${pub ? ' ' + pub : ''}`,
+      "media-src 'self' blob: https://*.elevenlabs.io",
+      "worker-src 'self' blob:",
+      "frame-src 'self' https://www.youtube.com https://player.vimeo.com https://*.elevenlabs.io",
       "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self' https://formspree.io",
@@ -948,6 +967,15 @@ app.post('/api/admin/site-clarity', requireOwner, (req, res) => {
   writeCfg(name);
   if (s.head >= 0) buildRelease(name, s.head); // re-bake the active release so the tag is injected now
   res.json({ ok: true, clarity: s.clarity, rebuilt: s.head >= 0 });
+});
+
+app.post('/api/admin/site-convai', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  s.convai = String(req.body?.agentId || '').trim() || null;
+  writeCfg(name);
+  if (s.head >= 0) buildRelease(name, s.head); // re-bake the active release so the widget appears now
+  res.json({ ok: true, convai: s.convai, rebuilt: s.head >= 0 });
 });
 
 app.post('/api/admin/export', requireOwner, (req, res) => {
