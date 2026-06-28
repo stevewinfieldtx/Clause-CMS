@@ -1,0 +1,6 @@
+# bizcise security.txt — RFC 9116
+Contact: mailto:info@bizcise.com
+Expires: 2027-06-28T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://bizcise.com/.well-known/security.txt
+Policy: https://bizcise.com/#privacy

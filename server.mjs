@@ -82,7 +82,7 @@ function writePage(name, slug, p) {
 }
 function writeCfg(name) {
   const s = sites[name];
-  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, vercel: s.vercel || null }, null, 2));
+  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, vercel: s.vercel || null, clarity: s.clarity || null }, null, 2));
 }
 
 /* ───── drafts: staged-but-not-live edits, persisted so a Save survives reload/restart ───── */
@@ -164,7 +164,7 @@ function loadSite(name) {
   const pages = {};
   for (const slug of cfg.order) pages[slug] = readPage(name, slug);
   sites[name] = {
-    pages, order: cfg.order, home: cfg.home, pagesMeta: cfg.pages, vercel: cfg.vercel || null,
+    pages, order: cfg.order, home: cfg.home, pagesMeta: cfg.pages, vercel: cfg.vercel || null, clarity: cfg.clarity || null,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
@@ -185,9 +185,21 @@ function wireForms(html, name) {
   const script = `<script>(function(){var EP=${JSON.stringify(ep)};document.querySelectorAll('form').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var d={_page:location.pathname};new FormData(f).forEach(function(v,k){if(typeof v==='string')d[k]=v;});fetch(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(){f.innerHTML='<p style="padding:18px;font-size:16px;text-align:center">✓ Thanks — we\\'ve got your message.</p>';}).catch(function(){});});});})();</script>`;
   return html.includes('</body>') ? html.replace('</body>', script + '</body>') : html + script;
 }
+// Microsoft Clarity (analytics/heatmaps) is a <script> — stripped at ingest — so we
+// inject it at build time, the same seam as wireForms. Resolution order: per-site id →
+// global agency config → CLARITY_PROJECT_ID env var. No id configured ⇒ nothing injected.
+function clarityId(name) {
+  return (sites[name]?.clarity) || getConfig().clarity || process.env.CLARITY_PROJECT_ID || '';
+}
+function wireClarity(html, name) {
+  const id = clarityId(name);
+  if (!id) return html;
+  const script = `<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${JSON.stringify(String(id))});</script>`;
+  return html.includes('</head>') ? html.replace('</head>', script + '</head>') : script + html;
+}
 function publishedPageHtml(name, slug) {
   const p = sites[name].pages[slug];
-  return wireForms(withBase(render(p.templateHtml, p.schema, p.content)), name);
+  return wireClarity(wireForms(withBase(render(p.templateHtml, p.schema, p.content)), name), name);
 }
 
 /* ───── deploy: build the whole static site for a version ───── */
@@ -272,6 +284,17 @@ app.use((req, res, next) => {
 app.use('/assets', express.static(join(ROOT, 'site/assets')));
 app.use('/editor', express.static(join(ROOT, 'editor')));
 app.use('/admin', express.static(join(ROOT, 'admin')));
+
+// Root-level well-known files served by the app itself (persist across redeploys —
+// they live in the repo's public/ dir, not in the per-site Mongo data).
+const servePublic = (rel) => (_req, res) => {
+  const p = join(ROOT, 'public', rel);
+  if (!existsSync(p)) return res.status(404).type('text/plain').send('Not found');
+  res.type('text/plain; charset=utf-8').set('Cache-Control', 'public, max-age=3600').send(readFileSync(p, 'utf8'));
+};
+app.get('/llms.txt', servePublic('llms.txt'));
+app.get('/.well-known/security.txt', servePublic('.well-known/security.txt'));
+app.get('/security.txt', servePublic('.well-known/security.txt'));
 
 const get = (req) => req.query.site || req.body?.site;
 const pageOf = (req, s) => { const p = req.query.page || req.body?.page || s.home; return s.pages[p] || s.draft[p] ? p : s.home; };
@@ -888,6 +911,15 @@ app.post('/api/admin/site-vercel', requireOwner, async (req, res) => {
   writeCfg(name);
   if (req.body?.deploy) { const r = await deployVercel(name); return res.json({ ok: true, deploy: r }); }
   res.json({ ok: true, project: s.vercel.project });
+});
+
+app.post('/api/admin/site-clarity', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  s.clarity = String(req.body?.clarityId || '').trim() || null;
+  writeCfg(name);
+  if (s.head >= 0) buildRelease(name, s.head); // re-bake the active release so the tag is injected now
+  res.json({ ok: true, clarity: s.clarity, rebuilt: s.head >= 0 });
 });
 
 app.post('/api/admin/export', requireOwner, (req, res) => {
