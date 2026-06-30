@@ -82,7 +82,7 @@ function writePage(name, slug, p) {
 }
 function writeCfg(name) {
   const s = sites[name];
-  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, vercel: s.vercel || null, clarity: s.clarity || null, convai: s.convai || null }, null, 2));
+  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, vercel: s.vercel || null, clarity: s.clarity || null, convai: s.convai || null }, null, 2));
 }
 
 /* ───── drafts: staged-but-not-live edits, persisted so a Save survives reload/restart ───── */
@@ -164,7 +164,7 @@ function loadSite(name) {
   const pages = {};
   for (const slug of cfg.order) pages[slug] = readPage(name, slug);
   sites[name] = {
-    pages, order: cfg.order, home: cfg.home, pagesMeta: cfg.pages, vercel: cfg.vercel || null, clarity: cfg.clarity || null, convai: cfg.convai || null,
+    pages, order: cfg.order, home: cfg.home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, vercel: cfg.vercel || null, clarity: cfg.clarity || null, convai: cfg.convai || null,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
@@ -529,7 +529,7 @@ app.get('/api/sites', (_req, res) => res.json({
   plannerMode: plannerMode(),
   sites: Object.keys(sites).map((name) => {
     const s = sites[name];
-    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), versions: s.versions.length, vercelProject: s.vercel?.project || null, vercelUrl: s.vercel?.lastUrl || null };
+    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), sourceUrl: s.sourceUrl || null, versions: s.versions.length, vercelProject: s.vercel?.project || null, vercelUrl: s.vercel?.lastUrl || null };
   }),
 }));
 
@@ -553,6 +553,52 @@ app.get('/api/pages', (req, res) => {
   res.json({ order: s.order, home: s.home, pages: s.order.map((slug) => ({ slug, ...s.pagesMeta[slug], home: slug === s.home, dirty: !!s.draft[slug] })) });
 });
 
+/* ───── multi-page import: find same-origin pages linked from a page, import each as an editable page ───── */
+const ASSET_RE = /\.(jpg|jpeg|png|gif|svg|webp|avif|mp4|webm|mov|css|js|mjs|json|xml|ico|pdf|zip|rar|woff2?|ttf|eot|txt|csv)(\?|#|$)/i;
+function discoverLinks(html, baseUrl) {
+  let origin, homePath;
+  try { const b = new URL(baseUrl); origin = b.origin; homePath = b.pathname; } catch { return []; }
+  const $ = load(html, { decodeEntities: false });
+  const seen = new Set(), out = [];
+  $('a[href]').each((_, el) => {
+    let href = ($(el).attr('href') || '').trim();
+    if (!href || /^(mailto:|tel:|javascript:|#)/i.test(href)) return;
+    let u; try { u = new URL(href, baseUrl); } catch { return; }
+    if (u.origin !== origin || ASSET_RE.test(u.pathname)) return;
+    u.hash = ''; u.search = '';
+    if (u.pathname === homePath || u.pathname === '/' || seen.has(u.pathname)) return;
+    seen.add(u.pathname); out.push(u.toString());
+  });
+  return out;
+}
+function slugFromUrl(u) {
+  try { const base = (new URL(u).pathname.split('/').filter(Boolean).pop() || 'page').replace(/\.html?$/i, '');
+    return base.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'page'; } catch { return 'page'; }
+}
+function titleFromHtml(html, slug) {
+  try { const $ = load(html);
+    const h1 = ($('h1').first().text() || '').trim();
+    if (h1 && h1.length <= 70) return h1.slice(0, 60);
+    const t = ($('title').first().text() || '').trim();
+    if (t) return (t.split(/[|–—\-·]/)[0].trim() || t).slice(0, 60);
+  } catch {}
+  return slug.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+// Fetch a URL and append it to an existing site as a new editable page (skips if the slug already exists).
+async function importUrlAsPage(name, url) {
+  const s = sites[name];
+  const slug = slugFromUrl(url);
+  if (s.pages[slug]) return { slug, skipped: true };
+  const r = await fetch(url); if (!r.ok) throw new Error('HTTP ' + r.status);
+  const html = await r.text();
+  const { templateHtml, content, schema, sections, collections } = autotag(html, url);
+  s.pages[slug] = { templateHtml, content, schema, sections, collections };
+  s.order.push(slug);
+  s.pagesMeta[slug] = { title: titleFromHtml(html, slug), path: `/${slug}` };
+  writePage(name, slug, s.pages[slug]);
+  return { slug, title: s.pagesMeta[slug].title };
+}
+
 app.post('/api/ingest', requireOwner, async (req, res) => {
   const name = String(req.body?.name || '').replace(/[^a-z0-9_-]/gi, '');
   if (!name) return res.status(400).json({ error: 'Need a site name.' });
@@ -566,10 +612,39 @@ app.post('/api/ingest', requireOwner, async (req, res) => {
   const dir = siteDir(name);
   rmSync(dir, { recursive: true, force: true }); // fresh site
   writePage(name, 'home', { templateHtml, content, schema, sections, collections });
-  sites[name] = { pages: {}, order: ['home'], home: 'home', pagesMeta: { home: { title: req.body?.title || 'Home', path: '/' } }, draft: {}, versions: [], head: -1, access: null };
+  sites[name] = { pages: {}, order: ['home'], home: 'home', pagesMeta: { home: { title: req.body?.title || 'Home', path: '/' } }, sourceUrl: baseUrl || null, draft: {}, versions: [], head: -1, access: null };
   writeCfg(name);
   loadSite(name);
-  res.json({ ok: true, name, pages: 1, fields: Object.keys(schema).length, collections: collections.length });
+  // Optional crawl: pull in every same-origin page linked from the home page, each fully editable.
+  let imported = 0;
+  if (req.body?.crawl && baseUrl) {
+    const links = discoverLinks(html, baseUrl).slice(0, 60);
+    for (const url of links) { try { const p = await importUrlAsPage(name, url); if (!p.skipped) imported++; } catch {} }
+    if (imported) { writeCfg(name); saveVersion(name, `ingested + ${imported} linked pages`); }
+  }
+  res.json({ ok: true, name, pages: 1 + imported, fields: Object.keys(schema).length, collections: collections.length });
+});
+
+// Crawl an existing site's home page for same-origin links and import each as an editable page (additive).
+app.post('/api/pages/import-linked', requireOwner, async (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  const src = String(req.body?.url || s.sourceUrl || '').trim();
+  if (!src) return res.status(400).json({ error: 'Provide the site’s home page URL to scan for pages.' });
+  let homeHtml;
+  try { const r = await fetch(src); if (!r.ok) throw new Error('HTTP ' + r.status); homeHtml = await r.text(); }
+  catch (e) { return res.status(400).json({ error: 'Could not fetch ' + src + ' — ' + e.message }); }
+  const max = Math.min(Number(req.body?.max) || 40, 60);
+  const links = discoverLinks(homeHtml, src).slice(0, max);
+  const added = [], skipped = [], failed = [];
+  for (const url of links) {
+    try { const p = await importUrlAsPage(name, url); (p.skipped ? skipped : added).push(p.slug); }
+    catch (e) { failed.push({ url, error: e.message }); }
+  }
+  s.sourceUrl = src; writeCfg(name);
+  if (added.length) saveVersion(name, `imported ${added.length} linked page${added.length > 1 ? 's' : ''}`);
+  auditLog(name, { role: 'owner', action: 'import-linked', added: added.length, skipped: skipped.length, failed: failed.length });
+  res.json({ ok: true, added, skipped, failed, scanned: links.length });
 });
 
 app.get('/api/state', (req, res) => {
