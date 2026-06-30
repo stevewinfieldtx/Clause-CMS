@@ -354,7 +354,7 @@ const _qs=new URLSearchParams(location.search);
 let SITE=_qs.get('site')||sessionStorage.getItem('cms_site')||'';
 let KEY=_qs.get('key')||sessionStorage.getItem('cms_key')||'';
 if(SITE)sessionStorage.setItem('cms_site',SITE); if(KEY)sessionStorage.setItem('cms_key',KEY);
-let PAGE=sessionStorage.getItem('cms_page')||'', sel=null, seoState=null, styleSpec=null, seoFields=[], planner='local', advOpen=false;
+let PAGE=_qs.get('page')||sessionStorage.getItem('cms_page')||'', sel=null, seoState=null, styleSpec=null, seoFields=[], planner='local', advOpen=false;
 let schemaCache={};  // id → {label,group,type,rich,allow,value}
 const KQ=()=>KEY?('&key='+encodeURIComponent(KEY)):'';
 const PQ=()=>'&page='+encodeURIComponent(PAGE);
