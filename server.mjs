@@ -618,7 +618,10 @@ const BLOCKS = {
   'img-text': { label: 'Image + Text',  icon: '▤', html: '<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin:24px 0"><img src="https://placehold.co/800x600/eeeeee/999999?text=Image" alt="Add an image" style="width:100%;border-radius:8px"><div><h3 style="margin:0 0 10px">Heading</h3><p style="margin:0;line-height:1.65">Supporting text goes here — click to edit.</p></div></div>' },
 };
 
-app.get('/api/blocks', requireOwner, (_req, res) => {
+// authWrite (not requireOwner): handed-off CLIENTS must be able to load the block
+// list too, or the "+ Add block" picker shows up empty for them. The /add endpoint
+// below already allows clients; this kept it owner-only, which silently broke it.
+app.get('/api/blocks', authWrite, (_req, res) => {
   res.json({ blocks: Object.entries(BLOCKS).map(([type, b]) => ({ type, label: b.label, icon: b.icon })) });
 });
 
