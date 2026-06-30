@@ -162,13 +162,20 @@ function loadSite(name) {
   if (!existsSync(join(dir, 'site.json'))) return null;
   const cfg = JSON.parse(readFileSync(join(dir, 'site.json'), 'utf8'));
   const pages = {};
-  for (const slug of cfg.order) pages[slug] = readPage(name, slug);
+  const order = [];
+  // Load each page defensively: a missing/corrupt page is skipped, never fatal.
+  for (const slug of (cfg.order || [])) {
+    try { pages[slug] = readPage(name, slug); order.push(slug); }
+    catch (e) { console.error(`Site "${name}": skipping unreadable page "${slug}" — ${e.message}`); }
+  }
+  if (!order.length) { console.error(`Site "${name}": no readable pages — site skipped.`); return null; }
+  const home = order.includes(cfg.home) ? cfg.home : order[0];
   sites[name] = {
-    pages, order: cfg.order, home: cfg.home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, vercel: cfg.vercel || null, clarity: cfg.clarity || null, convai: cfg.convai || null,
+    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, vercel: cfg.vercel || null, clarity: cfg.clarity || null, convai: cfg.convai || null,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
-  for (const slug of cfg.order) { const df = draftFile(name, slug); if (existsSync(df)) { try { sites[name].draft[slug] = JSON.parse(readFileSync(df, 'utf8')); } catch {} } }
+  for (const slug of order) { const df = draftFile(name, slug); if (existsSync(df)) { try { sites[name].draft[slug] = JSON.parse(readFileSync(df, 'utf8')); } catch {} } }
   loadVersions(name);
   if (deployer.current(dir) == null && sites[name].head >= 0) buildRelease(name, sites[name].head);
   return sites[name];
@@ -284,7 +291,10 @@ function auditLog(name, entry) {
     else { const n = await hydrateToFs(); console.log(`MongoDB connected (db: ${m.db}) — hydrated ${n} files from the database.`); }
   }
   await loadConfig();                                  // load agency settings from the store (survives redeploys)
-  for (const d of readdirSync(SITES_DIR, { withFileTypes: true })) if (d.isDirectory()) loadSite(d.name);
+  for (const d of readdirSync(SITES_DIR, { withFileTypes: true })) if (d.isDirectory()) {
+    try { loadSite(d.name); }
+    catch (e) { console.error(`Skipping site "${d.name}" — failed to load: ${e.message}`); }
+  }
 }
 
 /* ───────────────────────────── app ───────────────────────────── */
