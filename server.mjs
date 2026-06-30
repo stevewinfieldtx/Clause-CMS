@@ -1004,6 +1004,15 @@ app.post('/api/admin/capabilities', requireOwner, (req, res) => {
   writeFileSync(join(siteDir(name), 'access.json'), JSON.stringify(s.access, null, 2));
   res.json({ ok: true, capabilities: s.access.capabilities });
 });
+// Permanently delete a whole site — pages, versions, access, forms, everything.
+// rmSync's mirror wrapper also purges every "sites/<name>/…" doc from Mongo, so it's gone for good.
+app.post('/api/admin/delete-site', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  if (!sites[name]) return res.status(404).json({ error: 'Unknown site.' });
+  rmSync(siteDir(name), { recursive: true, force: true });
+  delete sites[name];
+  res.json({ ok: true, deleted: name });
+});
 // Toggle whether this client's changes need owner approval before going live.
 app.post('/api/admin/approval', requireOwner, (req, res) => {
   const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
