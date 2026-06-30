@@ -1,0 +1,132 @@
+{
+  "sections": [
+    "header",
+    "nav",
+    "main",
+    "#overview",
+    "#summary",
+    "#capabilities",
+    "#benefits",
+    "#products",
+    "#fit",
+    "#media",
+    "#contact",
+    "footer"
+  ],
+  "collections": [
+    {
+      "id": "col1",
+      "count": 3,
+      "itemTag": "li",
+      "label": "nav items"
+    },
+    {
+      "id": "col2",
+      "count": 5,
+      "itemTag": "div",
+      "label": "nav items"
+    },
+    {
+      "id": "col3",
+      "count": 6,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col4",
+      "count": 4,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col5",
+      "count": 2,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col6",
+      "count": 2,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col7",
+      "count": 3,
+      "itemTag": "section",
+      "label": "main items"
+    },
+    {
+      "id": "col8",
+      "count": 3,
+      "itemTag": "section",
+      "label": "main items"
+    },
+    {
+      "id": "col9",
+      "count": 6,
+      "itemTag": "div",
+      "label": "capabilities items"
+    },
+    {
+      "id": "col10",
+      "count": 5,
+      "itemTag": "li",
+      "label": "benefits items"
+    },
+    {
+      "id": "col11",
+      "count": 4,
+      "itemTag": "div",
+      "label": "products items"
+    },
+    {
+      "id": "col12",
+      "count": 3,
+      "itemTag": "li",
+      "label": "fit items"
+    },
+    {
+      "id": "col13",
+      "count": 4,
+      "itemTag": "div",
+      "label": "fit items"
+    },
+    {
+      "id": "col14",
+      "count": 2,
+      "itemTag": "div",
+      "label": "media items"
+    },
+    {
+      "id": "col15",
+      "count": 3,
+      "itemTag": "div",
+      "label": "contact items"
+    },
+    {
+      "id": "col16",
+      "count": 3,
+      "itemTag": "div",
+      "label": "footer items"
+    },
+    {
+      "id": "col17",
+      "count": 2,
+      "itemTag": "a",
+      "label": "footer items"
+    },
+    {
+      "id": "col18",
+      "count": 4,
+      "itemTag": "li",
+      "label": "footer items"
+    },
+    {
+      "id": "col19",
+      "count": 5,
+      "itemTag": "li",
+      "label": "footer items"
+    }
+  ]
+}

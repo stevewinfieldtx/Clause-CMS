@@ -1,0 +1,116 @@
+{
+  "order": [
+    "home",
+    "solutions-endpoint",
+    "vendor-eset",
+    "vendor-bitdefender",
+    "vendor-heimdal",
+    "vendor-guardz",
+    "vendor-vipre",
+    "vendor-avast",
+    "solutions-email",
+    "vendor-proofpoint",
+    "vendor-barracuda",
+    "vendor-trustifi",
+    "vendor-sendmarc",
+    "solutions-backup",
+    "vendor-macrium",
+    "vendor-redstor",
+    "solutions-awareness",
+    "vendor-ninjio",
+    "solutions-it-management",
+    "vendor-atera",
+    "vendor-pulseway"
+  ],
+  "home": "home",
+  "pages": {
+    "home": {
+      "title": "Home",
+      "path": "/"
+    },
+    "solutions-endpoint": {
+      "title": "Endpoint Security",
+      "path": "/solutions-endpoint"
+    },
+    "vendor-eset": {
+      "title": "ESET",
+      "path": "/vendor-eset"
+    },
+    "vendor-bitdefender": {
+      "title": "Bitdefender",
+      "path": "/vendor-bitdefender"
+    },
+    "vendor-heimdal": {
+      "title": "Heimdal",
+      "path": "/vendor-heimdal"
+    },
+    "vendor-guardz": {
+      "title": "Guardz",
+      "path": "/vendor-guardz"
+    },
+    "vendor-vipre": {
+      "title": "VIPRE",
+      "path": "/vendor-vipre"
+    },
+    "vendor-avast": {
+      "title": "Avast Business",
+      "path": "/vendor-avast"
+    },
+    "solutions-email": {
+      "title": "Email Security",
+      "path": "/solutions-email"
+    },
+    "vendor-proofpoint": {
+      "title": "Proofpoint",
+      "path": "/vendor-proofpoint"
+    },
+    "vendor-barracuda": {
+      "title": "Barracuda",
+      "path": "/vendor-barracuda"
+    },
+    "vendor-trustifi": {
+      "title": "Trustifi",
+      "path": "/vendor-trustifi"
+    },
+    "vendor-sendmarc": {
+      "title": "Sendmarc",
+      "path": "/vendor-sendmarc"
+    },
+    "solutions-backup": {
+      "title": "Backup and Recovery",
+      "path": "/solutions-backup"
+    },
+    "vendor-macrium": {
+      "title": "Macrium",
+      "path": "/vendor-macrium"
+    },
+    "vendor-redstor": {
+      "title": "Redstor",
+      "path": "/vendor-redstor"
+    },
+    "solutions-awareness": {
+      "title": "Security Awareness",
+      "path": "/solutions-awareness"
+    },
+    "vendor-ninjio": {
+      "title": "NINJIO",
+      "path": "/vendor-ninjio"
+    },
+    "solutions-it-management": {
+      "title": "RMM and IT Management",
+      "path": "/solutions-it-management"
+    },
+    "vendor-atera": {
+      "title": "Atera",
+      "path": "/vendor-atera"
+    },
+    "vendor-pulseway": {
+      "title": "Pulseway",
+      "path": "/vendor-pulseway"
+    }
+  },
+  "sourceUrl": "https://rain-networks-v2.up.railway.app/index.html",
+  "vercel": null,
+  "clarity": null,
+  "convai": null
+}

@@ -1,0 +1,772 @@
+{
+  "cms-1": {
+    "type": "text",
+    "label": "Text: \"Rain Networks\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-2": {
+    "type": "text",
+    "label": "Link: \"Solutions\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-3": {
+    "type": "text",
+    "label": "Link: \"Why us\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-4": {
+    "type": "text",
+    "label": "Link: \"Vendors\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-5": {
+    "type": "text",
+    "label": "Link: \"Endpoint Security\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-6": {
+    "type": "text",
+    "label": "Link: \"ESET\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-7": {
+    "type": "text",
+    "label": "Link: \"Bitdefender\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-8": {
+    "type": "text",
+    "label": "Link: \"Heimdal\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-9": {
+    "type": "text",
+    "label": "Link: \"Guardz\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-10": {
+    "type": "text",
+    "label": "Link: \"VIPRE\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-11": {
+    "type": "text",
+    "label": "Link: \"Avast Business\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-12": {
+    "type": "text",
+    "label": "Link: \"Email Security\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-13": {
+    "type": "text",
+    "label": "Link: \"Proofpoint\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-14": {
+    "type": "text",
+    "label": "Link: \"Barracuda\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-15": {
+    "type": "text",
+    "label": "Link: \"Trustifi\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-16": {
+    "type": "text",
+    "label": "Link: \"Sendmarc\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-17": {
+    "type": "text",
+    "label": "Link: \"Backup & Recovery\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-18": {
+    "type": "text",
+    "label": "Link: \"Macrium\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-19": {
+    "type": "text",
+    "label": "Link: \"Redstor\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-20": {
+    "type": "text",
+    "label": "Link: \"Security Awareness\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-21": {
+    "type": "text",
+    "label": "Link: \"NINJIO\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-22": {
+    "type": "text",
+    "label": "Link: \"RMM & IT Management\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-23": {
+    "type": "text",
+    "label": "Link: \"Atera\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-24": {
+    "type": "text",
+    "label": "Link: \"Pulseway\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-25": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-26": {
+    "type": "text",
+    "label": "Link: \"Call to Order\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-27": {
+    "type": "text",
+    "label": "Link: \"← RMM and IT Management\"",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-28": {
+    "type": "text",
+    "label": "Text: \"RMM & IT Management\"",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-29": {
+    "type": "text",
+    "label": "Heading: \"Pulseway\"",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-30": {
+    "type": "text",
+    "label": "Text: \"Next-Gen RMM. Built for MSPs.\"",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-31": {
+    "type": "text",
+    "label": "Text: \"All-in-one remote monitoring and man…\"",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-32": {
+    "type": "text",
+    "label": "Link: \"Call to Order\"",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-33": {
+    "type": "text",
+    "label": "Text: \"4.5 partner rating\"",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-34": {
+    "type": "text",
+    "label": "Text: \"cloud deployment\"",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-35": {
+    "type": "text",
+    "label": "Text: \"Pulseway is a next-generation, all-i…\"",
+    "group": "Summary",
+    "rich": false,
+    "allow": []
+  },
+  "cms-36": {
+    "type": "text",
+    "label": "Text: \"Capabilities\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-37": {
+    "type": "text",
+    "label": "Heading: \"What Pulseway delivers\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-38": {
+    "type": "text",
+    "label": "Text: \"Remote monitoring and management\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-39": {
+    "type": "text",
+    "label": "Text: \"Mobile-first remote control\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-40": {
+    "type": "text",
+    "label": "Text: \"Secure clipboard file transfer\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-41": {
+    "type": "text",
+    "label": "Text: \"Console and RDP session access\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-42": {
+    "type": "text",
+    "label": "Text: \"Automation and self-healing workflows\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-43": {
+    "type": "text",
+    "label": "Text: \"Real-time chat with end users\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-44": {
+    "type": "text",
+    "label": "Heading: \"Why resellers add Pulseway\"",
+    "group": "Benefits",
+    "rich": false,
+    "allow": []
+  },
+  "cms-45": {
+    "type": "text",
+    "label": "List item: \"Control any device from your phone\"",
+    "group": "Benefits",
+    "rich": false,
+    "allow": []
+  },
+  "cms-46": {
+    "type": "text",
+    "label": "List item: \"Reduce downtime through automation\"",
+    "group": "Benefits",
+    "rich": false,
+    "allow": []
+  },
+  "cms-47": {
+    "type": "text",
+    "label": "List item: \"Fast, reliable remote access\"",
+    "group": "Benefits",
+    "rich": false,
+    "allow": []
+  },
+  "cms-48": {
+    "type": "text",
+    "label": "List item: \"Improve technician efficiency\"",
+    "group": "Benefits",
+    "rich": false,
+    "allow": []
+  },
+  "cms-49": {
+    "type": "text",
+    "label": "List item: \"Trusted by thousands of customers\"",
+    "group": "Benefits",
+    "rich": false,
+    "allow": []
+  },
+  "cms-50": {
+    "type": "text",
+    "label": "Heading: \"The Pulseway lineup\"",
+    "group": "Products",
+    "rich": false,
+    "allow": []
+  },
+  "cms-51": {
+    "type": "text",
+    "label": "Heading: \"RMM\"",
+    "group": "Products",
+    "rich": false,
+    "allow": []
+  },
+  "cms-52": {
+    "type": "text",
+    "label": "Text: \"All-in-one remote monitoring and man…\"",
+    "group": "Products",
+    "rich": false,
+    "allow": []
+  },
+  "cms-53": {
+    "type": "text",
+    "label": "Heading: \"Remote Control\"",
+    "group": "Products",
+    "rich": false,
+    "allow": []
+  },
+  "cms-54": {
+    "type": "text",
+    "label": "Text: \"Native remote control from desktop o…\"",
+    "group": "Products",
+    "rich": false,
+    "allow": []
+  },
+  "cms-55": {
+    "type": "text",
+    "label": "Heading: \"Automation\"",
+    "group": "Products",
+    "rich": false,
+    "allow": []
+  },
+  "cms-56": {
+    "type": "text",
+    "label": "Text: \"Workflow automation to reduce manual…\"",
+    "group": "Products",
+    "rich": false,
+    "allow": []
+  },
+  "cms-57": {
+    "type": "text",
+    "label": "Heading: \"Who it is for\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-58": {
+    "type": "text",
+    "label": "List item: \"MSPs\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-59": {
+    "type": "text",
+    "label": "List item: \"Internal IT departments\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-60": {
+    "type": "text",
+    "label": "List item: \"Teams needing mobile remote management\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-61": {
+    "type": "text",
+    "label": "Text: \"Category\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-62": {
+    "type": "text",
+    "label": "Text: \"RMM & IT Management\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-63": {
+    "type": "text",
+    "label": "Text: \"Deployment\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-64": {
+    "type": "text",
+    "label": "Text: \"cloud\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-65": {
+    "type": "text",
+    "label": "Text: \"Best company size\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-66": {
+    "type": "text",
+    "label": "Text: \"small, medium, large\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-67": {
+    "type": "text",
+    "label": "Text: \"Partner rating\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-68": {
+    "type": "text",
+    "label": "Text: \"4.5 / 5\"",
+    "group": "Fit",
+    "rich": false,
+    "allow": []
+  },
+  "cms-69": {
+    "type": "text",
+    "label": "Heading: \"Pulseway in action\"",
+    "group": "Media",
+    "rich": false,
+    "allow": []
+  },
+  "cms-70": {
+    "type": "text",
+    "label": "Heading: \"Sell Pulseway through Rain Networks\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-71": {
+    "type": "text",
+    "label": "Text: \"Add Pulseway to your portfolio and l…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-72": {
+    "type": "text",
+    "label": "Text: \"Competitive pricing\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-73": {
+    "type": "text",
+    "label": "Text: \"Partner pricing tuned to your volume…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-74": {
+    "type": "text",
+    "label": "Text: \"Technical training\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-75": {
+    "type": "text",
+    "label": "Text: \"Hands-on enablement so you deploy wi…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-76": {
+    "type": "text",
+    "label": "Text: \"Deal registration\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-77": {
+    "type": "text",
+    "label": "Text: \"Register opportunities and protect y…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-78": {
+    "type": "text",
+    "label": "Link: \"Call to Order\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-79": {
+    "type": "text",
+    "label": "Text: \"Rain Networks\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-80": {
+    "type": "text",
+    "label": "Text: \"Security-focused value-added distrib…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-81": {
+    "type": "text",
+    "label": "Link: \"contact@rainnetworks.com\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-82": {
+    "type": "text",
+    "label": "Link: \"(425) 893-9800\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-83": {
+    "type": "text",
+    "label": "Text: \"16212 Bothell Everett Highway, Suite…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-84": {
+    "type": "text",
+    "label": "Text: \"Mill Creek, WA 98012\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-85": {
+    "type": "text",
+    "label": "Heading: \"Explore\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-86": {
+    "type": "text",
+    "label": "Link: \"Solutions\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-87": {
+    "type": "text",
+    "label": "Link: \"Why us\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-88": {
+    "type": "text",
+    "label": "Link: \"Vendors\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-89": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-90": {
+    "type": "text",
+    "label": "Heading: \"Solutions\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-91": {
+    "type": "text",
+    "label": "Link: \"Endpoint Security\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-92": {
+    "type": "text",
+    "label": "Link: \"Email Security\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-93": {
+    "type": "text",
+    "label": "Link: \"Backup & Recovery\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-94": {
+    "type": "text",
+    "label": "Link: \"Security Awareness\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-95": {
+    "type": "text",
+    "label": "Link: \"RMM & IT Management\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-96": {
+    "type": "text",
+    "label": "Text: \"© 2026 Rain Networks. All rights res…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-97": {
+    "type": "image",
+    "label": "Image: Rain Networks logo",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-98": {
+    "type": "image",
+    "label": "Image: Pulseway RMM & IT Management",
+    "group": "Overview",
+    "rich": false,
+    "allow": []
+  },
+  "cms-99": {
+    "type": "image",
+    "label": "Image: RMM & IT Management in a managed environm",
+    "group": "Benefits",
+    "rich": false,
+    "allow": []
+  },
+  "cms-100": {
+    "type": "image",
+    "label": "Image: Pulseway product screenshot",
+    "group": "Media",
+    "rich": false,
+    "allow": []
+  },
+  "cms-101": {
+    "type": "image",
+    "label": "Image: Rain Networks logo",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-102": {
+    "type": "embed",
+    "label": "Video embed URL",
+    "group": "Media",
+    "rich": false,
+    "allow": []
+  },
+  "cms-103": {
+    "type": "embed",
+    "label": "Video embed URL",
+    "group": "Media",
+    "rich": false,
+    "allow": []
+  },
+  "cms-104": {
+    "type": "text",
+    "label": "Browser tab title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-105": {
+    "type": "meta-attr",
+    "label": "Google meta description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-106": {
+    "type": "meta-attr",
+    "label": "Social share title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-107": {
+    "type": "meta-attr",
+    "label": "Social share description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-108": {
+    "type": "meta-attr",
+    "label": "Social share image URL",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-109": {
+    "type": "meta-attr",
+    "label": "Twitter card title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-110": {
+    "type": "meta-attr",
+    "label": "Twitter card description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  }
+}

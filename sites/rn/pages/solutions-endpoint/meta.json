@@ -1,0 +1,85 @@
+{
+  "sections": [
+    "header",
+    "nav",
+    "main",
+    "#category-hero",
+    "#vendors",
+    "#contact",
+    "footer"
+  ],
+  "collections": [
+    {
+      "id": "col1",
+      "count": 3,
+      "itemTag": "li",
+      "label": "nav items"
+    },
+    {
+      "id": "col2",
+      "count": 5,
+      "itemTag": "div",
+      "label": "nav items"
+    },
+    {
+      "id": "col3",
+      "count": 6,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col4",
+      "count": 4,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col5",
+      "count": 2,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col6",
+      "count": 2,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col7",
+      "count": 2,
+      "itemTag": "section",
+      "label": "main items"
+    },
+    {
+      "id": "col8",
+      "count": 6,
+      "itemTag": "a",
+      "label": "vendors items"
+    },
+    {
+      "id": "col9",
+      "count": 3,
+      "itemTag": "div",
+      "label": "footer items"
+    },
+    {
+      "id": "col10",
+      "count": 2,
+      "itemTag": "a",
+      "label": "footer items"
+    },
+    {
+      "id": "col11",
+      "count": 4,
+      "itemTag": "li",
+      "label": "footer items"
+    },
+    {
+      "id": "col12",
+      "count": 5,
+      "itemTag": "li",
+      "label": "footer items"
+    }
+  ]
+}

@@ -1,0 +1,986 @@
+{
+  "cms-1": {
+    "type": "text",
+    "label": "Text: \"Rain Networks\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-2": {
+    "type": "text",
+    "label": "Link: \"Solutions\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-3": {
+    "type": "text",
+    "label": "Link: \"Why us\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-4": {
+    "type": "text",
+    "label": "Link: \"Vendors\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-5": {
+    "type": "text",
+    "label": "Link: \"Endpoint Security\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-6": {
+    "type": "text",
+    "label": "Link: \"ESET\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-7": {
+    "type": "text",
+    "label": "Link: \"Bitdefender\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-8": {
+    "type": "text",
+    "label": "Link: \"Heimdal\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-9": {
+    "type": "text",
+    "label": "Link: \"Guardz\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-10": {
+    "type": "text",
+    "label": "Link: \"VIPRE\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-11": {
+    "type": "text",
+    "label": "Link: \"Avast Business\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-12": {
+    "type": "text",
+    "label": "Link: \"Email Security\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-13": {
+    "type": "text",
+    "label": "Link: \"Proofpoint\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-14": {
+    "type": "text",
+    "label": "Link: \"Barracuda\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-15": {
+    "type": "text",
+    "label": "Link: \"Trustifi\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-16": {
+    "type": "text",
+    "label": "Link: \"Sendmarc\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-17": {
+    "type": "text",
+    "label": "Link: \"Backup & Recovery\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-18": {
+    "type": "text",
+    "label": "Link: \"Macrium\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-19": {
+    "type": "text",
+    "label": "Link: \"Redstor\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-20": {
+    "type": "text",
+    "label": "Link: \"Security Awareness\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-21": {
+    "type": "text",
+    "label": "Link: \"NINJIO\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-22": {
+    "type": "text",
+    "label": "Link: \"RMM & IT Management\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-23": {
+    "type": "text",
+    "label": "Link: \"Atera\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-24": {
+    "type": "text",
+    "label": "Link: \"Pulseway\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-25": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-26": {
+    "type": "text",
+    "label": "Link: \"Become a reseller\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-27": {
+    "type": "text",
+    "label": "Text: \"Value-added cybersecurity distributi…\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-28": {
+    "type": "text",
+    "label": "Heading: \"Sell security with total\"",
+    "group": "Hero",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-29": {
+    "type": "text",
+    "label": "Text: \"Rain Networks helps resellers and MS…\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-30": {
+    "type": "text",
+    "label": "Link: \"Call to Order\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-31": {
+    "type": "text",
+    "label": "Link: \"Explore solutions\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-32": {
+    "type": "text",
+    "label": "Text: \"3,500+\"",
+    "group": "Impact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-33": {
+    "type": "text",
+    "label": "Text: \"reseller partners\"",
+    "group": "Impact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-34": {
+    "type": "text",
+    "label": "Text: \"50 states\"",
+    "group": "Impact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-35": {
+    "type": "text",
+    "label": "Text: \"plus every Canadian province\"",
+    "group": "Impact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-36": {
+    "type": "text",
+    "label": "Text: \"20+ years\"",
+    "group": "Impact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-37": {
+    "type": "text",
+    "label": "Text: \"of channel expertise\"",
+    "group": "Impact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-38": {
+    "type": "text",
+    "label": "Text: \"15 vendors\"",
+    "group": "Impact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-39": {
+    "type": "text",
+    "label": "Text: \"across 5 security categories\"",
+    "group": "Impact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-40": {
+    "type": "text",
+    "label": "Text: \"What we cover\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-41": {
+    "type": "text",
+    "label": "Heading: \"Five categories, one trusted distrib…\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-42": {
+    "type": "text",
+    "label": "Text: \"Every product we carry is vetted for…\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-43": {
+    "type": "text",
+    "label": "Heading: \"Endpoint Security\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-44": {
+    "type": "text",
+    "label": "Text: \"Layered, lightweight defense for des…\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-45": {
+    "type": "text",
+    "label": "Text: \"View 6 solutions →\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-46": {
+    "type": "text",
+    "label": "Heading: \"Email Security\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-47": {
+    "type": "text",
+    "label": "Text: \"Stop phishing, business email compro…\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-48": {
+    "type": "text",
+    "label": "Text: \"View 4 solutions →\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-49": {
+    "type": "text",
+    "label": "Heading: \"Backup & Recovery\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-50": {
+    "type": "text",
+    "label": "Text: \"Fast disk imaging, cloud backup, and…\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-51": {
+    "type": "text",
+    "label": "Text: \"View 2 solutions →\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-52": {
+    "type": "text",
+    "label": "Heading: \"Security Awareness\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-53": {
+    "type": "text",
+    "label": "Text: \"Turn employees into a first line of …\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-54": {
+    "type": "text",
+    "label": "Text: \"View solution →\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-55": {
+    "type": "text",
+    "label": "Heading: \"RMM & IT Management\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-56": {
+    "type": "text",
+    "label": "Text: \"Unified remote monitoring, automatio…\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-57": {
+    "type": "text",
+    "label": "Text: \"View 2 solutions →\"",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-58": {
+    "type": "text",
+    "label": "Heading: \"Distribution that adds real value\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-59": {
+    "type": "text",
+    "label": "Text: \"We are not just fulfillment. Every p…\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-60": {
+    "type": "text",
+    "label": "Heading: \"Vendor matching\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-61": {
+    "type": "text",
+    "label": "Text: \"We learn your clients and requiremen…\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-62": {
+    "type": "text",
+    "label": "Heading: \"Technical training\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-63": {
+    "type": "text",
+    "label": "Text: \"Hands-on enablement so your team can…\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-64": {
+    "type": "text",
+    "label": "Heading: \"Deal registration\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-65": {
+    "type": "text",
+    "label": "Text: \"Register your opportunities and prot…\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-66": {
+    "type": "text",
+    "label": "Heading: \"Competitive pricing\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-67": {
+    "type": "text",
+    "label": "Text: \"Partner pricing tuned to your requir…\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-68": {
+    "type": "text",
+    "label": "Heading: \"Marketing resources\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-69": {
+    "type": "text",
+    "label": "Text: \"Co-branded campaigns, collateral, an…\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-70": {
+    "type": "text",
+    "label": "Heading: \"Post-sales support\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-71": {
+    "type": "text",
+    "label": "Text: \"Real people who pick up the phone. W…\"",
+    "group": "Why Rain",
+    "rich": false,
+    "allow": []
+  },
+  "cms-72": {
+    "type": "text",
+    "label": "Heading: \"From first call to closed deal\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-73": {
+    "type": "text",
+    "label": "Text: \"Match\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-74": {
+    "type": "text",
+    "label": "Heading: \"Tell us your goals\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-75": {
+    "type": "text",
+    "label": "Text: \"Share your clients and requirements.…\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-76": {
+    "type": "text",
+    "label": "Text: \"Enable\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-77": {
+    "type": "text",
+    "label": "Heading: \"Price and train\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-78": {
+    "type": "text",
+    "label": "Text: \"Get partner pricing, register the de…\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-79": {
+    "type": "text",
+    "label": "Text: \"Grow\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-80": {
+    "type": "text",
+    "label": "Heading: \"Deploy and scale\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-81": {
+    "type": "text",
+    "label": "Text: \"Deploy with confidence and lean on o…\"",
+    "group": "Process",
+    "rich": false,
+    "allow": []
+  },
+  "cms-82": {
+    "type": "text",
+    "label": "Quote: \"We do not just ship licenses. We mak…\"",
+    "group": "Promise",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-83": {
+    "type": "text",
+    "label": "Text: \"Rain Networks, distributing security…\"",
+    "group": "Promise",
+    "rich": false,
+    "allow": []
+  },
+  "cms-84": {
+    "type": "text",
+    "label": "Heading: \"Frequently asked questions\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-85": {
+    "type": "text",
+    "label": "Text: \"Who can become a Rain Networks resel…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-86": {
+    "type": "text",
+    "label": "Text: \"We partner with MSPs, technical cons…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-87": {
+    "type": "text",
+    "label": "Text: \"What does value-added distribution a…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-88": {
+    "type": "text",
+    "label": "Text: \"Beyond fulfilling orders, we add pre…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-89": {
+    "type": "text",
+    "label": "Text: \"Which security categories do you cov…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-90": {
+    "type": "text",
+    "label": "Text: \"Endpoint security, email security, b…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-91": {
+    "type": "text",
+    "label": "Text: \"How is partner pricing determined?\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-92": {
+    "type": "text",
+    "label": "Text: \"Pricing is based on your requirement…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-93": {
+    "type": "text",
+    "label": "Text: \"Is there a cost to become a partner?\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-94": {
+    "type": "text",
+    "label": "Text: \"No. Becoming a Rain Networks reselle…\"",
+    "group": "Faq",
+    "rich": false,
+    "allow": []
+  },
+  "cms-95": {
+    "type": "text",
+    "label": "Heading: \"Let us help you sell security better\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-96": {
+    "type": "text",
+    "label": "Heading: \"Email us\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-97": {
+    "type": "text",
+    "label": "Link: \"contact@rainnetworks.com\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-98": {
+    "type": "text",
+    "label": "Heading: \"Call us\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-99": {
+    "type": "text",
+    "label": "Link: \"(425) 893-9800\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-100": {
+    "type": "text",
+    "label": "Heading: \"Visit us\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-101": {
+    "type": "text",
+    "label": "Text: \"16212 Bothell Everett Highway, Suite…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-102": {
+    "type": "text",
+    "label": "Text: \"Mill Creek, WA 98012\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-103": {
+    "type": "text",
+    "label": "Heading: \"Who we partner with\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-104": {
+    "type": "text",
+    "label": "Text: \"MSPs, IT consultants, repair shops, …\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-105": {
+    "type": "text",
+    "label": "Heading: \"Ready to grow your security practice?\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-106": {
+    "type": "text",
+    "label": "Text: \"Send us your company name, location,…\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-107": {
+    "type": "text",
+    "label": "Link: \"Email our partner team\"",
+    "group": "Contact",
+    "rich": false,
+    "allow": []
+  },
+  "cms-108": {
+    "type": "text",
+    "label": "Text: \"Rain Networks\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-109": {
+    "type": "text",
+    "label": "Text: \"Security-focused value-added distrib…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-110": {
+    "type": "text",
+    "label": "Link: \"contact@rainnetworks.com\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-111": {
+    "type": "text",
+    "label": "Link: \"(425) 893-9800\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-112": {
+    "type": "text",
+    "label": "Text: \"16212 Bothell Everett Highway, Suite…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-113": {
+    "type": "text",
+    "label": "Text: \"Mill Creek, WA 98012\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-114": {
+    "type": "text",
+    "label": "Heading: \"Explore\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-115": {
+    "type": "text",
+    "label": "Link: \"Solutions\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-116": {
+    "type": "text",
+    "label": "Link: \"Why us\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-117": {
+    "type": "text",
+    "label": "Link: \"Vendors\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-118": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-119": {
+    "type": "text",
+    "label": "Heading: \"Solutions\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-120": {
+    "type": "text",
+    "label": "Link: \"Endpoint Security\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-121": {
+    "type": "text",
+    "label": "Link: \"Email Security\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-122": {
+    "type": "text",
+    "label": "Link: \"Backup & Recovery\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-123": {
+    "type": "text",
+    "label": "Link: \"Security Awareness\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-124": {
+    "type": "text",
+    "label": "Link: \"RMM & IT Management\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-125": {
+    "type": "text",
+    "label": "Text: \"© 2026 Rain Networks. All rights res…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-126": {
+    "type": "image",
+    "label": "Image: Rain Networks logo",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-127": {
+    "type": "image",
+    "label": "Image: Endpoint security illustration",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-128": {
+    "type": "image",
+    "label": "Image: Email security illustration",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-129": {
+    "type": "image",
+    "label": "Image: Backup and recovery illustration",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-130": {
+    "type": "image",
+    "label": "Image: Security awareness training illustration",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-131": {
+    "type": "image",
+    "label": "Image: RMM and IT management illustration",
+    "group": "Solutions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-132": {
+    "type": "image",
+    "label": "Image: Rain Networks logo",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-133": {
+    "type": "image",
+    "label": "Video poster",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-134": {
+    "type": "text",
+    "label": "Browser tab title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-135": {
+    "type": "meta-attr",
+    "label": "Google meta description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-136": {
+    "type": "meta-attr",
+    "label": "Social share title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-137": {
+    "type": "meta-attr",
+    "label": "Social share description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-138": {
+    "type": "meta-attr",
+    "label": "Social share image URL",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-139": {
+    "type": "meta-attr",
+    "label": "Twitter card title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-140": {
+    "type": "meta-attr",
+    "label": "Twitter card description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  }
+}

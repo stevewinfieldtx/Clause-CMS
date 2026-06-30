@@ -40,15 +40,22 @@ mkdirSync(SITES_DIR, { recursive: true });
    host hydrates from the DB on boot — so the data lives in Mongo, portable across hosts. */
 const relOf = (p) => { const s = String(p); if (!s.startsWith(ROOT)) return null; return s.slice(ROOT.length).replace(/^[/\\]/, '').replace(/\\/g, '/'); };
 const mirrorable = (rel) => rel && rel.startsWith('sites/') && !rel.includes('/releases/');
+// Every mirror write/delete is registered here while in flight, so a handler can
+// `await flushMirror()` before responding — guaranteeing the data is durable in
+// Mongo before the client is told "ok". Without this, a restart between the local
+// write and the (previously fire-and-forget) Mongo write could leave a partial site.
+const _mirrorPending = new Set();
+function track(pr) { _mirrorPending.add(pr); pr.finally(() => _mirrorPending.delete(pr)); return pr; }
+async function flushMirror() { while (_mirrorPending.size) await Promise.allSettled([..._mirrorPending]); }
 function mirrorWrite(p) {
   if (store.mode !== 'mongodb') return; const rel = relOf(p); if (!mirrorable(rel)) return;
-  (async () => { try {
+  track((async () => { try {
     if (rel.endsWith('.json')) await store.putJSON(rel, JSON.parse(readFileSync(p, 'utf8')));
     else if (/\.(html|log|txt)$/.test(rel)) await store.putText(rel, readFileSync(p, 'utf8'));
     else await store.putBuf(rel, readFileSync(p));
-  } catch (e) { console.error('[mirror] write', rel, e.message); } })();
+  } catch (e) { console.error('[mirror] write', rel, e.message); } })());
 }
-function mirrorDel(p) { if (store.mode !== 'mongodb') return; const rel = relOf(p); if (!mirrorable(rel)) return; store.del(rel).catch((e) => console.error('[mirror] del', rel, e.message)); }
+function mirrorDel(p) { if (store.mode !== 'mongodb') return; const rel = relOf(p); if (!mirrorable(rel)) return; track(store.del(rel).catch((e) => console.error('[mirror] del', rel, e.message))); }
 // mirror-aware drop-ins for the real fs calls (every existing call site uses these names unchanged)
 function writeFileSync(p, data, opts) { _wfs(p, data, opts); mirrorWrite(p); }
 function rmSync(p, opts) { _rm(p, opts); mirrorDel(p); }
@@ -632,6 +639,7 @@ app.post('/api/ingest', requireOwner, async (req, res) => {
     for (const url of links) { try { const p = await importUrlAsPage(name, url); if (!p.skipped) imported++; } catch {} }
     if (imported) { writeCfg(name); saveVersion(name, `ingested + ${imported} linked pages`); }
   }
+  await flushMirror();   // make the whole site durable in Mongo before we report success
   res.json({ ok: true, name, pages: 1 + imported, fields: Object.keys(schema).length, collections: collections.length });
 });
 
@@ -654,6 +662,7 @@ app.post('/api/pages/import-linked', requireOwner, async (req, res) => {
   s.sourceUrl = src; writeCfg(name);
   if (added.length) saveVersion(name, `imported ${added.length} linked page${added.length > 1 ? 's' : ''}`);
   auditLog(name, { role: 'owner', action: 'import-linked', added: added.length, skipped: skipped.length, failed: failed.length });
+  await flushMirror();   // make every imported page durable in Mongo before we report success
   res.json({ ok: true, added, skipped, failed, scanned: links.length });
 });
 
@@ -1113,4 +1122,11 @@ app.listen(PORT, () => {
   console.log(`AI CMS (multi-site · multi-page) on http://localhost:${PORT}/`);
   console.log(`  agency console : http://localhost:${PORT}/admin/?key=${ADMIN_KEY}`);
   console.log(`Sites: ${Object.keys(sites).join(', ') || '(none)'} | Planner: ${plannerMode()}`);
+});
+
+// On redeploy Railway sends SIGTERM before killing the container. Flush any in-flight
+// Mongo mirror writes first, so a site can never be left half-written in the database.
+for (const sig of ['SIGTERM', 'SIGINT']) process.on(sig, async () => {
+  try { await flushMirror(); } catch {}
+  process.exit(0);
 });
