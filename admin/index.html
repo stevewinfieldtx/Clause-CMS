@@ -123,10 +123,12 @@ async function load(){
       </div>
       <div class="handoff">
         <div class="ht">🔑 Client access${s.handedOff?` · <span style="color:#9be8ab">● set${s.authMode==='password'?' (password)':''}</span>`:''}</div>
-        <p>Set a password, then send your client the plain editor link below — they type the password to get in. They can edit <b>only this site</b>. Re-set the password any time to instantly revoke the old one.</p>
+        <p>Set a password, then send your client their dashboard link below — they type the password to get in, see their site broken down by page, and click any page to edit it. They can edit <b>only this site</b>. Re-set the password any time to instantly revoke the old one.</p>
         <div class="lkrow"><input id="pw-${esc(s.name)}" type="text" placeholder="Set a password (min 4 chars)"><button class="btnp" onclick="setPw('${esc(s.name)}')">Set password</button></div>
         <label class="appr"><input type="checkbox" id="ap-${esc(s.name)}" ${s.requireApproval?'checked':''} onchange="toggleApproval('${esc(s.name)}',this.checked)"> <span>Require my approval before their changes go live</span></label>
-        <div class="lk ${s.handedOff?'show':''}" id="lk-${esc(s.name)}"><div class="lkrow"><input readonly value="${s.handedOff?esc(origin)+'/editor/?site='+encodeURIComponent(s.name):''}"><button class="ghost" onclick="copy(this)">Copy link</button></div></div>
+        <label class="appr"><input type="checkbox" id="capAdd-${esc(s.name)}" ${s.capabilities&&s.capabilities.canAddPages?'checked':''} onchange="setCaps('${esc(s.name)}')"> <span>Let this client <b>add</b> new pages</span></label>
+        <label class="appr"><input type="checkbox" id="capDel-${esc(s.name)}" ${s.capabilities&&s.capabilities.canDeletePages?'checked':''} onchange="setCaps('${esc(s.name)}')"> <span>Let this client <b>delete</b> pages &amp; change the home page</span></label>
+        <div class="lk ${s.handedOff?'show':''}" id="lk-${esc(s.name)}"><div class="lkrow"><input readonly value="${s.handedOff?esc(origin)+'/client/?site='+encodeURIComponent(s.name):''}"><button class="ghost" onclick="copy(this)">Copy link</button></div></div>
         <button class="ghost" style="margin-top:9px;font-size:12px" onclick="handoff('${esc(s.name)}')">…or generate a one-click private link instead</button>
       </div>
       <div class="handoff" style="margin-top:11px">
@@ -159,6 +161,10 @@ async function setPw(name){
 }
 async function toggleApproval(name,on){
   await fetch('/api/admin/approval',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name,requireApproval:on})});
+}
+async function setCaps(name){
+  const canAddPages=$('#capAdd-'+name).checked, canDeletePages=$('#capDel-'+name).checked;
+  await fetch('/api/admin/capabilities',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name,canAddPages,canDeletePages})});
 }
 async function handoff(name){
   const clientName=prompt('Client name (optional):','');if(clientName===null)return;

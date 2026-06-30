@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Your website</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0c;--panel:#141418;--panel-2:#1c1c22;--panel-3:#26262e;--line:#2c2c34;--ink:#f0f0f2;--ink-2:#a0a0a8;--ink-3:#6e6e78;--blue:#0a72ef;--green:#27c93f;--amber:#f59e0b;--red:#ff5b4f;--grad:linear-gradient(90deg,#0a72ef,#de1d8d 55%,#ff5b4f);}
+  *{box-sizing:border-box} body{margin:0;font-family:"Geist",system-ui,Arial;background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.5}
+  .mono{font-family:"Geist Mono",ui-monospace,Menlo,monospace}
+  header{display:flex;align-items:center;gap:13px;padding:20px 30px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(10,10,12,.82);backdrop-filter:blur(12px);z-index:10}
+  header .logo{width:24px;height:24px}
+  header h1{font-size:17px;font-weight:600;margin:0;letter-spacing:-.02em}
+  header .tag{font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.09em;border-left:1px solid var(--line);padding-left:13px}
+  header .sp{flex:1}
+  .ghost{background:var(--panel-2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);border:0;border-radius:9px;padding:9px 14px;font:500 13px 'Geist';cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px}.ghost:hover{box-shadow:inset 0 0 0 1px #3a3a44}
+  .btnp{border:2px solid transparent;border-radius:10px;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;color:#0a0a0a;font:600 13px/1 'Geist';padding:10px 17px;cursor:pointer;transition:transform .12s,filter .12s}.btnp:hover{filter:brightness(1.04);transform:translateY(-1px)}.btnp:disabled{opacity:.55;cursor:default;transform:none}
+  .wrap{max-width:880px;margin:0 auto;padding:34px 30px 60px}
+  .hi{margin:6px 0 4px;font-size:30px;letter-spacing:-.025em}
+  .hisub{color:var(--ink-2);font-size:15px;margin:0 0 26px;max-width:60ch}
+  .seclabel{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+  .seclabel .cnt{font-family:"Geist Mono",monospace;text-transform:none;letter-spacing:0;color:var(--ink-3);font-weight:400}
+  /* page cards */
+  .pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .pcard{position:relative;display:flex;flex-direction:column;background:var(--panel);border-radius:15px;box-shadow:inset 0 0 0 1px var(--line);overflow:hidden;cursor:pointer;transition:transform .14s,box-shadow .14s;text-align:left;border:0;color:inherit;font-family:inherit;padding:0}
+  .pcard:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1.5px var(--blue),0 14px 40px rgba(0,0,0,.4)}
+  .pcard .shot{position:relative;height:150px;overflow:hidden;background:#0e0e12;border-bottom:1px solid var(--line)}
+  .pcard .shot iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform-origin:top left;transform:scale(.246);pointer-events:none;background:#fff}
+  .pcard .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:3px;flex:1}
+  .pcard .ttl{font-size:16px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+  .pcard .pth{font-family:"Geist Mono",monospace;font-size:12px;color:var(--ink-3)}
+  .pcard .foot{display:flex;align-items:center;gap:9px;margin-top:12px}
+  .pcard .edit{flex:1;text-align:center;border:2px solid transparent;border-radius:9px;background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--grad) border-box;color:var(--ink);font:600 13px 'Geist';padding:9px}
+  .pcard:hover .edit{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;color:#0a0a0a}
+  .hm{font-size:10px;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .dirty{font-size:10.5px;color:#ffd9a8;background:rgba(245,158,11,.14);box-shadow:inset 0 0 0 1px rgba(245,158,11,.4);border-radius:999px;padding:2px 8px;font-weight:600}
+  .iconbtn{width:34px;height:34px;flex:0 0 34px;border-radius:9px;border:0;background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-3);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .iconbtn:hover{color:var(--ink)} .iconbtn.del:hover{color:#fff;background:var(--red)}
+  .live{font-size:12px;color:var(--ink-3);text-decoration:none;display:inline-flex;align-items:center;gap:5px;padding:5px 2px}.live:hover{color:#9bc1ff}
+  /* add a page */
+  .addcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;background:transparent;border:1.5px dashed var(--line);border-radius:15px;cursor:pointer;color:var(--ink-3);font:500 14px 'Geist';min-height:150px;transition:.15s}
+  .addcard:hover{border-color:var(--blue);color:var(--ink)} .addcard .plus{font-size:26px;line-height:1}
+  .addpanel{margin-top:16px;background:var(--panel);border-radius:15px;box-shadow:inset 0 0 0 1px var(--line);padding:18px 20px;display:none}
+  .addpanel.show{display:block}
+  .addpanel h3{margin:0 0 12px;font-size:14px}
+  .tplrow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+  .tpl{display:flex;flex-direction:column;gap:2px;text-align:left;background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line);border:0;border-radius:10px;padding:11px 13px;cursor:pointer;color:var(--ink-2)}
+  .tpl b{font-size:13px;color:var(--ink)} .tpl span{font-size:11.5px;color:var(--ink-3)}
+  .tpl.on{box-shadow:inset 0 0 0 1.5px var(--blue);background:rgba(10,114,239,.1)} .tpl.on b{color:#cfe2ff}
+  .addrow{display:flex;gap:9px}
+  .addrow input{flex:1;background:var(--panel-2);border:0;box-shadow:inset 0 0 0 1px var(--line);border-radius:10px;color:var(--ink);font:inherit;font-size:14px;padding:11px 13px}.addrow input:focus{outline:0;box-shadow:inset 0 0 0 1.5px var(--blue)}
+  .empty{color:var(--ink-3);font-size:14px;padding:40px;text-align:center}
+  /* login gate */
+  .gate{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 28%,#16161c,#09090b)}
+  .gate.show{display:flex}
+  .gatebox{width:min(380px,90vw);background:var(--panel);border-radius:18px;box-shadow:0 30px 90px rgba(0,0,0,.6),inset 0 0 0 1px var(--line);padding:32px 28px;text-align:center;animation:pop .18s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .gatebox .gbrand{width:46px;height:46px;border-radius:13px;background:var(--grad);margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+  .gatebox .gbrand svg{width:24px;height:24px}
+  .gatebox h2{margin:0 0 6px;font-size:21px;letter-spacing:-.02em} .gatebox p{margin:0 0 20px;color:var(--ink-2);font-size:14px} .gatebox b{color:var(--ink)}
+  .gatebox input{width:100%;background:var(--panel-2);border:0;box-shadow:inset 0 0 0 1px var(--line);border-radius:10px;color:var(--ink);font:inherit;font-size:15px;padding:12px 14px;text-align:center}.gatebox input:focus{outline:0;box-shadow:inset 0 0 0 1.5px var(--blue)}
+  .gatebtn{width:100%;margin-top:12px;border:2px solid transparent;border-radius:11px;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;color:#0a0a0a;font:600 14px/1 'Geist';padding:13px;cursor:pointer}.gatebtn:disabled{opacity:.6;cursor:default}
+  .gateerr{color:var(--red);font-size:12.5px;margin-top:10px;min-height:14px}
+</style>
+</head>
+<body>
+  <header>
+    <svg class="logo" viewBox="0 0 24 24" fill="none"><path d="M3 20 L12 4 L21 20 Z" fill="#f0f0f2"/><path d="M12 4 L21 20" stroke="#0a0a0c" stroke-width="1.5"/></svg>
+    <h1 id="siteName">Your website</h1><span class="tag">Dashboard</span>
+    <span class="sp"></span>
+    <a class="ghost" id="liveBtn" href="#" target="_blank">🌐 View live site</a>
+  </header>
+  <div class="gate" id="gate"></div>
+  <div class="wrap" id="wrap" style="display:none">
+    <h2 class="hi" id="hi">Your website</h2>
+    <p class="hisub">Here are the pages on your site. Click any page to edit its text and images. When you're done, hit <b>Publish</b> inside the editor to push it live.</p>
+    <div class="seclabel">Your pages <span class="cnt" id="pcount"></span></div>
+    <div class="pages" id="pages"></div>
+    <div class="addpanel" id="addPanel">
+      <h3>Add a new page</h3>
+      <div class="tplrow">
+        <button class="tpl on" data-tpl="blank"><b>Blank</b><span>Title + subheading</span></button>
+        <button class="tpl" data-tpl="article"><b>Article</b><span>Blog-style post</span></button>
+      </div>
+      <div class="addrow"><input id="newTitle" placeholder="Page title — e.g. About us"><button class="btnp" id="addGo">＋ Add page</button></div>
+    </div>
+  </div>
+<script>
+const $=s=>document.querySelector(s);
+const _qs=new URLSearchParams(location.search);
+let SITE=_qs.get('site')||sessionStorage.getItem('cms_site')||'';
+let KEY=_qs.get('key')||sessionStorage.getItem('cms_key')||'';
+if(SITE)sessionStorage.setItem('cms_site',SITE);
+if(KEY)sessionStorage.setItem('cms_key',KEY);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KQ=()=>KEY?('&key='+encodeURIComponent(KEY)):'';
+let CAPS={canAddPages:false,canDeletePages:false}, HOME='', newTpl='blank';
+
+function editorLink(slug){return '/editor/?site='+encodeURIComponent(SITE)+'&page='+encodeURIComponent(slug)+KQ();}
+function liveLink(slug,isHome){return '/live/'+encodeURIComponent(SITE)+(isHome?'':'/'+encodeURIComponent(slug));}
+
+function showGate(me){
+  const g=$('#gate');
+  g.innerHTML=`<div class="gatebox">
+    <div class="gbrand"><svg viewBox="0 0 24 24" fill="none"><path d="M3 20 L12 4 L21 20 Z" fill="#fff"/></svg></div>
+    <h2>${esc(me.clientName||'Welcome')} 👋</h2>
+    <p>Enter your password to manage <b>${esc(SITE)}</b>.</p>
+    <input type="password" id="gpw" placeholder="Password" autocomplete="current-password">
+    <button class="gatebtn" id="gGo">Open my dashboard</button>
+    <div class="gateerr" id="gErr"></div>
+  </div>`;
+  g.classList.add('show');setTimeout(()=>$('#gpw').focus(),60);
+  const go=async()=>{const pw=$('#gpw').value.trim();if(!pw)return;$('#gGo').disabled=true;$('#gGo').textContent='Checking…';
+    const r=await (await fetch('/api/me?site='+encodeURIComponent(SITE)+'&key='+encodeURIComponent(pw))).json();
+    if(r.role==='client'||r.role==='owner'){KEY=pw;sessionStorage.setItem('cms_key',pw);sessionStorage.setItem('cms_site',SITE);g.classList.remove('show');init();}
+    else{$('#gErr').textContent='That password didn\'t work — try again.';$('#gGo').disabled=false;$('#gGo').textContent='Open my dashboard';$('#gpw').select();}};
+  $('#gGo').onclick=go;$('#gpw').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+}
+
+async function init(){
+  if(!SITE){document.body.innerHTML='<div class="empty" style="padding:80px">No site specified.</div>';return;}
+  const me=await (await fetch('/api/me?site='+encodeURIComponent(SITE)+KQ())).json();
+  if(me.locked)return showGate(me);
+  CAPS=me.capabilities||CAPS;
+  $('#wrap').style.display='';
+  $('#siteName').textContent=SITE;
+  $('#hi').textContent=me.clientName?('Hi '+me.clientName+' 👋'):('Welcome to '+SITE);
+  $('#liveBtn').href=liveLink('',true);
+  if(CAPS.canAddPages)$('#addPanel').classList.add('show');
+  await loadPages();
+}
+
+async function loadPages(){
+  const d=await (await fetch('/api/pages?site='+encodeURIComponent(SITE)+KQ())).json();
+  if(d.error){$('#pages').innerHTML='<div class="empty">'+esc(d.error)+'</div>';return;}
+  HOME=d.home;
+  $('#pcount').textContent=d.pages.length+' page'+(d.pages.length!==1?'s':'');
+  $('#pages').innerHTML=d.pages.map(p=>{
+    const isHome=p.slug===d.home;
+    const canDel=CAPS.canDeletePages&&!isHome;
+    return `<div class="pcard" data-go="${esc(p.slug)}">
+      <div class="shot"><iframe src="${liveLink(p.slug,isHome)}" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe></div>
+      <div class="body">
+        <div class="ttl">${esc(p.title)} ${isHome?'<span class="hm">home</span>':''} ${p.dirty?'<span class="dirty">unpublished edits</span>':''}</div>
+        <div class="pth">${esc(p.path)}</div>
+        <div class="foot">
+          <span class="edit">✎ Edit this page</span>
+          ${canDel?`<button class="iconbtn del" title="Delete page" data-del="${esc(p.slug)}">🗑</button>`:''}
+        </div>
+        <a class="live" href="${liveLink(p.slug,isHome)}" target="_blank" data-live>View live ↗</a>
+      </div>
+    </div>`;
+  }).join('');
+  // card → editor (ignore clicks on the delete button or the live link)
+  $('#pages').querySelectorAll('.pcard').forEach(c=>c.onclick=e=>{
+    if(e.target.closest('[data-del]')||e.target.closest('[data-live]'))return;
+    location.href=editorLink(c.dataset.go);
+  });
+  $('#pages').querySelectorAll('[data-del]').forEach(b=>b.onclick=async e=>{
+    e.stopPropagation();
+    if(!confirm('Delete this page? This can be undone from version history.'))return;
+    await pageOp('/api/pages/delete',{slug:b.dataset.del});
+  });
+}
+
+async function pageOp(url,body){
+  const r=await (await fetch(url+'?site='+encodeURIComponent(SITE)+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})).json();
+  if(r.error){alert(r.error);return null;}
+  await loadPages();
+  return r;
+}
+
+// add-a-page wiring
+$('#addPanel').querySelectorAll('[data-tpl]').forEach(t=>t.onclick=()=>{newTpl=t.dataset.tpl;$('#addPanel').querySelectorAll('[data-tpl]').forEach(x=>x.classList.toggle('on',x===t));});
+const addGo=async()=>{const title=$('#newTitle').value.trim();if(!title)return;
+  $('#addGo').disabled=true;$('#addGo').textContent='Adding…';
+  const r=await pageOp('/api/pages/add',{title,template:newTpl});
+  $('#addGo').disabled=false;$('#addGo').textContent='＋ Add page';$('#newTitle').value='';
+  if(r&&r.slug)location.href=editorLink(r.slug);   // drop them straight into the new page
+};
+$('#addGo').onclick=addGo;
+$('#newTitle').addEventListener('keydown',e=>{if(e.key==='Enter')addGo();});
+
+init();
+</script>
+</body>
+</html>

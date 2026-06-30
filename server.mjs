@@ -331,6 +331,7 @@ app.use((req, res, next) => {
 app.use('/assets', express.static(join(ROOT, 'site/assets')));
 app.use('/editor', express.static(join(ROOT, 'editor')));
 app.use('/admin', express.static(join(ROOT, 'admin')));
+app.use('/client', express.static(join(ROOT, 'client'))); // per-client front door: pick a page, then edit it
 
 // Root-level well-known files served by the app itself (persist across redeploys —
 // they live in the repo's public/ dir, not in the per-site Mongo data).
@@ -357,6 +358,20 @@ function authWrite(req, res, next) {
   return res.status(401).json({ error: 'This site requires a valid editor link.' });
 }
 function requireOwner(req, res, next) { if (isOwner(req)) return next(); return res.status(401).json({ error: 'Owner key required.' }); }
+
+/* ── per-client capabilities ──
+   What a handed-off CLIENT may do beyond editing page content. Default is edit-only;
+   the owner grants page add/delete per site from the Agency Console. Owners are unrestricted. */
+const DEFAULT_CAPS = { canAddPages: false, canDeletePages: false };
+const capsOf = (s) => ({ ...DEFAULT_CAPS, ...(s?.access?.capabilities || {}) });
+// Gate a page-management route: clients need the matching capability; owners always pass.
+// Runs AFTER authWrite (which sets req.role), so the site is known and the role resolved.
+function clientCan(cap) {
+  return (req, res, next) => {
+    if (req.role === 'client' && !capsOf(sites[get(req)])[cap]) return res.status(403).json({ error: 'Your editor doesn’t allow this — ask the site owner to enable it.' });
+    next();
+  };
+}
 
 function injectEditor(html, schema) {
   const richIds = Object.entries(schema).filter(([, d]) => d.rich).map(([id]) => id);
@@ -514,7 +529,7 @@ app.get('/api/sites', (_req, res) => res.json({
   plannerMode: plannerMode(),
   sites: Object.keys(sites).map((name) => {
     const s = sites[name];
-    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, versions: s.versions.length, vercelProject: s.vercel?.project || null, vercelUrl: s.vercel?.lastUrl || null };
+    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), versions: s.versions.length, vercelProject: s.vercel?.project || null, vercelUrl: s.vercel?.lastUrl || null };
   }),
 }));
 
@@ -528,7 +543,9 @@ app.get('/api/me', (req, res) => {
   else if (s && !s.access?.tokenHash) role = 'owner'; // not handed off yet → dev/owner
   // 'locked' = the site has a password set but no/wrong key was given → show the login gate
   const locked = role === 'none' && !!(s && s.access?.tokenHash);
-  res.json({ role, locked, hasAccess: !!(s && s.access?.tokenHash), requireApproval: !!(s && s.access?.requireApproval), clientName: s?.access?.clientName || null, site: get(req), plannerMode: plannerMode() });
+  // Capabilities the UI should honour: owners are unrestricted; clients get the site's grants.
+  const capabilities = role === 'owner' ? { canAddPages: true, canDeletePages: true } : capsOf(s);
+  res.json({ role, locked, hasAccess: !!(s && s.access?.tokenHash), requireApproval: !!(s && s.access?.requireApproval), clientName: s?.access?.clientName || null, capabilities, site: get(req), plannerMode: plannerMode() });
 });
 
 app.get('/api/pages', (req, res) => {
@@ -826,7 +843,7 @@ app.post('/api/rollback', authWrite, (req, res) => {
 });
 
 /* ───── PAGE MANAGEMENT (WordPress-style) — auto-versioned + deployed ───── */
-app.post('/api/pages/add', authWrite, (req, res) => {
+app.post('/api/pages/add', authWrite, clientCan('canAddPages'), (req, res) => {
   const s = need(req, res); if (!s) return;
   const title = String(req.body?.title || 'New Page').slice(0, 60);
   let slug = String(req.body?.slug || title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || `page-${s.order.length}`;
@@ -857,7 +874,7 @@ app.post('/api/pages/add', authWrite, (req, res) => {
   res.json({ ok: true, slug, liveUrl: `/live/${get(req)}/${slug}` });
 });
 
-app.post('/api/pages/delete', authWrite, (req, res) => {
+app.post('/api/pages/delete', authWrite, clientCan('canDeletePages'), (req, res) => {
   const s = need(req, res); if (!s) return;
   const slug = req.body?.slug;
   if (!s.pages[slug]) return res.status(404).json({ error: 'No such page.' });
@@ -871,7 +888,7 @@ app.post('/api/pages/delete', authWrite, (req, res) => {
   res.json({ ok: true });
 });
 
-app.post('/api/pages/home', authWrite, (req, res) => {
+app.post('/api/pages/home', authWrite, clientCan('canDeletePages'), (req, res) => {
   const s = need(req, res); if (!s) return;
   const slug = req.body?.slug;
   if (!s.pages[slug]) return res.status(404).json({ error: 'No such page.' });
@@ -890,7 +907,7 @@ app.post('/api/admin/handoff', requireOwner, (req, res) => {
   s.access = { ...(s.access || {}), tokenHash: sha256(token), clientName: req.body?.clientName || null, customDomain: req.body?.customDomain || null, createdAt: new Date().toISOString() };
   writeFileSync(join(siteDir(name), 'access.json'), JSON.stringify(s.access, null, 2));
   auditLog(name, { role: 'owner', action: 'handoff', client: s.access.clientName });
-  res.json({ ok: true, clientLink: `/editor/?site=${name}&key=${token}`, liveUrl: `/live/${name}` });
+  res.json({ ok: true, clientLink: `/client/?site=${name}&key=${token}`, liveUrl: `/live/${name}` });
 });
 // Owner sets a chosen PASSWORD for a site — the client types it into a login gate (never needs to be in the URL).
 app.post('/api/admin/set-password', requireOwner, (req, res) => {
@@ -901,7 +918,16 @@ app.post('/api/admin/set-password', requireOwner, (req, res) => {
   s.access = { ...(s.access || {}), tokenHash: sha256(pw), clientName: req.body?.clientName || s.access?.clientName || null, requireApproval: req.body?.requireApproval != null ? !!req.body.requireApproval : !!s.access?.requireApproval, mode: 'password', createdAt: new Date().toISOString() };
   writeFileSync(join(siteDir(name), 'access.json'), JSON.stringify(s.access, null, 2));
   auditLog(name, { role: 'owner', action: 'set-password', client: s.access.clientName });
-  res.json({ ok: true, loginLink: `/editor/?site=${name}`, liveUrl: `/live/${name}` });
+  res.json({ ok: true, loginLink: `/client/?site=${name}`, liveUrl: `/live/${name}` });
+});
+// Set what a handed-off client may do (page add/delete). Edit-only by default.
+app.post('/api/admin/capabilities', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  if (!s.access) s.access = { createdAt: new Date().toISOString() };
+  s.access.capabilities = { canAddPages: !!req.body?.canAddPages, canDeletePages: !!req.body?.canDeletePages };
+  writeFileSync(join(siteDir(name), 'access.json'), JSON.stringify(s.access, null, 2));
+  res.json({ ok: true, capabilities: s.access.capabilities });
 });
 // Toggle whether this client's changes need owner approval before going live.
 app.post('/api/admin/approval', requireOwner, (req, res) => {

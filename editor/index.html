@@ -264,6 +264,7 @@
     <span class="brand"><svg viewBox="0 0 24 24" fill="none"><path d="M3 20 L12 4 L21 20 Z" fill="#f0f0f2"/><path d="M12 4 L21 20" stroke="#0a0a0a" stroke-width="1.5"/></svg><span class="tag">Editor</span></span>
     <select id="siteSel" title="Site"></select>
     <button class="barbtn" id="pagesBtn" title="Pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span id="pglabel">Home</span><span class="cz">▾</span></button>
+    <a class="barbtn" id="backHome" href="#" title="Back to all my pages" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>My pages</a>
     <button class="badge warn" id="modeBadge" style="display:none">…</button>
     <span class="spacer"></span>
     <!-- CENTER · canvas -->
@@ -397,6 +398,9 @@ async function init(){
     $('#siteSel').onchange=e=>{location.search='?site='+e.target.value+(KEY?'&key='+KEY:'');};
   } else {
     $('#siteSel').style.display='none';   // client: locked to their one site
+    // Clients reach pages from their front-door dashboard, not the in-editor pages dropdown.
+    $('#pagesBtn').style.display='none';
+    const bh=$('#backHome');bh.style.display='';bh.href='/client/?site='+encodeURIComponent(SITE)+(KEY?'&key='+encodeURIComponent(KEY):'');
   }
   const mb=$('#modeBadge');
   if(planner!=='local'){mb.className='badge';mb.style.display='';mb.innerHTML=`AI: <b>${planner}</b>`;}
