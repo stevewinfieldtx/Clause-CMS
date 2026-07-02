@@ -562,7 +562,7 @@ app.get('/api/me', (req, res) => {
   const locked = role === 'none' && !!(s && s.access?.tokenHash);
   // Capabilities the UI should honour: owners are unrestricted; clients get the site's grants.
   const capabilities = role === 'owner' ? { canAddPages: true, canDeletePages: true } : capsOf(s);
-  res.json({ role, locked, hasAccess: !!(s && s.access?.tokenHash), requireApproval: !!(s && s.access?.requireApproval), clientName: s?.access?.clientName || null, capabilities, site: get(req), plannerMode: plannerMode() });
+  res.json({ role, locked, hasAccess: !!(s && s.access?.tokenHash), requireApproval: !!(s && s.access?.requireApproval), clientName: s?.access?.clientName || null, capabilities, mustChangePassword: role === 'client' && !!s?.access?.mustChangePassword, site: get(req), plannerMode: plannerMode() });
 });
 
 app.get('/api/pages', (req, res) => {
@@ -1016,10 +1016,24 @@ app.post('/api/admin/set-password', requireOwner, (req, res) => {
   const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
   const pw = String(req.body?.password || '');
   if (pw.length < 4) return res.status(400).json({ error: 'Password must be at least 4 characters.' });
-  s.access = { ...(s.access || {}), tokenHash: sha256(pw), clientName: req.body?.clientName || s.access?.clientName || null, requireApproval: req.body?.requireApproval != null ? !!req.body.requireApproval : !!s.access?.requireApproval, mode: 'password', createdAt: new Date().toISOString() };
+  // mustChangePassword: onboarding sets a TEMPORARY password and flags it, so the client is
+  // forced to choose their own on first login (then the owner never holds their real password).
+  s.access = { ...(s.access || {}), tokenHash: sha256(pw), clientName: req.body?.clientName || s.access?.clientName || null, requireApproval: req.body?.requireApproval != null ? !!req.body.requireApproval : !!s.access?.requireApproval, mustChangePassword: !!req.body?.mustChangePassword, mode: 'password', createdAt: new Date().toISOString() };
   writeFileSync(join(siteDir(name), 'access.json'), JSON.stringify(s.access, null, 2));
   auditLog(name, { role: 'owner', action: 'set-password', client: s.access.clientName });
   res.json({ ok: true, loginLink: `/client/?site=${name}`, liveUrl: `/live/${name}` });
+});
+// Client sets their OWN password (used for the forced first-login change). authWrite proves
+// the caller holds the current/temporary password (or is the owner); we then swap the hash.
+app.post('/api/client/change-password', authWrite, (req, res) => {
+  const s = need(req, res); if (!s) return;
+  if (!s.access?.tokenHash) return res.status(400).json({ error: 'This site has no client access set.' });
+  const np = String(req.body?.newPassword || '');
+  if (np.length < 6) return res.status(400).json({ error: 'Choose a password of at least 6 characters.' });
+  s.access = { ...s.access, tokenHash: sha256(np), mustChangePassword: false };
+  writeFileSync(join(siteDir(get(req)), 'access.json'), JSON.stringify(s.access, null, 2));
+  auditLog(get(req), { role: req.role || 'client', action: 'change-password' });
+  res.json({ ok: true });
 });
 // Set what a handed-off client may do (page add/delete). Edit-only by default.
 app.post('/api/admin/capabilities', requireOwner, (req, res) => {

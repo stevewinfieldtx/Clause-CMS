@@ -87,12 +87,12 @@
     </div>
 
     <div class="field">
-      <label>Password for the client</label>
+      <label>Temporary password for the client</label>
       <div class="pwwrap">
         <input id="pw" autocomplete="off">
         <button type="button" class="mini" id="regen">Regenerate</button>
       </div>
-      <div class="hint">They type this to get in. Pre-filled with a strong one you can change.</div>
+      <div class="hint">They type this once, then set their own password on first login. Pre-filled with a strong one.</div>
     </div>
 
     <button class="go" id="go">Create editable site</button>
@@ -104,7 +104,7 @@
       <div class="out">
         <div class="lab">Their login link</div>
         <div class="val"><input id="rLink" readonly><button class="copy" data-c="rLink">Copy</button></div>
-        <div class="lab">Password</div>
+        <div class="lab">Temporary password</div>
         <div class="val"><input id="rPw" readonly><button class="copy" data-c="rPw">Copy</button></div>
       </div>
       <button class="msgbtn" id="copyMsg">Copy the whole message to send them</button>
@@ -172,14 +172,14 @@ $('#go').onclick = async () => {
 
   $('#go').disabled = true; $('#result').classList.remove('show');
   try{
-    setStat('Capturing the site and making it editable…');
-    const ing = await api('/api/ingest', { name, url });
-    setStat('Setting the password…');
-    const acc = await api('/api/admin/set-password', { site:name, password:pw, clientName:client||undefined });
+    setStat('Capturing the site and every linked page… (can take ~15s)');
+    const ing = await api('/api/ingest', { name, url, crawl:true });
+    setStat('Setting up their login…');
+    const acc = await api('/api/admin/set-password', { site:name, password:pw, clientName:client||undefined, mustChangePassword:true });
     const link = origin + acc.loginLink;
     $('#rLink').value = link;
     $('#rPw').value = pw;
-    $('#doneSub').textContent = `Captured ${ing.fields} editable fields. Send your client the link and password below.`;
+    $('#doneSub').textContent = `Captured ${ing.pages} page${ing.pages!==1?'s':''} (${ing.fields} editable fields). Send your client the link and temporary password — they set their own on first login.`;
     lastResult = { client, link, pw };
     $('#result').classList.add('show');
     setStat('');
@@ -200,10 +200,10 @@ $('#copyMsg').onclick = ()=>{
   const hi = lastResult.client ? `Hi ${lastResult.client} team,` : 'Hi,';
   const msg = `${hi}
 
-Your website is ready for you to edit. Open this link, enter the password, and you can click any text or image to change it:
+Your website is ready for you to edit. Open this link and enter the temporary password below — you'll be asked to set your own password on first login. Then you can click any text or image to change it:
 
 Link: ${lastResult.link}
-Password: ${lastResult.pw}
+Temporary password: ${lastResult.pw}
 
 Changes you make are saved as a draft until you publish them.`;
   navigator.clipboard.writeText(msg).then(()=>{

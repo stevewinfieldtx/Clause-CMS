@@ -118,10 +118,36 @@ function showGate(me){
   $('#gGo').onclick=go;$('#gpw').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
 }
 
+// Forced first-login: the client arrived with a temporary password and must pick their own.
+function showChangePassword(me){
+  const g=$('#gate');
+  g.innerHTML=`<div class="gatebox">
+    <div class="gbrand"><svg viewBox="0 0 24 24" fill="none"><path d="M3 20 L12 4 L21 20 Z" fill="#fff"/></svg></div>
+    <h2>Set your password</h2>
+    <p>Welcome${me.clientName?', '+esc(me.clientName):''}. Choose your own password for <b>${esc(SITE)}</b> — from now on only you know it.</p>
+    <input type="password" id="np1" placeholder="New password (at least 6 characters)" autocomplete="new-password">
+    <input type="password" id="np2" placeholder="Confirm new password" autocomplete="new-password" style="margin-top:10px">
+    <button class="gatebtn" id="npGo">Save my password</button>
+    <div class="gateerr" id="npErr"></div>
+  </div>`;
+  g.classList.add('show');setTimeout(()=>$('#np1').focus(),60);
+  const go=async()=>{
+    const a=$('#np1').value.trim(), b=$('#np2').value.trim();
+    if(a.length<6){$('#npErr').textContent='Use at least 6 characters.';return;}
+    if(a!==b){$('#npErr').textContent='The two passwords don\'t match.';return;}
+    $('#npGo').disabled=true;$('#npGo').textContent='Saving…';
+    const r=await (await fetch('/api/client/change-password?site='+encodeURIComponent(SITE),{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':KEY},body:JSON.stringify({newPassword:a})})).json();
+    if(r.error){$('#npErr').textContent=r.error;$('#npGo').disabled=false;$('#npGo').textContent='Save my password';return;}
+    KEY=a;sessionStorage.setItem('cms_key',a);g.classList.remove('show');init();
+  };
+  $('#npGo').onclick=go;$('#np2').addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+}
+
 async function init(){
   if(!SITE){document.body.innerHTML='<div class="empty" style="padding:80px">No site specified.</div>';return;}
   const me=await (await fetch('/api/me?site='+encodeURIComponent(SITE)+KQ())).json();
   if(me.locked)return showGate(me);
+  if(me.mustChangePassword)return showChangePassword(me);
   CAPS=me.capabilities||CAPS;
   $('#wrap').style.display='';
   $('#siteName').textContent=SITE;
