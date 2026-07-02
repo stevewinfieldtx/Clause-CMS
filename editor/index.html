@@ -451,6 +451,29 @@ async function pageOp(url,body){
   await loadPages();await loadVersions();bubble('bot','✓ Pages updated — published live.');
 }
 function switchPage(slug){if(!pagesList.find(p=>p.slug===slug))return;PAGE=slug;sel=null;$('#pagesPanel').classList.remove('show');loadPages();if($('#seoPanel').classList.contains('show'))loadSeo();if($('#inspPanel').classList.contains('show'))renderInspector();}
+// Resolve a clicked link (any form: /live/site/slug, vendor-eset.html, /s/site?page=slug, etc.)
+// to the page it points at and edit THAT page. Only the site root/home link goes home; an
+// unrecognized link stays put rather than bouncing back to the summary page.
+function navToHref(href){
+  if(!href)return;
+  const clean=String(href).split('#')[0];
+  const home=(pagesList.find(p=>p.home)||{}).slug;
+  const bn=s=>((s||'').replace(/\/+$/,'').split('/').pop()||'').replace(/\.html?$/i,'');
+  const find=slug=>pagesList.find(p=>p.slug===slug)||pagesList.find(p=>bn(p.path)===slug);
+  // /live/<site>[/<slug>] : the site root (no slug) is home
+  const ml=clean.match(/\/live\/[^/?#]+\/?([^/?#]*)/);
+  if(ml){const s=ml[1];if(!s){if(home)switchPage(home);return;}const h=find(s);switchPage(h?h.slug:home);return;}
+  // /s/<site>?page=<slug>  (or ?page= on any path)
+  const qp=clean.match(/[?&]page=([^&]+)/);
+  if(qp){const h=find(decodeURIComponent(qp[1]));if(h)switchPage(h.slug);return;}
+  // /s/<site> with no page -> home
+  if(/\/s\/[^/?#]+\/?$/.test(clean)){if(home)switchPage(home);return;}
+  // relative link like vendor-eset.html
+  const base=bn(clean.split('?')[0]);
+  if(!base||base.toLowerCase()==='index'){if(home)switchPage(home);return;}
+  const hit=find(base);
+  if(hit)switchPage(hit.slug); // unknown link: stay put, never bounce to summary
+}
 
 let flashIds=[];
 function loadPreview(){
@@ -544,7 +567,7 @@ window.addEventListener('message',async e=>{
   else if(d.type==='cms-section'){sel=null;showScope();showPanel('#inspPanel');renderSectionCard(d.label||'Section');}
   else if(d.type==='cms-open'){sel=sel&&sel.id===d.id?sel:{id:d.id,tag:'',text:'',href:d.panel==='link'?'':null,img:d.panel==='image'};showPanel('#inspPanel');renderInspector();setTimeout(()=>{const t=$(d.panel==='link'?'#insLink':'#inspPanel .dialgrp');if(t){t.scrollIntoView({block:'nearest'});if(t.focus)t.focus();}},60);}
   else if(d.type==='cms-ai'){input.value=`Change the ${(d.kind||'text').toLowerCase()} “${(d.text||'').slice(0,40)}” to `;input.focus();input.dispatchEvent(new Event('input'));toast('✨ Finish your request and hit enter');}
-  else if(d.type==='cms-nav'){const m=d.href.match(/\/live\/[^/]+\/?([^/?#]*)/);switchPage(m&&m[1]?m[1]:(pagesList.find(p=>p.home)||{}).slug);}
+  else if(d.type==='cms-nav'){navToHref(d.href);}
   else if(d.type==='cms-add-block'){openBlockPicker(d.section,d.label);}
   else if(d.type==='cms-structure'){
     const r=await (await fetch('/api/structure?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({op:d.op,col:d.col,index:d.index})})).json();
