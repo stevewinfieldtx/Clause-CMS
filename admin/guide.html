@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude CMS · Guided Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0b0c10;--panel:#14161d;--panel2:#1b1e27;--line:#272b36;--ink:#eef1f6;--ink2:#aeb6c4;--ink3:#727b8c;--blue:#3b82f6;--blue2:#60a5fa;--green:#37c98a;--red:#e2492f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:400 15px/1.55 'Geist',system-ui,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--blue2);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 80px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  header .logo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:grid;place-items:center;font-weight:700;color:#fff}
+  header h1{font-size:20px;font-weight:600;letter-spacing:-.01em}
+  .sub{color:var(--ink3);font-size:14px;margin:0 0 22px 48px}
+  .keybar{display:flex;gap:9px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:26px}
+  .keybar label{font-size:13px;color:var(--ink2);font-weight:500}
+  .keybar input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;color:var(--ink);font:inherit;font-size:14px;outline:none}
+  .keybar input:focus{border-color:var(--blue)}
+  .keybar .ok{color:var(--green);font-size:13px;font-weight:600;white-space:nowrap}
+  .step{display:grid;grid-template-columns:38px 1fr;gap:16px;margin-bottom:14px}
+  .num{width:38px;height:38px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);display:grid;place-items:center;font-family:'Geist Mono';font-weight:600;color:var(--blue2);font-size:15px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:24px}
+  .card h2{font-size:17px;font-weight:600;margin-bottom:4px}
+  .card .hint{color:var(--ink3);font-size:13.5px;margin-bottom:14px}
+  .row{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .fld{display:flex;flex-direction:column;gap:5px;flex:1;min-width:180px}
+  .fld label{font-size:12px;color:var(--ink2);font-weight:500}
+  input[type=text],input[type=url],input[type=password]{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--ink);font:inherit;font-size:14px;outline:none;width:100%}
+  input:focus{border-color:var(--blue)}
+  .chk{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink2);margin:4px 0 12px}
+  .btn{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:10px 18px;font:600 14px 'Geist';cursor:pointer;white-space:nowrap}
+  .btn:hover{background:#2f6fe0}.btn:disabled{opacity:.5;cursor:default}
+  .btn.g{background:var(--panel2);color:var(--ink);border:1px solid var(--line)}
+  .btn.g:hover{border-color:var(--blue);background:#20242f}
+  .btn.d{background:transparent;color:#f19a8a;border:1px solid #3a2420}.btn.d:hover{background:#2a1712}
+  .stat{font-size:13px;color:var(--ink3)}.stat.ok{color:var(--green)}.stat.err{color:#f19a8a}
+  .sites{display:grid;gap:12px}
+  .site{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .site .top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .site .nm{font-size:16px;font-weight:600}
+  .site .badge{font-size:11.5px;color:var(--ink3);font-family:'Geist Mono'}
+  .site .pill{font-size:11px;font-weight:600;border-radius:999px;padding:3px 9px}
+  .pill.live{background:rgba(55,201,138,.14);color:#7ee0b4}
+  .pill.draft{background:#23262f;color:var(--ink3)}
+  .site .links{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .site .links a,.site .links button{font-size:13px}
+  .share{border-top:1px solid var(--line);margin-top:8px;padding-top:14px}
+  .share .lbl{font-size:12.5px;color:var(--ink2);font-weight:600;margin-bottom:8px}
+  .share .give{background:#0f1620;border:1px solid #24405f;border-radius:10px;padding:14px;margin-top:10px}
+  .share .give .give-h{font-size:12px;color:var(--green);font-weight:600;margin-bottom:8px}
+  .kv{display:flex;gap:8px;align-items:center;margin:6px 0}
+  .kv span{font-size:12px;color:var(--ink3);width:66px;flex:0 0 auto}
+  .kv input{font-family:'Geist Mono';font-size:12.5px}
+  .empty{color:var(--ink3);text-align:center;padding:26px;border:1px dashed var(--line);border-radius:12px}
+  .foot{color:var(--ink3);font-size:12.5px;margin-top:30px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><div class="logo">C</div><h1>Claude CMS · Guided Setup</h1></header>
+  <p class="sub">Add a website, edit it, and hand it to a partner. Follow the steps top to bottom.</p>
+
+  <div class="keybar">
+    <label>Your admin key</label>
+    <input id="key" type="password" placeholder="paste your admin key" autocomplete="off">
+    <span class="ok" id="keyok" style="display:none">✓ ready</span>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step"><div class="num">1</div>
+    <div class="card">
+      <h2>Add a website</h2>
+      <div class="hint">Paste the address of a live site and give it a short nickname. We capture it so you can edit the text and images.</div>
+      <div class="row">
+        <div class="fld"><label>Nickname (short, no spaces)</label><input id="nm" type="text" placeholder="e.g. rain"></div>
+        <div class="fld"><label>Website address</label><input id="url" type="url" placeholder="https://example.com"></div>
+      </div>
+      <label class="chk"><input id="crawl" type="checkbox" checked> Also pull in every page linked from the home page</label>
+      <div class="row"><button class="btn" id="addBtn">Add website</button><span class="stat" id="addStat"></span></div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step"><div class="num">2</div>
+    <div class="card">
+      <h2>Your websites</h2>
+      <div class="hint">Everything under your CMS. Open the editor to change content, or give a partner their own login. Publish inside the editor to make edits live.</div>
+      <div class="sites" id="sites"><div class="empty">Enter your admin key above to load your sites.</div></div>
+    </div>
+  </div>
+
+  <!-- STEP 3 explainer -->
+  <div class="step"><div class="num">3</div>
+    <div class="card">
+      <h2>Hand it to your partner</h2>
+      <div class="hint">On any site above, click <b>Give a partner access</b>, set a password, and we show you the exact login link and password to send them. They can edit only that one site. Re-set the password any time to cut off the old one.</div>
+    </div>
+  </div>
+
+  <p class="foot">Owner console with every advanced control: <a id="advLink" href="#">open the full admin</a>.</p>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const origin=location.origin;
+let KEY=new URLSearchParams(location.search).get('key')||'';
+if(KEY)$('#key').value=KEY;
+
+function setKey(){KEY=$('#key').value.trim();$('#keyok').style.display=KEY?'inline':'none';$('#advLink').href='/admin/?key='+encodeURIComponent(KEY);if(KEY)loadSites();}
+$('#key').addEventListener('input',setKey);
+
+async function api(path,body){
+  const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':KEY},body:JSON.stringify(body)});
+  return r.json();
+}
+
+async function loadSites(){
+  let d; try{ d=await (await fetch('/api/sites')).json(); }catch(e){ return; }
+  const el=$('#sites');
+  if(!d.sites||!d.sites.length){el.innerHTML='<div class="empty">No websites yet. Add one in step 1.</div>';return;}
+  el.innerHTML=d.sites.map(s=>{
+    const nm=esc(s.name);
+    const live='/live/'+encodeURIComponent(s.name);
+    const edit='/editor/?site='+encodeURIComponent(s.name)+'&key='+encodeURIComponent(KEY);
+    const clientLink=origin+'/client/?site='+encodeURIComponent(s.name);
+    return `<div class="site" data-site="${nm}">
+      <div class="top">
+        <div><span class="nm">${nm}</span> <span class="badge">${s.pages} page${s.pages!==1?'s':''}</span></div>
+        ${s.handedOff?`<span class="pill live">● shared with ${esc(s.client||'client')}</span>`:'<span class="pill draft">not shared yet</span>'}
+      </div>
+      <div class="links">
+        <a class="btn g" href="${edit}" target="_blank">✎ Open editor</a>
+        <a class="btn g" href="${live}" target="_blank">🌐 View live</a>
+        <button class="btn g" onclick="toggleShare('${nm}')">🔑 Give a partner access</button>
+        <button class="btn d" onclick="delSite('${nm}')">🗑 Delete</button>
+      </div>
+      <div class="share" id="share-${nm}" style="display:none">
+        <div class="lbl">Set a password for ${nm}, then send your partner the link and password below.</div>
+        <div class="row">
+          <div class="fld"><label>Password (min 4 characters)</label><input id="pw-${nm}" type="text" placeholder="choose a password"></div>
+          <div class="fld"><label>Partner / company name (optional)</label><input id="cn-${nm}" type="text" placeholder="e.g. Rain Networks"></div>
+        </div>
+        <div class="row"><button class="btn" onclick="setPw('${nm}')">Set password &amp; get the share info</button><span class="stat" id="pwStat-${nm}"></span></div>
+        <div class="give" id="give-${nm}" style="display:none">
+          <div class="give-h">✓ Send your partner these two things</div>
+          <div class="kv"><span>Login link</span><input type="text" readonly id="giveLink-${nm}" onclick="this.select()"><button class="btn g" onclick="copyFrom('giveLink-${nm}',this)">Copy</button></div>
+          <div class="kv"><span>Password</span><input type="text" readonly id="givePw-${nm}" onclick="this.select()"><button class="btn g" onclick="copyFrom('givePw-${nm}',this)">Copy</button></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleShare(name){const b=$('#share-'+name);b.style.display=b.style.display==='none'?'block':'none';}
+
+async function setPw(name){
+  if(!KEY)return alert('Enter your admin key at the top first.');
+  const pw=($('#pw-'+name).value||'').trim();
+  if(pw.length<4)return alert('Password must be at least 4 characters.');
+  const clientName=($('#cn-'+name).value||'').trim();
+  const st=$('#pwStat-'+name);st.textContent='Setting…';st.className='stat';
+  const r=await api('/api/admin/set-password',{site:name,password:pw,clientName});
+  if(r.error){st.textContent=r.error;st.className='stat err';return;}
+  st.textContent='';st.className='stat ok';
+  $('#giveLink-'+name).value=origin+r.loginLink;
+  $('#givePw-'+name).value=pw;
+  $('#give-'+name).style.display='block';
+  loadSitesSoon();
+}
+
+async function delSite(name){
+  if(!KEY)return alert('Enter your admin key at the top first.');
+  if(!confirm('Delete "'+name+'" permanently? This removes the site, its pages, history, and client access. This cannot be undone.'))return;
+  const r=await api('/api/admin/delete-site',{site:name});
+  if(r.error)return alert(r.error);
+  loadSites();
+}
+
+async function addSite(force){
+  if(!KEY)return alert('Enter your admin key at the top first.');
+  const name=($('#nm').value||'').trim(), url=($('#url').value||'').trim();
+  if(!name)return alert('Give the website a short nickname.');
+  if(!url)return alert('Paste the website address.');
+  const st=$('#addStat');st.textContent='Adding…';st.className='stat';
+  const r=await api('/api/ingest',{name,url,crawl:$('#crawl').checked,force:!!force});
+  if(r.duplicate&&!force){st.textContent='';if(confirm(r.error+'\n\nAdd it anyway?'))return addSite(true);return;}
+  if(r.error){st.textContent=r.error;st.className='stat err';return;}
+  st.textContent='✓ Added '+r.name+' ('+r.pages+' page'+(r.pages!==1?'s':'')+')';st.className='stat ok';
+  $('#nm').value='';$('#url').value='';
+  loadSites();
+}
+$('#addBtn').onclick=()=>addSite(false);
+
+function copyFrom(id,btn){const el=$(id);el.select();try{document.execCommand('copy');const t=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=t,1200);}catch(e){}}
+let _t=null;function loadSitesSoon(){clearTimeout(_t);_t=setTimeout(loadSites,600);}
+
+setKey();
+</script>
+</body>
+</html>

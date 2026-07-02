@@ -52,7 +52,9 @@
   <header>
     <button class="ghost back" onclick="goBack()" title="Back">← Back</button>
     <svg class="logo" viewBox="0 0 24 24" fill="none"><path d="M3 20 L12 4 L21 20 Z" fill="#f0f0f2"/><path d="M12 4 L21 20" stroke="#0a0a0c" stroke-width="1.5"/></svg>
-    <h1>Agency Console</h1><span class="tag">AI CMS</span><span class="sp"></span>
+    <h1>Agency Console</h1><span class="tag">AI CMS</span>
+    <a class="ghost" href="#" onclick="location.href='/admin/guide.html?key='+encodeURIComponent(document.getElementById('key').value);return false" style="margin-left:10px;text-decoration:none" title="Step-by-step walkthrough">📋 Guided setup</a>
+    <span class="sp"></span>
     <div class="keybox">owner key <input id="key" placeholder="owner-dev"></div>
   </header>
   <div class="wrap">
