@@ -495,7 +495,7 @@ function injectEditor(html, schema) {
     el.addEventListener('blur',function(){el.classList.add('cms-edited');send(id,RICH.has(id)?el.innerHTML:el.innerText);});
   });
   // links to other pages navigate; other links just select for editing
-  document.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){var raw=a.getAttribute('href')||'';e.preventDefault();e.stopPropagation();if(!raw||raw.charAt(0)==='#'||/^(mailto:|tel:|javascript:)/i.test(raw))return;if(/^https?:\/\//i.test(raw)&&raw.indexOf(location.host)===-1)return;parent.postMessage({type:'cms-nav',href:raw},'*');},true);});
+  document.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){var raw=a.getAttribute('href')||'';e.preventDefault();e.stopPropagation();if(!raw||raw.charAt(0)==='#'||/^(mailto:|tel:|javascript:)/i.test(raw))return;if(/^https?:\\/\\//i.test(raw)&&raw.indexOf(location.host)===-1)return;parent.postMessage({type:'cms-nav',href:raw},'*');},true);});
   document.querySelectorAll('button[id],form').forEach(function(el){el.addEventListener('click',function(e){if(!e.target.closest('[data-cms-img]'))e.preventDefault();},true);});
   window.addEventListener('scroll',function(){hideHover();placeSel();placeSection();},true);
   window.addEventListener('resize',function(){placeSel();placeSection();});
