@@ -143,13 +143,14 @@ async function load(){
     </div>`).join('');
   scalePreviews();
 }
-async function ingestSite(){
+async function ingestSite(force){
   const name=$('#newName').value.trim(), url=$('#newUrl').value.trim(), html=$('#newHtml').value.trim();
   if(!name){alert('Give the site a short name (e.g. acme).');return;}
   if(!url&&!html){alert('Paste a URL or some HTML.');return;}
   const crawl=$('#newCrawl').checked;
   const st=$('#ingestStat');st.textContent=crawl?'Ingesting + scanning for linked pages… (can take a moment)':'Ingesting…';
-  const r=await (await fetch('/api/ingest',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({name,url:url||undefined,html:html||undefined,crawl})})).json();
+  const r=await (await fetch('/api/ingest',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({name,url:url||undefined,html:html||undefined,crawl,force:!!force})})).json();
+  if(r.duplicate&&!force){st.textContent='';if(confirm(r.error+'\n\nCreate it anyway?'))return ingestSite(true);return;}
   if(r.error){st.textContent='';alert('Error: '+r.error);return;}
   st.textContent=`✓ Captured ${r.fields} editable fields`+(r.pages>1?` · ${r.pages} pages`:'');
   $('#newName').value='';$('#newUrl').value='';$('#newHtml').value='';

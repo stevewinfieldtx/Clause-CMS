@@ -625,6 +625,13 @@ app.post('/api/ingest', requireOwner, async (req, res) => {
     catch (e) { return res.status(400).json({ error: 'Could not fetch that URL — ' + e.message }); }
   }
   if (!html) return res.status(400).json({ error: 'Provide a URL or paste the page HTML.' });
+  // Duplicate guard: don't silently overwrite a same-named site, and don't re-capture a URL
+  // that's already in the CMS under another name. The admin UI re-sends with force:true to confirm.
+  if (!req.body?.force) {
+    if (sites[name]) return res.status(409).json({ duplicate: 'name', existing: name, error: `A site named "${name}" already exists (${sites[name].order.length} page${sites[name].order.length !== 1 ? 's' : ''}). Re-ingesting replaces it and wipes its edit history and client access.` });
+    const norm = (u) => String(u || '').trim().replace(/[#?].*$/, '').replace(/\/(index\.html?)?$/i, '').replace(/\/+$/, '').toLowerCase();
+    if (baseUrl) { const hit = Object.keys(sites).find((n) => sites[n].sourceUrl && norm(sites[n].sourceUrl) === norm(baseUrl)); if (hit) return res.status(409).json({ duplicate: 'url', existing: hit, error: `This URL is already captured as "${hit}". Use "Import linked pages" on that site to add pages, instead of creating a duplicate.` }); }
+  }
   const { templateHtml, content, schema, sections, collections } = autotag(html, baseUrl);
   const dir = siteDir(name);
   rmSync(dir, { recursive: true, force: true }); // fresh site
