@@ -1151,3 +1151,5 @@ for (const sig of ['SIGTERM', 'SIGINT']) process.on(sig, async () => {
   try { await flushMirror(); } catch {}
   process.exit(0);
 });
+
+// deploy marker: self-service onboarding (crawl + client-owned passwords) — 2026-07-02
