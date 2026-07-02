@@ -1,0 +1,51 @@
+{
+  "order": [
+    "home",
+    "offense",
+    "penetration-testing",
+    "defense",
+    "protection",
+    "governance",
+    "company",
+    "contact"
+  ],
+  "home": "home",
+  "pages": {
+    "home": {
+      "title": "Home",
+      "path": "/"
+    },
+    "offense": {
+      "title": "Offense",
+      "path": "/offense"
+    },
+    "penetration-testing": {
+      "title": "Penetration Testing",
+      "path": "/penetration-testing"
+    },
+    "defense": {
+      "title": "Defense",
+      "path": "/defense"
+    },
+    "protection": {
+      "title": "Protection",
+      "path": "/protection"
+    },
+    "governance": {
+      "title": "Governance",
+      "path": "/governance"
+    },
+    "company": {
+      "title": "Company",
+      "path": "/company"
+    },
+    "contact": {
+      "title": "Contact",
+      "path": "/contact"
+    }
+  },
+  "sourceUrl": "https://4dsec.io",
+  "vercel": null,
+  "clarity": null,
+  "convai": null
+}

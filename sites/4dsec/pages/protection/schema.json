@@ -1,0 +1,738 @@
+{
+  "cms-1": {
+    "type": "text",
+    "label": "Text: \"4D Security\"",
+    "group": "Nav",
+    "rich": true,
+    "allow": [
+      "small"
+    ]
+  },
+  "cms-2": {
+    "type": "text",
+    "label": "Text: \"Solutions\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-3": {
+    "type": "text",
+    "label": "Heading: \"Offense\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-4": {
+    "type": "text",
+    "label": "Text: \"Offensive testing that finds the gap…\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-5": {
+    "type": "text",
+    "label": "Heading: \"Defense\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-6": {
+    "type": "text",
+    "label": "Text: \"Managed detection and response watch…\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-7": {
+    "type": "text",
+    "label": "Heading: \"Protection\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-8": {
+    "type": "text",
+    "label": "Text: \"Cloud, data and identity controls th…\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-9": {
+    "type": "text",
+    "label": "Heading: \"Governance\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-10": {
+    "type": "text",
+    "label": "Text: \"Risk, compliance and critical system…\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-11": {
+    "type": "text",
+    "label": "Text: \"Thirty capabilities, organised into …\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-12": {
+    "type": "text",
+    "label": "Link: \"Why four dimensions ›\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-13": {
+    "type": "text",
+    "label": "Link: \"Company\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-14": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-15": {
+    "type": "text",
+    "label": "Link: \"Book a consultation\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-16": {
+    "type": "text",
+    "label": "Link: \"Home\"",
+    "group": "Page Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-17": {
+    "type": "text",
+    "label": "Link: \"Solutions\"",
+    "group": "Page Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-18": {
+    "type": "text",
+    "label": "Text: \"Protection\"",
+    "group": "Page Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-19": {
+    "type": "text",
+    "label": "Text: \"D3 / PROTECTION\"",
+    "group": "Page Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-20": {
+    "type": "text",
+    "label": "Heading: \"Controls that hold under pressure.\"",
+    "group": "Page Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-21": {
+    "type": "text",
+    "label": "Text: \"The protection dimension is the ever…\"",
+    "group": "Page Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-22": {
+    "type": "text",
+    "label": "Link: \"Book a consultation\"",
+    "group": "Page Hero",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-23": {
+    "type": "text",
+    "label": "Link: \"Why four dimensions\"",
+    "group": "Page Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-24": {
+    "type": "text",
+    "label": "Heading: \"What Protection covers.\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-25": {
+    "type": "text",
+    "label": "Text: \"Eleven capabilities spanning your cl…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-26": {
+    "type": "text",
+    "label": "Text: \"CNAPP\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-27": {
+    "type": "text",
+    "label": "Heading: \"Cloud-Native App Protection\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-28": {
+    "type": "text",
+    "label": "Text: \"One platform to secure cloud-native …\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-29": {
+    "type": "text",
+    "label": "Text: \"CSPM\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-30": {
+    "type": "text",
+    "label": "Heading: \"Cloud Security Posture Management\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-31": {
+    "type": "text",
+    "label": "Text: \"Find and fix cloud misconfigurations…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-32": {
+    "type": "text",
+    "label": "Text: \"DSPM\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-33": {
+    "type": "text",
+    "label": "Heading: \"Data Security Posture Management\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-34": {
+    "type": "text",
+    "label": "Text: \"Discover, classify and protect sensi…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-35": {
+    "type": "text",
+    "label": "Text: \"DDR\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-36": {
+    "type": "text",
+    "label": "Heading: \"Data Detection & Response\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-37": {
+    "type": "text",
+    "label": "Text: \"Catch threats to your data as they h…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-38": {
+    "type": "text",
+    "label": "Text: \"CDR\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-39": {
+    "type": "text",
+    "label": "Heading: \"Cloud Detection & Response\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-40": {
+    "type": "text",
+    "label": "Text: \"Runtime threat detection across your…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-41": {
+    "type": "text",
+    "label": "Text: \"GOVERNANCE\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-42": {
+    "type": "text",
+    "label": "Heading: \"Data Governance\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-43": {
+    "type": "text",
+    "label": "Text: \"Clear policy and control over how da…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-44": {
+    "type": "text",
+    "label": "Text: \"PIPELINES\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-45": {
+    "type": "text",
+    "label": "Heading: \"Data Pipelines\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-46": {
+    "type": "text",
+    "label": "Text: \"Secure the flow of data as it moves …\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-47": {
+    "type": "text",
+    "label": "Text: \"SEGMENT\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-48": {
+    "type": "text",
+    "label": "Heading: \"Micro-Segmentation\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-49": {
+    "type": "text",
+    "label": "Text: \"Contain the blast radius by isolatin…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-50": {
+    "type": "text",
+    "label": "Text: \"IAM / PAM / IGA\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-51": {
+    "type": "text",
+    "label": "Heading: \"Identity & Access\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-52": {
+    "type": "text",
+    "label": "Text: \"Right access for the right people, p…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-53": {
+    "type": "text",
+    "label": "Text: \"PASSWORDLESS\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-54": {
+    "type": "text",
+    "label": "Heading: \"Passwordless & MFA\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-55": {
+    "type": "text",
+    "label": "Text: \"Phishing-resistant access that final…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-56": {
+    "type": "text",
+    "label": "Text: \"ISPM\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-57": {
+    "type": "text",
+    "label": "Heading: \"Identity Security Posture\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-58": {
+    "type": "text",
+    "label": "Text: \"Continuous posture management across…\"",
+    "group": "Capabilities",
+    "rich": false,
+    "allow": []
+  },
+  "cms-59": {
+    "type": "text",
+    "label": "Heading: \"What you get.\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-60": {
+    "type": "text",
+    "label": "Text: \"Every Protection engagement is measu…\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-61": {
+    "type": "text",
+    "label": "Heading: \"A smaller attack surface\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-62": {
+    "type": "text",
+    "label": "Text: \"Misconfigurations and over-broad acc…\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-63": {
+    "type": "text",
+    "label": "Heading: \"Data you can account for\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-64": {
+    "type": "text",
+    "label": "Text: \"You know what sensitive data you hol…\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-65": {
+    "type": "text",
+    "label": "Heading: \"Contained by design\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-66": {
+    "type": "text",
+    "label": "Text: \"When something does get in, segmenta…\"",
+    "group": "Outcomes",
+    "rich": false,
+    "allow": []
+  },
+  "cms-67": {
+    "type": "text",
+    "label": "Heading: \"The other three dimensions.\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-68": {
+    "type": "text",
+    "label": "Text: \"Security only works when the dimensi…\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-69": {
+    "type": "text",
+    "label": "Text: \"D1 / OFFENSE\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-70": {
+    "type": "text",
+    "label": "Heading: \"Offense\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-71": {
+    "type": "text",
+    "label": "Text: \"Offensive testing that finds the gap…\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-72": {
+    "type": "text",
+    "label": "Text: \"Explore Offense →\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-73": {
+    "type": "text",
+    "label": "Text: \"D2 / DEFENSE\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-74": {
+    "type": "text",
+    "label": "Heading: \"Defense\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-75": {
+    "type": "text",
+    "label": "Text: \"Managed detection and response watch…\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-76": {
+    "type": "text",
+    "label": "Text: \"Explore Defense →\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-77": {
+    "type": "text",
+    "label": "Text: \"D4 / GOVERNANCE\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-78": {
+    "type": "text",
+    "label": "Heading: \"Governance\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-79": {
+    "type": "text",
+    "label": "Text: \"Risk, compliance and critical system…\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-80": {
+    "type": "text",
+    "label": "Text: \"Explore Governance →\"",
+    "group": "More Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-81": {
+    "type": "text",
+    "label": "Heading: \"Bring Protection into focus.\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-82": {
+    "type": "text",
+    "label": "Text: \"Book a short consultation and we wil…\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-83": {
+    "type": "text",
+    "label": "Link: \"Book a consultation\"",
+    "group": "Cta",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-84": {
+    "type": "text",
+    "label": "Link: \"816.665.1900\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-85": {
+    "type": "text",
+    "label": "Text: \"4D Security\"",
+    "group": "Footer",
+    "rich": true,
+    "allow": [
+      "small"
+    ]
+  },
+  "cms-86": {
+    "type": "text",
+    "label": "Text: \"Multi-dimensional security built aro…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-87": {
+    "type": "text",
+    "label": "Heading: \"Dimensions\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-88": {
+    "type": "text",
+    "label": "Link: \"Offense\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-89": {
+    "type": "text",
+    "label": "Link: \"Defense\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-90": {
+    "type": "text",
+    "label": "Link: \"Protection\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-91": {
+    "type": "text",
+    "label": "Link: \"Governance\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-92": {
+    "type": "text",
+    "label": "Heading: \"Company\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-93": {
+    "type": "text",
+    "label": "Link: \"Why 4D\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-94": {
+    "type": "text",
+    "label": "Link: \"Penetration Testing\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-95": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-96": {
+    "type": "text",
+    "label": "Heading: \"Talk to us\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-97": {
+    "type": "text",
+    "label": "Link: \"info@4DSec.io\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-98": {
+    "type": "text",
+    "label": "Link: \"816.665.1900\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-99": {
+    "type": "text",
+    "label": "Text: \"© 2026 4D Security, LLC. All rights …\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-100": {
+    "type": "text",
+    "label": "Link: \"Request a security consultation\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-101": {
+    "type": "text",
+    "label": "Browser tab title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-102": {
+    "type": "meta-attr",
+    "label": "Google meta description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-103": {
+    "type": "meta-attr",
+    "label": "Social share title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-104": {
+    "type": "meta-attr",
+    "label": "Social share description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  }
+}

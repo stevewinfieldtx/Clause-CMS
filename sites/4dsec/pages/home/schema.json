@@ -1,0 +1,813 @@
+{
+  "cms-1": {
+    "type": "text",
+    "label": "Text: \"4D Security\"",
+    "group": "Nav",
+    "rich": true,
+    "allow": [
+      "small"
+    ]
+  },
+  "cms-2": {
+    "type": "text",
+    "label": "Text: \"Solutions\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-3": {
+    "type": "text",
+    "label": "Heading: \"Offense\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-4": {
+    "type": "text",
+    "label": "Text: \"Offensive testing that finds the gap…\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-5": {
+    "type": "text",
+    "label": "Heading: \"Defense\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-6": {
+    "type": "text",
+    "label": "Text: \"Managed detection and response watch…\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-7": {
+    "type": "text",
+    "label": "Heading: \"Protection\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-8": {
+    "type": "text",
+    "label": "Text: \"Cloud, data and identity controls th…\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-9": {
+    "type": "text",
+    "label": "Heading: \"Governance\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-10": {
+    "type": "text",
+    "label": "Text: \"Risk, compliance and critical system…\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-11": {
+    "type": "text",
+    "label": "Text: \"Thirty capabilities, organised into …\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-12": {
+    "type": "text",
+    "label": "Link: \"Why four dimensions ›\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-13": {
+    "type": "text",
+    "label": "Link: \"Company\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-14": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-15": {
+    "type": "text",
+    "label": "Link: \"Book a consultation\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-16": {
+    "type": "text",
+    "label": "Text: \"4D · All Dimensions\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-17": {
+    "type": "text",
+    "label": "Heading: \"Security in every\"",
+    "group": "Hero",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-18": {
+    "type": "text",
+    "label": "Text: \"4D Security defends your business ac…\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-19": {
+    "type": "text",
+    "label": "Link: \"Book a consultation\"",
+    "group": "Hero",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-20": {
+    "type": "text",
+    "label": "Link: \"Explore the four dimensions\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-21": {
+    "type": "text",
+    "label": "Text: \"Offense\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-22": {
+    "type": "text",
+    "label": "Text: \"Defense\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-23": {
+    "type": "text",
+    "label": "Text: \"Protection\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-24": {
+    "type": "text",
+    "label": "Text: \"Governance\"",
+    "group": "Hero",
+    "rich": false,
+    "allow": []
+  },
+  "cms-25": {
+    "type": "text",
+    "label": "Text: \"The four dimensions\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-26": {
+    "type": "text",
+    "label": "Heading: \"One partner. Four dimensions of defe…\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-27": {
+    "type": "text",
+    "label": "Text: \"Most firms sell you a product. We co…\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-28": {
+    "type": "text",
+    "label": "Text: \"D1 / OFFENSE\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-29": {
+    "type": "text",
+    "label": "Heading: \"Find it first\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-30": {
+    "type": "text",
+    "label": "Text: \"Offensive testing that thinks like a…\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-31": {
+    "type": "text",
+    "label": "Text: \"Penetration Testing\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-32": {
+    "type": "text",
+    "label": "Text: \"Attack Surface\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-33": {
+    "type": "text",
+    "label": "Text: \"Breach Simulation\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-34": {
+    "type": "text",
+    "label": "Text: \"Phishing\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-35": {
+    "type": "text",
+    "label": "Text: \"Explore Offense\"",
+    "group": "Dimensions",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-36": {
+    "type": "text",
+    "label": "Text: \"D2 / DEFENSE\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-37": {
+    "type": "text",
+    "label": "Heading: \"Watch and respond\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-38": {
+    "type": "text",
+    "label": "Text: \"Managed detection and response acros…\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-39": {
+    "type": "text",
+    "label": "Text: \"EDR / MDR\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-40": {
+    "type": "text",
+    "label": "Text: \"AI SOC\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-41": {
+    "type": "text",
+    "label": "Text: \"Incident Response\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-42": {
+    "type": "text",
+    "label": "Text: \"BEC Defense\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-43": {
+    "type": "text",
+    "label": "Text: \"Explore Defense\"",
+    "group": "Dimensions",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-44": {
+    "type": "text",
+    "label": "Text: \"D3 / PROTECTION\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-45": {
+    "type": "text",
+    "label": "Heading: \"Hold the line\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-46": {
+    "type": "text",
+    "label": "Text: \"Cloud, data and identity controls th…\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-47": {
+    "type": "text",
+    "label": "Text: \"CNAPP / CSPM\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-48": {
+    "type": "text",
+    "label": "Text: \"Data Security\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-49": {
+    "type": "text",
+    "label": "Text: \"IAM / PAM\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-50": {
+    "type": "text",
+    "label": "Text: \"Micro-Segmentation\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-51": {
+    "type": "text",
+    "label": "Text: \"Explore Protection\"",
+    "group": "Dimensions",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-52": {
+    "type": "text",
+    "label": "Text: \"D4 / GOVERNANCE\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-53": {
+    "type": "text",
+    "label": "Heading: \"Prove it works\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-54": {
+    "type": "text",
+    "label": "Text: \"Risk, compliance and critical system…\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-55": {
+    "type": "text",
+    "label": "Text: \"GRC\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-56": {
+    "type": "text",
+    "label": "Text: \"Fractional CISO\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-57": {
+    "type": "text",
+    "label": "Text: \"OT / ICS / SCADA\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-58": {
+    "type": "text",
+    "label": "Text: \"AI Governance\"",
+    "group": "Dimensions",
+    "rich": false,
+    "allow": []
+  },
+  "cms-59": {
+    "type": "text",
+    "label": "Text: \"Explore Governance\"",
+    "group": "Dimensions",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-60": {
+    "type": "text",
+    "label": "Heading: \"A method, not a product pitch.\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-61": {
+    "type": "text",
+    "label": "Text: \"Every engagement moves through the s…\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-62": {
+    "type": "text",
+    "label": "Heading: \"Assess\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-63": {
+    "type": "text",
+    "label": "Text: \"We map your attack surface, controls…\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-64": {
+    "type": "text",
+    "label": "Heading: \"Harden\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-65": {
+    "type": "text",
+    "label": "Text: \"We close the gaps that matter first,…\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-66": {
+    "type": "text",
+    "label": "Heading: \"Watch\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-67": {
+    "type": "text",
+    "label": "Text: \"Our SOC monitors endpoint, cloud, id…\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-68": {
+    "type": "text",
+    "label": "Heading: \"Prove\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-69": {
+    "type": "text",
+    "label": "Text: \"You get reporting that stands up to …\"",
+    "group": "Approach",
+    "rich": false,
+    "allow": []
+  },
+  "cms-70": {
+    "type": "text",
+    "label": "Heading: \"Built for the systems that cannot go…\"",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-71": {
+    "type": "text",
+    "label": "Text: \"Plants, pipelines and production lin…\"",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-72": {
+    "type": "text",
+    "label": "Text: \"OT and ICS coverage\"",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-73": {
+    "type": "text",
+    "label": "Text: \"SCADA, PLCs and IoT protected by con…\"",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-74": {
+    "type": "text",
+    "label": "Text: \"Safe by design\"",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-75": {
+    "type": "text",
+    "label": "Text: \"Passive discovery and micro-segmenta…\"",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-76": {
+    "type": "text",
+    "label": "Text: \"One view, IT and OT\"",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-77": {
+    "type": "text",
+    "label": "Text: \"A single pane across corporate and p…\"",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-78": {
+    "type": "text",
+    "label": "Link: \"See Governance and critical systems\"",
+    "group": "Critical",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-79": {
+    "type": "text",
+    "label": "Heading: \"Why teams pick 4D.\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-80": {
+    "type": "text",
+    "label": "Text: \"Multi-dimensional security that prio…\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-81": {
+    "type": "text",
+    "label": "Heading: \"One partner, the full picture\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-82": {
+    "type": "text",
+    "label": "Text: \"Offense, defense, protection and gov…\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-83": {
+    "type": "text",
+    "label": "Heading: \"Mapped to your business\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-84": {
+    "type": "text",
+    "label": "Text: \"We tie every finding to a compensati…\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-85": {
+    "type": "text",
+    "label": "Heading: \"Analyst-led, AI-accelerated\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-86": {
+    "type": "text",
+    "label": "Text: \"An AI-assisted SOC that gives our an…\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-87": {
+    "type": "text",
+    "label": "Heading: \"Evidence you can hand over\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-88": {
+    "type": "text",
+    "label": "Text: \"Board-ready and audit-ready reportin…\"",
+    "group": "Why",
+    "rich": false,
+    "allow": []
+  },
+  "cms-89": {
+    "type": "text",
+    "label": "Heading: \"See your security in four dimensions.\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-90": {
+    "type": "text",
+    "label": "Text: \"A short consultation, a clear pictur…\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-91": {
+    "type": "text",
+    "label": "Link: \"Book a consultation\"",
+    "group": "Cta",
+    "rich": true,
+    "allow": [
+      "span"
+    ]
+  },
+  "cms-92": {
+    "type": "text",
+    "label": "Link: \"816.665.1900\"",
+    "group": "Cta",
+    "rich": false,
+    "allow": []
+  },
+  "cms-93": {
+    "type": "text",
+    "label": "Text: \"4D Security\"",
+    "group": "Footer",
+    "rich": true,
+    "allow": [
+      "small"
+    ]
+  },
+  "cms-94": {
+    "type": "text",
+    "label": "Text: \"Multi-dimensional security built aro…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-95": {
+    "type": "text",
+    "label": "Heading: \"Dimensions\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-96": {
+    "type": "text",
+    "label": "Link: \"Offense\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-97": {
+    "type": "text",
+    "label": "Link: \"Defense\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-98": {
+    "type": "text",
+    "label": "Link: \"Protection\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-99": {
+    "type": "text",
+    "label": "Link: \"Governance\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-100": {
+    "type": "text",
+    "label": "Heading: \"Company\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-101": {
+    "type": "text",
+    "label": "Link: \"Why 4D\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-102": {
+    "type": "text",
+    "label": "Link: \"Penetration Testing\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-103": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-104": {
+    "type": "text",
+    "label": "Heading: \"Talk to us\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-105": {
+    "type": "text",
+    "label": "Link: \"info@4DSec.io\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-106": {
+    "type": "text",
+    "label": "Link: \"816.665.1900\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-107": {
+    "type": "text",
+    "label": "Text: \"© 2026 4D Security, LLC. All rights …\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-108": {
+    "type": "text",
+    "label": "Link: \"Request a security consultation\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-109": {
+    "type": "image",
+    "label": "Image: Industrial control room protected by 4D S",
+    "group": "Critical",
+    "rich": false,
+    "allow": []
+  },
+  "cms-110": {
+    "type": "text",
+    "label": "Browser tab title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-111": {
+    "type": "meta-attr",
+    "label": "Google meta description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-112": {
+    "type": "meta-attr",
+    "label": "Social share title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-113": {
+    "type": "meta-attr",
+    "label": "Social share description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "sections": [
+    "header",
+    "nav",
+    "main",
+    "#page-hero",
+    "#capabilities",
+    "#outcomes",
+    "#more-dimensions",
+    "#cta",
+    "footer"
+  ],
+  "collections": [
+    {
+      "id": "col1",
+      "count": 2,
+      "itemTag": "li",
+      "label": "nav items"
+    },
+    {
+      "id": "col2",
+      "count": 4,
+      "itemTag": "a",
+      "label": "nav items"
+    },
+    {
+      "id": "col3",
+      "count": 4,
+      "itemTag": "section",
+      "label": "main items"
+    },
+    {
+      "id": "col4",
+      "count": 2,
+      "itemTag": "a",
+      "label": "page-hero items"
+    },
+    {
+      "id": "col5",
+      "count": 7,
+      "itemTag": "div",
+      "label": "capabilities items"
+    },
+    {
+      "id": "col6",
+      "count": 3,
+      "itemTag": "div",
+      "label": "outcomes items"
+    },
+    {
+      "id": "col7",
+      "count": 3,
+      "itemTag": "a",
+      "label": "more-dimensions items"
+    },
+    {
+      "id": "col8",
+      "count": 2,
+      "itemTag": "div",
+      "label": "footer items"
+    },
+    {
+      "id": "col9",
+      "count": 4,
+      "itemTag": "li",
+      "label": "footer items"
+    },
+    {
+      "id": "col10",
+      "count": 3,
+      "itemTag": "li",
+      "label": "footer items"
+    },
+    {
+      "id": "col11",
+      "count": 2,
+      "itemTag": "a",
+      "label": "footer items"
+    }
+  ]
+}
