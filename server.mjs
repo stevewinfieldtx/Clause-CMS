@@ -123,12 +123,27 @@ function sitemapXml(name) {
 function robotsTxt(name) {
   return `User-agent: *\nAllow: /\n\nSitemap: ${siteBase(name)}/sitemap.xml\n`;
 }
+// llms.txt — tells AI engines (ChatGPT, Perplexity, Claude) what to read and cite.
+function llmsTxt(name) {
+  const s = sites[name], base = siteBase(name);
+  const homeSeo = effectiveSeo(s.pages[s.home]?.templateHtml || '', s.pages[s.home]?.content || {});
+  const title = s.pages[s.home]?.content?.['seo:orgName'] || homeSeo.title || name;
+  const lines = s.order
+    .filter((slug) => (s.pages[slug]?.content?.['seo:robots'] || 'index,follow').indexOf('noindex') === -1)
+    .map((slug) => {
+      const p = s.pages[slug];
+      const seo = effectiveSeo(p?.templateHtml || '', p?.content || {});
+      return `- [${seo.title || slug}](${base}${pagePath(s, slug)})${seo.description ? `: ${seo.description}` : ''}`;
+    });
+  return `# ${title}\n${homeSeo.description ? `\n> ${homeSeo.description}\n` : ''}\n## Pages\n\n${lines.join('\n')}\n`;
+}
 // Build the full static bundle for a site (every page + uploaded images + SEO infra) for Vercel.
 function siteFiles(name) {
   const s = sites[name];
   const files = s.order.map((slug) => ({ file: fileFor(s, slug), data: publishedPageHtml(name, slug) }));
   files.push({ file: 'sitemap.xml', data: sitemapXml(name) });
   files.push({ file: 'robots.txt', data: robotsTxt(name) });
+  files.push({ file: 'llms.txt', data: llmsTxt(name) });
   const up = join(siteDir(name), 'uploads');
   if (existsSync(up)) for (const f of readdirSync(up)) files.push({ file: `u/${name}/${f}`, data: readFileSync(join(up, f)).toString('base64'), encoding: 'base64' });
   return files;
@@ -236,6 +251,9 @@ function publishedPageHtml(name, slug) {
 function buildRelease(name, seq) {
   const s = sites[name];
   const files = s.order.map((slug) => ({ path: fileFor(s, slug), content: publishedPageHtml(name, slug) }));
+  files.push({ path: 'sitemap.xml', content: sitemapXml(name) });
+  files.push({ path: 'robots.txt', content: robotsTxt(name) });
+  files.push({ path: 'llms.txt', content: llmsTxt(name) });
   deployer.stage(siteDir(name), seq, files);
   deployer.activate(siteDir(name), seq);
 }
@@ -524,6 +542,16 @@ app.get('/live/:name', (req, res) => {
   const html = deployer.liveHtml(siteDir(req.params.name), 'index.html');
   res.type('html').send(html || 'Not published yet');
 });
+// SEO infra files, served from the active release. Declared before the :slug
+// catch-all so "sitemap.xml" is never treated as a page slug.
+for (const [file, mime] of [['sitemap.xml', 'application/xml'], ['robots.txt', 'text/plain'], ['llms.txt', 'text/plain']]) {
+  app.get(`/live/:name/${file}`, (req, res) => {
+    if (!sites[req.params.name]) return res.status(404).send('Unknown site');
+    const body = deployer.liveHtml(siteDir(req.params.name), file);
+    if (!body) return res.status(404).send('Not published yet');
+    res.type(mime).send(body);
+  });
+}
 app.get('/live/:name/:slug', (req, res) => {
   if (!sites[req.params.name]) return res.status(404).send('Unknown site');
   const html = deployer.liveHtml(siteDir(req.params.name), `${req.params.slug.replace(/[^a-z0-9_-]/gi, '')}.html`);
