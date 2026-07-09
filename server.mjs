@@ -701,6 +701,25 @@ app.post('/api/pages/import-linked', requireOwner, async (req, res) => {
   res.json({ ok: true, added, skipped, failed, scanned: links.length });
 });
 
+// Pull ONE specific URL in as a new page (recovery path for a page that was deleted from the
+// CMS, or never got picked up by a linked-page crawl — e.g. a homepage that isn't itself
+// linked-to from anywhere on its own site). Skips if the derived slug already exists.
+app.post('/api/pages/import', requireOwner, async (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  const url = String(req.body?.url || '').trim();
+  if (!url) return res.status(400).json({ error: 'Provide the page URL to import.' });
+  let p;
+  try { p = await importUrlAsPage(name, url); }
+  catch (e) { return res.status(400).json({ error: 'Could not import ' + url + ' — ' + e.message }); }
+  if (p.skipped) return res.status(409).json({ error: `A page with slug "${p.slug}" already exists — delete or rename it first.` });
+  writeCfg(name);
+  saveVersion(name, `imported page "${p.slug}"`);
+  auditLog(name, { role: 'owner', action: 'import-page', slug: p.slug, url });
+  await flushMirror();
+  res.json({ ok: true, slug: p.slug, title: p.title });
+});
+
 // Re-fetch ONE existing page's live HTML and re-autotag it — picks up new sections/images
 // the live site gained since it was first imported. Unlike /api/ingest, this never touches
 // s.access, s.home, s.order, other pages, capabilities, or version history — it only replaces
