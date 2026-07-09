@@ -426,7 +426,7 @@ async function loadPages(){
 let newTpl='blank';
 function renderPages(){
   const p=$('#pagesPanel');
-  p.innerHTML='<h4>Pages</h4>'+pagesList.map(pg=>`<div class="pg ${pg.slug===PAGE?'cur':''}"><span class="nm" data-go="${pg.slug}">${esc(pg.title)} ${pg.home?'<span class="hm">● home</span>':''}<span class="pth">${esc(pg.path)}</span></span>${pg.home?'':`<span class="ico" title="Set as home" data-home="${pg.slug}">⌂</span><span class="ico" title="Delete" data-del="${pg.slug}">🗑</span>`}</div>`).join('')+
+  p.innerHTML='<h4>Pages</h4>'+pagesList.map(pg=>`<div class="pg ${pg.slug===PAGE?'cur':''}"><span class="nm" data-go="${pg.slug}">${esc(pg.title)} ${pg.home?'<span class="hm">● home</span>':''}<span class="pth">${esc(pg.path)}</span></span>${IS_OWNER?`<span class="ico" title="Refresh from live source (keeps home/access/history — only this page's fields reset)" data-refresh="${pg.slug}">⟳</span>`:''}${pg.home?'':`<span class="ico" title="Set as home" data-home="${pg.slug}">⌂</span><span class="ico" title="Delete" data-del="${pg.slug}">🗑</span>`}</div>`).join('')+
     `<div class="addbox">
        <div class="addlbl">Add a new page</div>
        <div class="tplrow">
@@ -439,6 +439,7 @@ function renderPages(){
   p.querySelectorAll('[data-go]').forEach(e=>e.onclick=()=>switchPage(e.dataset.go));
   p.querySelectorAll('[data-home]').forEach(e=>e.onclick=()=>pageOp('/api/pages/home',{slug:e.dataset.home}));
   p.querySelectorAll('[data-del]').forEach(e=>e.onclick=()=>{if(confirm('Delete this page?'))pageOp('/api/pages/delete',{slug:e.dataset.del});});
+  p.querySelectorAll('[data-refresh]').forEach(e=>e.onclick=()=>{if(confirm('Re-fetch this page from its live source? New sections/images picked up on the live site will become editable. Any unpublished draft for this page will be discarded — its home/access/history are untouched.')){delete chatHistory[e.dataset.refresh];pageOp('/api/pages/refresh',{slug:e.dataset.refresh});}});
   p.querySelectorAll('[data-tpl]').forEach(e=>e.onclick=()=>{newTpl=e.dataset.tpl;p.querySelectorAll('[data-tpl]').forEach(x=>x.classList.toggle('on',x===e));});
   const add=()=>{const t=$('#newPage').value.trim();if(t)pageOp('/api/pages/add',{title:t,template:newTpl});};
   $('#addPage').onclick=add;
@@ -894,11 +895,16 @@ async function loadVersions(){
   $('#histPanel').innerHTML='<h4>Version history</h4>'+versions.slice().reverse().map(v=>{const cur=v.seq===head;const t=new Date(v.ts).toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});return `<div class="pg ${cur?'cur':''}" data-seq="${v.seq}"><span class="nm">v${v.seq} — ${esc(v.summary)}<span class="pth">${t}</span></span>${cur?'<span class="hm">● live</span>':''}</div>`;}).join('');
   $('#histPanel').querySelectorAll('[data-seq]').forEach(el=>el.onclick=()=>restore(+el.dataset.seq));
 }
-async function restore(seq){const r=await (await fetch('/api/version/restore?site='+SITE+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({seq})})).json();if(r.ok){pendingByPage={};hasDraft=false;sel=null;updateBar();$('#histPanel').classList.remove('show');await loadPages();await loadVersions();bubble('bot',`⏱ Restored v${seq}.`);}}
+async function restore(seq){const r=await (await fetch('/api/version/restore?site='+SITE+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({seq})})).json();if(r.ok){pendingByPage={};hasDraft=false;sel=null;chatHistory={};updateBar();$('#histPanel').classList.remove('show');await loadPages();await loadVersions();bubble('bot',`⏱ Restored v${seq}.`);}}
 function step(d){const idx=versions.findIndex(v=>v.seq===head);const t=idx+d;if(t>=0&&t<versions.length)restore(versions[t].seq);}
 $('#undoBtn').onclick=()=>step(-1);$('#redoBtn').onclick=()=>step(1);
 
 /* ── chat ── */
+// Rolling chat memory per page, so "make it bigger" resolves against the prior turn.
+// Keyed by page slug since each page has its own field catalogue. Capped client-side;
+// the server caps again to the last 8 turns regardless of what's sent.
+let chatHistory={};
+function pageHistory(){return chatHistory[PAGE]||(chatHistory[PAGE]=[]);}
 function showResult(r){
   bubble('bot',esc(r.summary||'Done.'));
   if(r.errors&&r.errors.length){const c=document.createElement('div');c.className='card bad';c.innerHTML=`<h4>⛔ Blocked</h4><div class="body">${r.errors.map(e=>`<div class="err">${esc(e)}</div>`).join('')}</div>`;log.appendChild(c);return;}
@@ -908,7 +914,11 @@ function showResult(r){
 }
 async function send(){const command=input.value.trim();if(!command)return;input.value='';input.style.height='auto';bubble('client',esc(command));
   const scoped=(sel&&sel.id&&sel.text)?`${command} — (the ${(sel.tag||'text').toLowerCase()} that currently says "${sel.text.slice(0,60)}")`:command;
-  const t=bubble('bot','<span class="spin"></span> Planning &amp; checking…');try{const r=await (await fetch('/api/plan?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({command:scoped})})).json();t.remove();showResult(r);}catch(e){t.remove();bubble('bot','Error: '+esc(e.message));}}
+  const hist=pageHistory();
+  const t=bubble('bot','<span class="spin"></span> Planning &amp; checking…');try{const r=await (await fetch('/api/plan?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({command:scoped,history:hist})})).json();t.remove();showResult(r);
+    hist.push({role:'user',content:scoped},{role:'assistant',content:r.summary||'Done.'});
+    chatHistory[PAGE]=hist.slice(-12);
+  }catch(e){t.remove();bubble('bot','Error: '+esc(e.message));}}
 $('#send').onclick=send;input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
 input.addEventListener('input',()=>{input.style.height='auto';input.style.height=input.scrollHeight+'px';});
 

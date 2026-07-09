@@ -397,7 +397,7 @@ function requireOwner(req, res, next) { if (isOwner(req)) return next(); return 
 /* ── per-client capabilities ──
    What a handed-off CLIENT may do beyond editing page content. Default is edit-only;
    the owner grants page add/delete per site from the Agency Console. Owners are unrestricted. */
-const DEFAULT_CAPS = { canAddPages: false, canDeletePages: false };
+const DEFAULT_CAPS = { canAddPages: false, canDeletePages: false, canChangeHome: false };
 const capsOf = (s) => ({ ...DEFAULT_CAPS, ...(s?.access?.capabilities || {}) });
 // Gate a page-management route: clients need the matching capability; owners always pass.
 // Runs AFTER authWrite (which sets req.role), so the site is known and the role resolved.
@@ -589,7 +589,7 @@ app.get('/api/me', (req, res) => {
   // 'locked' = the site has a password set but no/wrong key was given → show the login gate
   const locked = role === 'none' && !!(s && s.access?.tokenHash);
   // Capabilities the UI should honour: owners are unrestricted; clients get the site's grants.
-  const capabilities = role === 'owner' ? { canAddPages: true, canDeletePages: true } : capsOf(s);
+  const capabilities = role === 'owner' ? { canAddPages: true, canDeletePages: true, canChangeHome: true } : capsOf(s);
   res.json({ role, locked, hasAccess: !!(s && s.access?.tokenHash), requireApproval: !!(s && s.access?.requireApproval), clientName: s?.access?.clientName || null, capabilities, mustChangePassword: role === 'client' && !!s?.access?.mustChangePassword, site: get(req), plannerMode: plannerMode() });
 });
 
@@ -701,6 +701,35 @@ app.post('/api/pages/import-linked', requireOwner, async (req, res) => {
   res.json({ ok: true, added, skipped, failed, scanned: links.length });
 });
 
+// Re-fetch ONE existing page's live HTML and re-autotag it — picks up new sections/images
+// the live site gained since it was first imported. Unlike /api/ingest, this never touches
+// s.access, s.home, s.order, other pages, capabilities, or version history — it only replaces
+// this page's own template/content/schema. Field ids are re-derived from document order, so
+// any unpublished draft for this page is discarded (it would point at stale ids).
+app.post('/api/pages/refresh', requireOwner, async (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  const slug = req.body?.slug;
+  if (!s.pages[slug]) return res.status(404).json({ error: 'No such page.' });
+  let url = req.body?.url;
+  if (!url) {
+    if (!s.sourceUrl) return res.status(400).json({ error: 'This site has no source URL — pass one explicitly.' });
+    if (slug === s.home) url = s.sourceUrl;
+    else { try { url = new URL(`${slug}.html`, s.sourceUrl).href; } catch { return res.status(400).json({ error: 'Could not derive a source URL for this page — pass one explicitly.' }); } }
+  }
+  let html;
+  try { const r = await fetch(url); if (!r.ok) throw new Error('HTTP ' + r.status); html = await r.text(); }
+  catch (e) { return res.status(400).json({ error: 'Could not fetch ' + url + ' — ' + e.message }); }
+  const { templateHtml, content, schema, sections, collections } = autotag(html, url);
+  s.pages[slug] = { templateHtml, content, schema, sections, collections };
+  delete s.draft[slug];
+  writePage(name, slug, s.pages[slug]);
+  saveVersion(name, `refreshed "${slug}" from source`);
+  auditLog(name, { role: 'owner', action: 'refresh-page', slug, url });
+  await flushMirror();
+  res.json({ ok: true, slug, url, fields: Object.keys(schema).length, collections: collections.length });
+});
+
 app.get('/api/state', (req, res) => {
   const s = need(req, res); if (!s) return;
   const slug = pageOf(req, s);
@@ -717,7 +746,12 @@ app.post('/api/plan', authWrite, async (req, res) => {
   const a = pageState(s, pageOf(req, s));
   const command = String(req.body?.command || '').trim();
   if (!command) return res.status(400).json({ error: 'Empty command.' });
-  const { summary, changeset } = await plan(command, a.content, a.schema);
+  // Last few turns for this page, so follow-ups like "make it bigger" resolve against
+  // what was just discussed. Client sends its own rolling log; trust but cap it server-side.
+  const history = Array.isArray(req.body?.history)
+    ? req.body.history.slice(-8).map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: String(m.content || '').slice(0, 2000) }))
+    : [];
+  const { summary, changeset } = await plan(command, a.content, a.schema, history);
   const g = validate(changeset, a);
   res.json({ summary, plannerMode: plannerMode(), diff: g.diff, candidate: g.candidate, ok: g.ok, errors: g.errors, warnings: g.warnings });
 });
@@ -1017,7 +1051,7 @@ app.post('/api/pages/delete', authWrite, clientCan('canDeletePages'), (req, res)
   res.json({ ok: true });
 });
 
-app.post('/api/pages/home', authWrite, clientCan('canDeletePages'), (req, res) => {
+app.post('/api/pages/home', authWrite, clientCan('canChangeHome'), (req, res) => {
   const s = need(req, res); if (!s) return;
   const slug = req.body?.slug;
   if (!s.pages[slug]) return res.status(404).json({ error: 'No such page.' });
@@ -1068,7 +1102,7 @@ app.post('/api/admin/capabilities', requireOwner, (req, res) => {
   const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
   const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
   if (!s.access) s.access = { createdAt: new Date().toISOString() };
-  s.access.capabilities = { canAddPages: !!req.body?.canAddPages, canDeletePages: !!req.body?.canDeletePages };
+  s.access.capabilities = { canAddPages: !!req.body?.canAddPages, canDeletePages: !!req.body?.canDeletePages, canChangeHome: !!req.body?.canChangeHome };
   writeFileSync(join(siteDir(name), 'access.json'), JSON.stringify(s.access, null, 2));
   res.json({ ok: true, capabilities: s.access.capabilities });
 });
