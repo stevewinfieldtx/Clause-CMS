@@ -55,31 +55,20 @@
     <h1>Agency Console</h1><span class="tag">AI CMS</span>
     <a class="ghost" href="#" onclick="location.href='/admin/guide.html?key='+encodeURIComponent(document.getElementById('key').value);return false" style="margin-left:10px;text-decoration:none" title="Step-by-step walkthrough">📋 Guided setup</a>
     <span class="sp"></span>
-    <div class="keybox">owner key <input id="key" placeholder="owner-dev"></div>
+    <!-- Owner key comes from the URL's ?key= (which should match the ADMIN_KEY env var) or a
+         previously-saved one — never a visible field to type into. Bookmark this page with
+         ?key=<your ADMIN_KEY> once. -->
+    <input id="key" type="hidden">
   </header>
   <div class="wrap">
     <!-- AI key -->
     <div class="card">
-      <h2>🤖 AI editing <span class="stat" id="aiStatus">…</span></h2>
-      <p class="sub">Powers the “describe a change” chat. Click-to-edit works without it. Your key is stored on your server and never shown again.</p>
-      <div class="provs" id="provs">
-        <div class="prov" data-p="anthropic"><img src="https://cdn.simpleicons.org/anthropic/d97757"><div><div class="pn">Anthropic</div><div class="pd">Claude — direct</div></div></div>
-        <div class="prov" data-p="openrouter"><img src="https://cdn.simpleicons.org/openrouter/8b8b8b" onerror="this.style.visibility='hidden'"><div><div class="pn">OpenRouter</div><div class="pd">Claude + many models</div></div></div>
-      </div>
+      <h2>🤖 AI editing (OpenRouter) <span class="stat" id="aiStatus">…</span></h2>
+      <p class="sub">Powers the “describe a change” chat. Click-to-edit works without it. Prefer setting <span class="mono">OPENROUTER_API_KEY</span> as a Railway env var over pasting a key here — env vars always win.</p>
       <div class="row">
-        <div class="fld"><label>API key</label><input id="aiKey" type="password" placeholder="sk-ant-…  or  sk-or-…"></div>
+        <div class="fld"><label>API key</label><input id="aiKey" type="password" placeholder="sk-or-…  (only if not using an env var)"></div>
         <div class="fld" style="flex:0 0 230px"><label>Model</label><input id="aiModel" placeholder="latest Sonnet (default)"></div>
         <button class="btnp" id="aiSave" style="align-self:flex-end">Save key</button>
-      </div>
-    </div>
-    <!-- Vercel -->
-    <div class="card">
-      <h2>▲ Vercel hosting <span class="stat" id="vcStatus">…</span></h2>
-      <p class="sub">Connect your Vercel once. Then every client <b>Publish</b> auto-deploys to that client's live Vercel site — no Git, no rebuilds. Create a token at <span class="mono">vercel.com/account/tokens</span>.</p>
-      <div class="row">
-        <div class="fld"><label>Vercel token</label><input id="vcToken" type="password" placeholder="paste your Vercel token"></div>
-        <div class="fld" style="flex:0 0 210px"><label>Team ID <span style="color:var(--ink-3)">(optional)</span></label><input id="vcTeam" placeholder="team_…  or leave blank"></div>
-        <button class="btnp" id="vcSave" style="align-self:flex-end">Connect</button>
       </div>
     </div>
     <div class="card" style="margin-bottom:16px">
@@ -100,9 +89,7 @@ keyEl.value=_urlKey||localStorage.getItem('ownerKey')||'owner-dev';
 if(_urlKey)localStorage.setItem('ownerKey',_urlKey);
 keyEl.oninput=()=>localStorage.setItem('ownerKey',keyEl.value);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const origin=location.origin;
-let provider='openrouter';
-function selProv(p){provider=p;$('#provs').querySelectorAll('.prov').forEach(x=>x.classList.toggle('on',x.dataset.p===p));}
-$('#provs').querySelectorAll('.prov').forEach(el=>el.onclick=()=>selProv(el.dataset.p));
+const provider='openrouter';   // the only provider this CMS supports
 function goBack(){ try{ window.close(); }catch(e){} setTimeout(function(){ if(!window.closed && history.length>1) history.back(); }, 120); }
 function scalePreviews(){ document.querySelectorAll('.preview').forEach(function(p){ var f=p.querySelector('iframe'); if(f) f.style.transform='scale('+(p.clientWidth/1280)+')'; }); }
 window.addEventListener('resize',scalePreviews);
@@ -138,11 +125,6 @@ async function load(){
         <span id="capsSaved-${esc(s.name)}" style="display:none;color:#9be8ab;font-size:12px">✓ saved</span>
         <div class="lk ${s.handedOff?'show':''}" id="lk-${esc(s.name)}"><div class="lkrow"><input readonly value="${s.handedOff?esc(origin)+'/client/?site='+encodeURIComponent(s.name):''}"><button class="ghost" onclick="copy(this)">Copy link</button></div></div>
         <button class="ghost" style="margin-top:9px;font-size:12px" onclick="handoff('${esc(s.name)}')">…or generate a one-click private link instead</button>
-      </div>
-      <div class="handoff" style="margin-top:11px">
-        <div class="ht">▲ Vercel project ${s.vercelUrl?`· <a href="${esc(s.vercelUrl)}" target="_blank" style="color:#9bc1ff;text-decoration:none">live ↗</a>`:''}</div>
-        <p>The Vercel project this site deploys to whenever it's published.</p>
-        <div class="lkrow"><input id="vc-${esc(s.name)}" value="${esc(s.vercelProject||'')}" placeholder="vercel-project-name"><button class="ghost" onclick="saveVercel('${esc(s.name)}',false)">Save</button><button class="btnp" onclick="saveVercel('${esc(s.name)}',true)">Save &amp; deploy</button></div>
       </div>
     </div>`).join('');
   scalePreviews();
@@ -217,22 +199,7 @@ function copy(btn){const i=btn.parentElement.querySelector('input');i.select();d
 async function loadAi(){
   const r=await (await fetch('/api/admin/config',{headers:{'x-edit-key':keyEl.value}})).json();if(r.error)return;
   $('#aiStatus').textContent=r.hasKey?('● connected · '+r.provider):'not connected — chat uses local matcher';$('#aiStatus').className='stat'+(r.hasKey?' ok':'');
-  selProv(r.provider&&r.provider!=='local'?r.provider:'openrouter');if(r.model)$('#aiModel').value=r.model;
-  $('#vcStatus').textContent=r.hasVercel?('● connected · '+(r.vercelAccount||'')):'not connected — publishes stay on the local preview';$('#vcStatus').className='stat'+(r.hasVercel?' ok':'');
-  if(r.vercelTeam)$('#vcTeam').value=r.vercelTeam;
-}
-$('#vcSave').onclick=async()=>{
-  $('#vcSave').textContent='Connecting…';
-  const r=await (await fetch('/api/admin/config',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({vercelToken:$('#vcToken').value,vercelTeam:$('#vcTeam').value||undefined})})).json();
-  $('#vcSave').textContent='Connect';
-  if(r.error){alert(r.error);return;}$('#vcToken').value='';loadAi();
-};
-async function saveVercel(name,deploy){
-  const project=document.querySelector('#vc-'+CSS.escape(name)).value.trim();
-  const r=await (await fetch('/api/admin/site-vercel',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name,project,deploy})})).json();
-  if(r.error){alert(r.error);return;}
-  if(deploy){ if(r.deploy&&r.deploy.ok)alert('Deployed to Vercel:\n'+r.deploy.url); else if(r.deploy)alert('Deploy failed: '+r.deploy.error); else alert('Saved. Connect Vercel first to deploy.'); load(); }
-  else alert('Saved.');
+  if(r.model)$('#aiModel').value=r.model;
 }
 $('#aiSave').onclick=async()=>{
   const r=await (await fetch('/api/admin/config',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({provider,model:$('#aiModel').value||undefined,apiKey:$('#aiKey').value||undefined})})).json();

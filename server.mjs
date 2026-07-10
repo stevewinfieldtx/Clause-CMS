@@ -89,7 +89,7 @@ function writePage(name, slug, p) {
 }
 function writeCfg(name) {
   const s = sites[name];
-  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, vercel: s.vercel || null, clarity: s.clarity || null, convai: s.convai || null }, null, 2));
+  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null }, null, 2));
 }
 
 /* ───── drafts: staged-but-not-live edits, persisted so a Save survives reload/restart ───── */
@@ -104,10 +104,10 @@ function clearDrafts(name) {
   s.draft = {};
 }
 
-// Best-known public base URL for a site (owner can set s.domain; else last Vercel URL; else placeholder).
+// Best-known public base URL for a site (owner can set s.domain; else placeholder).
 function siteBase(name) {
   const s = sites[name];
-  let b = s.domain || (s.vercel?.lastUrl ? s.vercel.lastUrl : '') || `https://${name}.com`;
+  let b = s.domain || `https://${name}.com`;
   if (!/^https?:\/\//.test(b)) b = 'https://' + b;
   return b.replace(/\/+$/, '');
 }
@@ -136,30 +136,6 @@ function llmsTxt(name) {
       return `- [${seo.title || slug}](${base}${pagePath(s, slug)})${seo.description ? `: ${seo.description}` : ''}`;
     });
   return `# ${title}\n${homeSeo.description ? `\n> ${homeSeo.description}\n` : ''}\n## Pages\n\n${lines.join('\n')}\n`;
-}
-// Build the full static bundle for a site (every page + uploaded images + SEO infra) for Vercel.
-function siteFiles(name) {
-  const s = sites[name];
-  const files = s.order.map((slug) => ({ file: fileFor(s, slug), data: publishedPageHtml(name, slug) }));
-  files.push({ file: 'sitemap.xml', data: sitemapXml(name) });
-  files.push({ file: 'robots.txt', data: robotsTxt(name) });
-  files.push({ file: 'llms.txt', data: llmsTxt(name) });
-  const up = join(siteDir(name), 'uploads');
-  if (existsSync(up)) for (const f of readdirSync(up)) files.push({ file: `u/${name}/${f}`, data: readFileSync(join(up, f)).toString('base64'), encoding: 'base64' });
-  return files;
-}
-
-// Deploy a site to the agency's Vercel (best-effort; never blocks the publish result hard).
-async function deployVercel(name) {
-  const s = sites[name];
-  const token = getConfig().vercelToken;
-  if (!token || !s.vercel?.project) return null;
-  try {
-    const r = await vercelDeploy({ token, teamId: getConfig().vercelTeam, project: s.vercel.project, files: siteFiles(name) });
-    s.vercel.lastUrl = r.alias || r.url; s.vercel.lastDeploy = new Date().toISOString();
-    writeCfg(name);
-    return { ok: true, url: s.vercel.lastUrl };
-  } catch (e) { return { ok: false, error: e.message }; }
 }
 
 // Old single-page sites → migrate into pages/home and reseed the timeline.
