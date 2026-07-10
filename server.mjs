@@ -1104,6 +1104,17 @@ app.post('/api/admin/set-password', requireOwner, (req, res) => {
   auditLog(name, { role: 'owner', action: 'set-password', client: s.access.clientName });
   res.json({ ok: true, loginLink: `/client/?site=${name}`, liveUrl: `/live/${name}` });
 });
+// Rename the client's display name only — does not touch their password or capabilities.
+// Kept separate from set-password so re-setting a password never overwrites this as a side effect.
+app.post('/api/admin/rename-client', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  if (!s.access) return res.status(400).json({ error: 'This site has no client access set yet.' });
+  s.access.clientName = String(req.body?.clientName || '').trim() || null;
+  writeFileSync(join(siteDir(name), 'access.json'), JSON.stringify(s.access, null, 2));
+  auditLog(name, { role: 'owner', action: 'rename-client', client: s.access.clientName });
+  res.json({ ok: true, clientName: s.access.clientName });
+});
 // Client sets their OWN password (used for the forced first-login change). authWrite proves
 // the caller holds the current/temporary password (or is the owner); we then swap the hash.
 app.post('/api/client/change-password', authWrite, (req, res) => {
