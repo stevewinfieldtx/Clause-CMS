@@ -562,10 +562,10 @@ function toFrame(msg){frame.contentWindow&&frame.contentWindow.postMessage(msg,'
 window.addEventListener('message',async e=>{
   const d=e.data;if(!d)return;
   if(d.type==='cms-edit'){pending()[d.id]=d.value;updateBar();}
-  else if(d.type==='cms-select'){sel={id:d.id,tag:d.tag,text:d.text,href:d.href,img:d.img};showScope();openInspectorOnSelect();}
+  else if(d.type==='cms-select'){sel={id:d.id,tag:d.tag,text:d.text,href:d.href,img:d.img,embed:d.embed};showScope();openInspectorOnSelect();}
   else if(d.type==='cms-deselect'){sel=null;showScope();if($('#inspPanel').classList.contains('show'))renderInspector();}
   else if(d.type==='cms-section'){sel=null;showScope();showPanel('#inspPanel');renderSectionCard(d.label||'Section');}
-  else if(d.type==='cms-open'){sel=sel&&sel.id===d.id?sel:{id:d.id,tag:'',text:'',href:d.panel==='link'?'':null,img:d.panel==='image'};showPanel('#inspPanel');renderInspector();setTimeout(()=>{const t=$(d.panel==='link'?'#insLink':'#inspPanel .dialgrp');if(t){t.scrollIntoView({block:'nearest'});if(t.focus)t.focus();}},60);}
+  else if(d.type==='cms-open'){sel=sel&&sel.id===d.id?sel:{id:d.id,tag:'',text:'',href:d.panel==='link'?'':null,img:d.panel==='image',embed:d.panel==='embed'};showPanel('#inspPanel');renderInspector();setTimeout(()=>{const t=$(d.panel==='link'?'#insLink':'#inspPanel .dialgrp');if(t){t.scrollIntoView({block:'nearest'});if(t.focus)t.focus();}},60);}
   else if(d.type==='cms-ai'){input.value=`Change the ${(d.kind||'text').toLowerCase()} “${(d.text||'').slice(0,40)}” to `;input.focus();input.dispatchEvent(new Event('input'));toast('✨ Finish your request and hit enter');}
   else if(d.type==='cms-nav'){navToHref(d.href);}
   else if(d.type==='cms-add-block'){openBlockPicker(d.section,d.label);}
@@ -800,11 +800,14 @@ function renderInspector(){
   const p=$('#inspPanel');
   if(!styleSpec){ensureSpec(renderInspector);return;}
   if(!sel){p.innerHTML='<h4>Element</h4><div class="selnote">👆 Click any text, button or heading on the left. Its content, link, spacing and size will appear here.</div>';return;}
-  let h=`<h4>Element <span class="insTag">${esc(sel.img?'IMAGE':sel.tag||'')}</span></h4>`;
+  let h=`<h4>Element <span class="insTag">${esc(sel.img?'IMAGE':sel.embed?'VIDEO EMBED':sel.tag||'')}</span></h4>`;
   const fieldDef=schemaCache[sel.id]||{};
   if(sel.img){
     const curSrc=pending()[sel.id]!==undefined?pending()[sel.id]:curImgSrc(sel.id);
     h+=`<div class="f"><label>Image</label>${curSrc?`<img class="imgbig" src="${esc(absUrl(curSrc))}">`:''}<button class="upbtn" id="insUpload">⤒ Upload from your computer</button><input id="insImgUrl" placeholder="…or paste an image URL" style="margin-top:9px"><div class="hint">JPG, PNG, WebP or GIF — straight from your device.</div></div>`;
+  } else if(sel.embed){
+    const curSrc=pending()[sel.id]!==undefined?pending()[sel.id]:curEmbedSrc(sel.id);
+    h+=`<div class="f"><label>Video embed URL</label><input id="insEmbedUrl" value="${esc(curSrc)}" placeholder="https://www.youtube.com/embed/…  or  https://player.vimeo.com/video/…"><div class="hint">Paste a YouTube or Vimeo <b>embed</b> URL — the one from their "Embed" / share option, not the regular watch page link.</div></div>`;
   } else {
     const isRich=!!fieldDef.rich;
     const rawVal=pending()[sel.id]!==undefined?pending()[sel.id]:(isRich?(fieldDef.value||sel.text):sel.text);
@@ -840,9 +843,11 @@ function renderInspector(){
     return `<div class="dial"><div class="top"><span class="lab">${esc(sp.label)}</span><span class="val" data-rv="${prop}">${cur!==undefined?cur+(sp.unit||''):'auto'}</span></div><input class="rng" type="range" data-st="${prop}" min="${sp.min}" max="${sp.max}" step="${prop==='lineHeight'?0.05:1}" value="${v}" style="--fill:${fill}%"></div>`;
   };
   h+=`<div class="dialgrp"><div class="gt">${ICON_SP} Spacing</div>${['marginTop','marginBottom','paddingTop','paddingBottom'].map(dial).join('')}</div>`;
-  const curAl=pending()['style:'+sel.id+':textAlign']||'';
-  h+=`<div class="dialgrp"><div class="gt">${ICON_TY} Type &amp; alignment</div>${['fontSize','lineHeight','letterSpacing'].map(dial).join('')}<div class="dial"><div class="top"><span class="lab">${styleSpec.textAlign.label}</span></div><div class="alignbtns">${styleSpec.textAlign.enum.map(a=>`<button data-al="${a}" class="${a===curAl?'on':''}" title="${a}">${ALIGN_SVG[a]}</button>`).join('')}</div></div></div>`;
-  if(!sel.img)h+=`<div class="dialgrp"><div class="gt">${ICON_CO} Color</div>${['color','backgroundColor'].map(dial).join('')}</div>`;
+  if(!sel.embed){
+    const curAl=pending()['style:'+sel.id+':textAlign']||'';
+    h+=`<div class="dialgrp"><div class="gt">${ICON_TY} Type &amp; alignment</div>${['fontSize','lineHeight','letterSpacing'].map(dial).join('')}<div class="dial"><div class="top"><span class="lab">${styleSpec.textAlign.label}</span></div><div class="alignbtns">${styleSpec.textAlign.enum.map(a=>`<button data-al="${a}" class="${a===curAl?'on':''}" title="${a}">${ALIGN_SVG[a]}</button>`).join('')}</div></div></div>`;
+  }
+  if(!sel.img&&!sel.embed)h+=`<div class="dialgrp"><div class="gt">${ICON_CO} Color</div>${['color','backgroundColor'].map(dial).join('')}</div>`;
   h+=`<div class="foot"><span>Bounded so it can't break the layout.</span><button id="insSave">Save draft</button></div>`;
   p.innerHTML=h;
   const it=$('#insText');
@@ -860,6 +865,7 @@ function renderInspector(){
   const il=$('#insLink');if(il)il.oninput=()=>{pending()['link:'+sel.id]=il.value;updateBar();};
   const iu=$('#insUpload');if(iu)iu.onclick=()=>{imgTarget=sel.id;$('#imgFile').click();};
   const ix=$('#insImgUrl');if(ix)ix.oninput=()=>setImage(sel.id,ix.value);
+  const ie=$('#insEmbedUrl');if(ie)ie.oninput=()=>setEmbed(sel.id,ie.value);
   p.querySelectorAll('[data-st]').forEach(r=>r.oninput=()=>{const prop=r.dataset.st,sp=styleSpec[prop];const pct=Math.round((r.value-sp.min)/(sp.max-sp.min)*100);r.style.setProperty('--fill',pct+'%');pending()['style:'+sel.id+':'+prop]=r.value;toFrame({type:'apply-style',id:sel.id,css:sp.css,value:r.value+(sp.unit||'')});p.querySelector(`[data-rv="${prop}"]`).textContent=r.value+(sp.unit||'');updateBar();});
   p.querySelectorAll('[data-stc]').forEach(r=>r.oninput=()=>{const prop=r.dataset.stc,sp=styleSpec[prop];pending()['style:'+sel.id+':'+prop]=r.value;toFrame({type:'apply-style',id:sel.id,css:sp.css,value:r.value});const rv=p.querySelector(`[data-rv="${prop}"]`);if(rv)rv.textContent=r.value;updateBar();});
   p.querySelectorAll('[data-al]').forEach(b=>b.onclick=()=>{pending()['style:'+sel.id+':textAlign']=b.dataset.al;toFrame({type:'apply-style',id:sel.id,css:'text-align',value:b.dataset.al});p.querySelectorAll('[data-al]').forEach(x=>x.classList.toggle('on',x===b));updateBar();});
@@ -874,6 +880,8 @@ function renderSectionCard(label){
 let imgTarget=null, seoTarget=null;
 function curImgSrc(id){try{return frame.contentDocument.querySelector('[data-cms-img="'+id+'"]').getAttribute('src')||'';}catch(e){return '';}}
 function setImage(id,url){pending()[id]=url;toFrame({type:'set-img',id,value:url});updateBar();}
+function curEmbedSrc(id){try{return frame.contentDocument.querySelector('[data-cms-embed="'+id+'"]').getAttribute('src')||'';}catch(e){return '';}}
+function setEmbed(id,url){pending()[id]=url;toFrame({type:'set-embed',id,value:url});updateBar();}
 async function uploadImage(file){
   if(!file)return null;
   const dataUrl=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file);});

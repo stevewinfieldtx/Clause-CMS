@@ -411,9 +411,10 @@ function injectEditor(html, schema) {
   var RICH=new Set(window.__CMS.rich);
   function send(id,value){parent.postMessage({type:'cms-edit',id:id,value:value},'*');}
   function isImg(el){return el.hasAttribute('data-cms-img');}
-  function idOf(el){return el.getAttribute('data-cms')||el.getAttribute('data-cms-img');}
-  function selInfo(el){var a=el.closest('a');return {type:'cms-select',id:idOf(el),tag:el.tagName,text:(el.innerText||'').trim(),href:a?(a.getAttribute('href')||''):null,img:isImg(el)};}
-  function kind(el){var t=el.tagName.toLowerCase();if(isImg(el))return el.tagName==='VIDEO'?'Video':'Image';if(/^h[1-6]$/.test(t))return 'Heading';if(t==='a')return 'Link';if(t==='button'||el.closest('button'))return 'Button';if(t==='li')return 'List item';if(t==='blockquote')return 'Quote';return 'Text';}
+  function isEmbed(el){return el.hasAttribute('data-cms-embed');}
+  function idOf(el){return el.getAttribute('data-cms')||el.getAttribute('data-cms-img')||el.getAttribute('data-cms-embed');}
+  function selInfo(el){var a=el.closest('a');return {type:'cms-select',id:idOf(el),tag:el.tagName,text:(el.innerText||'').trim(),href:a?(a.getAttribute('href')||''):null,img:isImg(el),embed:isEmbed(el)};}
+  function kind(el){var t=el.tagName.toLowerCase();if(isImg(el))return el.tagName==='VIDEO'?'Video':'Image';if(isEmbed(el))return 'Video embed';if(/^h[1-6]$/.test(t))return 'Heading';if(t==='a')return 'Link';if(t==='button'||el.closest('button'))return 'Button';if(t==='li')return 'List item';if(t==='blockquote')return 'Quote';return 'Text';}
   // floating chrome (portal — robust over any site CSS)
   var box=document.createElement('div');box.className='cmsL';
   var tag=document.createElement('div');tag.className='cmsTag';
@@ -435,7 +436,7 @@ function injectEditor(html, schema) {
     stag.style.display='block';stag.textContent='◳ '+sectionLabel(csec);stag.style.left=(r.left)+'px';stag.style.top=Math.max(6,top-2)+'px';
     sbar.style.display='flex';sbar.style.top=Math.max(6,top)+'px';sbar.style.left=Math.min(r.left+96,window.innerWidth-sbar.offsetWidth-8)+'px';}
   function selectSection(sec){deselect();csec=sec;sbar.innerHTML='';
-    var b=document.createElement('button');b.innerHTML='✎ Edit this section';b.onclick=function(e){e.preventDefault();e.stopPropagation();var first=sec.querySelector('[data-cms],[data-cms-img]');if(first){clearSection();select(first);first.scrollIntoView&&0;}};sbar.appendChild(b);
+    var b=document.createElement('button');b.innerHTML='✎ Edit this section';b.onclick=function(e){e.preventDefault();e.stopPropagation();var first=sec.querySelector('[data-cms],[data-cms-img],[data-cms-embed]');if(first){clearSection();select(first);first.scrollIntoView&&0;}};sbar.appendChild(b);
     var ab=document.createElement('button');ab.innerHTML='＋ Add block';ab.onclick=function(e){e.preventDefault();e.stopPropagation();var sel=sec.id?'#'+sec.id:sec.tagName.toLowerCase();parent.postMessage({type:'cms-add-block',section:sel,label:sectionLabel(sec)},'*');};sbar.appendChild(ab);
     placeSection();parent.postMessage({type:'cms-section',label:sectionLabel(sec)},'*');}
   function flashEl(el){if(!el)return;var r=el.getBoundingClientRect();flash.style.display='block';flash.style.opacity='1';flash.style.left=(r.left-3)+'px';flash.style.top=(r.top-3)+'px';flash.style.width=(r.width+2)+'px';flash.style.height=(r.height+2)+'px';clearTimeout(flash._t);flash._t=setTimeout(function(){flash.style.opacity='0';setTimeout(function(){flash.style.display='none';},400);},1000);}
@@ -456,6 +457,7 @@ function injectEditor(html, schema) {
     function add(label,fn,cls){var b=document.createElement('button');b.innerHTML=label;if(cls)b.className=cls;b.onclick=function(e){e.preventDefault();e.stopPropagation();fn();};bar.appendChild(b);}
     function sep(){var s=document.createElement('span');s.className='sep';bar.appendChild(s);}
     if(isImg(el))add('🖼 Replace',function(){parent.postMessage({type:'cms-open',panel:'image',id:idOf(el)},'*');});
+    else if(isEmbed(el))add('🎬 Replace',function(){parent.postMessage({type:'cms-open',panel:'embed',id:idOf(el)},'*');});
     else add('✎ Edit',function(){el.focus();});
     if(el.closest('a'))add('🔗 Link',function(){parent.postMessage({type:'cms-open',panel:'link',id:idOf(el)},'*');});
     add('↕ Style',function(){parent.postMessage({type:'cms-open',panel:'style',id:idOf(el)},'*');});
@@ -469,12 +471,28 @@ function injectEditor(html, schema) {
   function select(el){clearSection();document.querySelectorAll('.cms-sel').forEach(function(x){x.classList.remove('cms-sel');});current=el;el.classList&&el.classList.add('cms-sel');buildBar(el);placeSel();parent.postMessage(selInfo(el),'*');}
   // click the background of a block → highlight that whole section; click truly-empty space → deselect
   document.addEventListener('mousedown',function(e){
-    if(e.target.closest('[data-cms],[data-cms-img]')||e.target.closest('.cmsBar')||e.target.closest('.cmsSBar'))return;
+    // an embed's own iframe is pointer-events:none in edit mode, so a click on it
+    // lands on its wrapper — a descendant check catches that case too.
+    if(e.target.closest('[data-cms],[data-cms-img],[data-cms-embed]')||e.target.querySelector('[data-cms-embed]')||e.target.closest('.cmsBar')||e.target.closest('.cmsSBar'))return;
     var sec=sectionOf(e.target);
     if(sec){selectSection(sec);}else{deselect();clearSection();}
   },true);
   // hover + click wiring
-  document.querySelectorAll('[data-cms],[data-cms-img]').forEach(function(el){
+  document.querySelectorAll('[data-cms],[data-cms-img],[data-cms-embed]').forEach(function(el){
+    if(isEmbed(el)){
+      // A click landing on a cross-origin video iframe's own rendered surface (the
+      // player) is delivered to THAT document, never to our click listener on the
+      // <iframe> element — so it can never be selected by clicking it directly.
+      // Disable pointer-events on the iframe itself (edit-mode preview only) so the
+      // click lands on its wrapper instead, which we CAN listen on.
+      el.style.pointerEvents='none';
+      var host=el.parentElement||el;
+      host.style.cursor='pointer';
+      host.addEventListener('mouseenter',function(){showHover(el);});
+      host.addEventListener('mouseleave',hideHover);
+      host.addEventListener('click',function(e){e.preventDefault();select(el);});
+      return;
+    }
     el.addEventListener('mouseenter',function(){showHover(el);});
     el.addEventListener('mouseleave',hideHover);
     if(isImg(el)){el.style.cursor='pointer';el.addEventListener('click',function(e){e.preventDefault();select(el);});}
@@ -493,18 +511,19 @@ function injectEditor(html, schema) {
   // card image inside <a class="card">) must be excluded first — otherwise this
   // fires and stops propagation before the event ever reaches that descendant's
   // own click handler, and it can never be selected at all.
-  document.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){var editable=e.target.closest('[data-cms],[data-cms-img]');if(editable&&editable!==a)return;var raw=a.getAttribute('href')||'';e.preventDefault();e.stopPropagation();if(!raw||raw.charAt(0)==='#'||/^(mailto:|tel:|javascript:)/i.test(raw))return;if(/^https?:\\/\\//i.test(raw)&&raw.indexOf(location.host)===-1)return;parent.postMessage({type:'cms-nav',href:raw},'*');},true);});
+  document.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){var editable=e.target.closest('[data-cms],[data-cms-img],[data-cms-embed]')||(e.target.querySelector&&e.target.querySelector('[data-cms-embed]'));if(editable&&editable!==a)return;var raw=a.getAttribute('href')||'';e.preventDefault();e.stopPropagation();if(!raw||raw.charAt(0)==='#'||/^(mailto:|tel:|javascript:)/i.test(raw))return;if(/^https?:\\/\\//i.test(raw)&&raw.indexOf(location.host)===-1)return;parent.postMessage({type:'cms-nav',href:raw},'*');},true);});
   document.querySelectorAll('button[id],form').forEach(function(el){el.addEventListener('click',function(e){if(!e.target.closest('[data-cms-img]'))e.preventDefault();},true);});
   window.addEventListener('scroll',function(){hideHover();placeSel();placeSection();},true);
   window.addEventListener('resize',function(){placeSel();placeSection();});
   window.addEventListener('message',function(e){var d=e.data;if(!d)return;
-    if(d.type==='apply-style'){var el=document.querySelector('[data-cms="'+d.id+'"],[data-cms-img="'+d.id+'"]');if(!el)return;if(d.value==='')el.style.removeProperty(d.css);else el.style.setProperty(d.css,d.value);el.classList.add('cms-edited');placeSel();}
+    if(d.type==='apply-style'){var el=document.querySelector('[data-cms="'+d.id+'"],[data-cms-img="'+d.id+'"],[data-cms-embed="'+d.id+'"]');if(!el)return;if(d.value==='')el.style.removeProperty(d.css);else el.style.setProperty(d.css,d.value);el.classList.add('cms-edited');placeSel();}
     if(d.type==='set-text'){var t=document.querySelector('[data-cms="'+d.id+'"]');if(t){t.innerText=d.value;t.classList.add('cms-edited');placeSel();}}
     if(d.type==='set-img'){var im=document.querySelector('[data-cms-img="'+d.id+'"]');if(im){im.setAttribute('src',d.value);im.classList.add('cms-edited');placeSel();}}
-    if(d.type==='focus-el'){var f=document.querySelector('[data-cms="'+d.id+'"],[data-cms-img="'+d.id+'"]');if(f)select(f);}
+    if(d.type==='set-embed'){var em=document.querySelector('[data-cms-embed="'+d.id+'"]');if(em){em.setAttribute('src',d.value);em.classList.add('cms-edited');placeSel();}}
+    if(d.type==='focus-el'){var f=document.querySelector('[data-cms="'+d.id+'"],[data-cms-img="'+d.id+'"],[data-cms-embed="'+d.id+'"]');if(f)select(f);}
     if(d.type==='scroll-to'){var sc=document.querySelector(d.sel);if(sc){var top=0,n=sc;while(n){top+=n.offsetTop||0;n=n.offsetParent;}var se=document.scrollingElement||document.documentElement;se.scrollTop=Math.max(0,top-16);setTimeout(function(){flashEl(sc);},40);}}
-    if(d.type==='flash'){(d.ids||[]).forEach(function(id){flashEl(document.querySelector('[data-cms="'+id+'"],[data-cms-img="'+id+'"]'));});}
-    if(d.type==='select-in'){var sec=document.querySelector(d.sel);if(sec){var first=sec.querySelector('[data-cms],[data-cms-img]')||(sec.matches('[data-cms],[data-cms-img]')?sec:null);if(first)select(first);}}
+    if(d.type==='flash'){(d.ids||[]).forEach(function(id){flashEl(document.querySelector('[data-cms="'+id+'"],[data-cms-img="'+id+'"],[data-cms-embed="'+id+'"]'));});}
+    if(d.type==='select-in'){var sec=document.querySelector(d.sel);if(sec){var first=sec.querySelector('[data-cms],[data-cms-img],[data-cms-embed]')||(sec.matches('[data-cms],[data-cms-img],[data-cms-embed]')?sec:null);if(first)select(first);}}
     if(d.type==='exec-format'&&current&&RICH.has(idOf(current))){current.focus();document.execCommand(d.cmd,false,null);send(idOf(current),current.innerHTML);}
     if(d.type==='deselect'){deselect();clearSection();}
   });
@@ -1014,7 +1033,7 @@ app.post('/api/pages/add', authWrite, clientCan('canAddPages'), (req, res) => {
     // Build a new page reusing the site's head/header/footer (instant native styling),
     // swapping <main> for a starter layout, then autotag so it's fully editable.
     const $ = load(home.templateHtml, { decodeEntities: false });
-    $('[data-cms],[data-cms-img],[data-cms-item],[data-cms-collection]').each((_, el) => { for (const a of ['data-cms', 'data-cms-img', 'data-cms-item', 'data-cms-collection']) $(el).removeAttr(a); });
+    $('[data-cms],[data-cms-img],[data-cms-embed],[data-cms-item],[data-cms-collection]').each((_, el) => { for (const a of ['data-cms', 'data-cms-img', 'data-cms-embed', 'data-cms-item', 'data-cms-collection']) $(el).removeAttr(a); });
     if ($('head > title').length) $('head > title').text(`${title}`);
     const body = template === 'article'
       ? `<article style="max-width:760px;margin:0 auto;padding:80px 24px"><p style="font-family:monospace;font-size:13px;text-transform:uppercase;letter-spacing:.1em;opacity:.6">Article</p><h1 style="font-size:44px;line-height:1.1;letter-spacing:-.03em;margin:10px 0 8px">${title}</h1><p style="opacity:.6;font-size:14px;margin-bottom:34px">By Your Name · 5 min read</p><p style="font-size:17px;line-height:1.75;margin-bottom:20px">Write your opening paragraph here. Set the scene and tell the reader why this matters.</p><h2 style="font-size:26px;letter-spacing:-.02em;margin:34px 0 12px">A subheading</h2><p style="font-size:17px;line-height:1.75;margin-bottom:20px">Keep writing your article. Click any of this text to edit it, or describe changes in the chat.</p><p style="font-size:17px;line-height:1.75">Add as many paragraphs as you like.</p></article>`
