@@ -88,6 +88,19 @@ const _urlKey=new URLSearchParams(location.search).get('key');
 keyEl.value=_urlKey||localStorage.getItem('ownerKey')||'owner-dev';
 if(_urlKey)localStorage.setItem('ownerKey',_urlKey);
 keyEl.oninput=()=>localStorage.setItem('ownerKey',keyEl.value);
+// There's no visible field for this on purpose — it should just come from the URL
+// (?key=) or a previously-saved value. But if neither is present or the saved one
+// is wrong, there'd otherwise be no way in at all, so fall back to asking once.
+async function ensureKey(){
+  const r=await fetch('/api/admin/config',{headers:{'x-edit-key':keyEl.value}});
+  if(r.ok)return true;
+  const k=prompt('Owner key required (from your ADMIN_KEY env var).\n\nThis is only asked once — it\'s then saved in this browser. Bookmark this page with ?key=<your key> to skip this next time.','');
+  if(!k)return false;
+  keyEl.value=k;localStorage.setItem('ownerKey',k);
+  const r2=await fetch('/api/admin/config',{headers:{'x-edit-key':keyEl.value}});
+  if(!r2.ok){alert('That key didn\'t work either — check your ADMIN_KEY env var on Railway.');return false;}
+  return true;
+}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const origin=location.origin;
 const provider='openrouter';   // the only provider this CMS supports
 function goBack(){ try{ window.close(); }catch(e){} setTimeout(function(){ if(!window.closed && history.length>1) history.back(); }, 120); }
@@ -205,7 +218,7 @@ $('#aiSave').onclick=async()=>{
   const r=await (await fetch('/api/admin/config',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({provider,model:$('#aiModel').value||undefined,apiKey:$('#aiKey').value||undefined})})).json();
   if(r.error){alert(r.error);return;}$('#aiKey').value='';$('#aiSave').textContent='Saved ✓';setTimeout(()=>$('#aiSave').textContent='Save key',1400);loadAi();
 };
-load();loadAi();
+ensureKey().then(ok=>{if(ok){load();loadAi();}else{$('#list').innerHTML='<div class="empty">No valid owner key — reload this page and enter it when asked.</div>';}});
 </script>
 </body>
 </html>
