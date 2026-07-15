@@ -193,7 +193,7 @@ async function deleteSite(name){
 }
 async function exportSite(name){
   const r=await (await fetch('/api/admin/export',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name})})).json();
-  alert(r.error?('Error: '+r.error):('Exported to:\n'+r.dir+'\n\n'+r.files.join(', ')+'\n\nReady to deploy (e.g. vercel deploy).'));
+  alert(r.error?('Error: '+r.error):('Exported to:\n'+r.dir+'\n\n'+r.files.join(', ')+'\n\nReady to deploy to Railway.'));
 }
 function copy(btn){const i=btn.parentElement.querySelector('input');i.select();document.execCommand('copy');btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',1200);}
 async function loadAi(){

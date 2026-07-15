@@ -521,8 +521,7 @@ async function approveReview(){
   $('#apRev').disabled=true;$('#apRev').textContent='Publishing…';
   const r=await (await fetch('/api/review/approve?site='+SITE+KQ(),{method:'POST'})).json();
   if(r.ok){reviewPending=false;hasDraft=false;$('#reviewBar').classList.remove('show');updateBar();await loadPreview();await loadVersions();
-    if(r.vercel&&r.vercel.ok)toast(`✓ Approved &amp; deployed — <a href="${r.vercel.url}" target="_blank">view live ↗</a>`,4500);
-    else toast('✓ Approved &amp; published live.');}
+    toast('✓ Approved &amp; published live.');}
   else{bubble('bot','⛔ '+(r.error||'Could not approve.'));await loadReview();}
 }
 async function rejectReview(){
@@ -592,9 +591,7 @@ async function publish(){
   $('#publishBtn').disabled=true;$('#saveStat').textContent='Publishing…';
   const r=await (await fetch('/api/publish?site='+SITE+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pages:pendingByPage})})).json();
   if(r.ok){pendingByPage={};hasDraft=false;updateBar();await loadPreview();await loadVersions();
-    if(r.vercel&&r.vercel.ok)toast(`✓ Deployed to Vercel — <a href="${r.vercel.url}" target="_blank">view live ↗</a>`,4500);
-    else if(r.vercel&&r.vercel.error)toast(`✓ Published · ⚠ Vercel: ${esc(r.vercel.error)}`,4500);
-    else toast(`✓ Your site is live — <a href="/live/${SITE}" target="_blank">view it ↗</a>`);}
+    toast(`✓ Your site is live — <a href="/live/${SITE}" target="_blank">view it ↗</a>`);}
   else{updateBar();const c=document.createElement('div');c.className='card bad';c.innerHTML=`<h4>⛔ Blocked by safety check</h4><div class="body">${(r.errors||[r.error]).map(x=>`<div class="err">${esc(x)}</div>`).join('')}</div>`;log.appendChild(c);}
 }
 async function discard(){pendingByPage={};hasDraft=false;sel=null;showScope();await fetch('/api/discard?site='+SITE+KQ(),{method:'POST'});updateBar();await loadPreview();toast('Changes discarded');}

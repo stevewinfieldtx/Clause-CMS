@@ -23,7 +23,7 @@ import { validate } from './lib/guardian.mjs';
 import { plan, plannerMode } from './lib/agent.mjs';
 import { autotag, autotagSnippet } from './lib/autotag.mjs';
 import { applyStructure } from './lib/structure.mjs';
-import { deployer, vercelDeploy, vercelWhoami } from './lib/deploy.mjs';
+import { deployer } from './lib/deploy.mjs';
 import { effectiveSeo, SEO_FIELDS, STYLE_SPEC, sectionList } from './lib/fields.mjs';
 import { getConfig, setConfig, aiCreds, loadConfig } from './lib/config.mjs';
 import { randomBytes, createHash } from 'node:crypto';
@@ -169,7 +169,7 @@ function loadSite(name) {
   if (!order.length) { console.error(`Site "${name}": no readable pages — site skipped.`); return null; }
   const home = order.includes(cfg.home) ? cfg.home : order[0];
   sites[name] = {
-    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, vercel: cfg.vercel || null, clarity: cfg.clarity || null, convai: cfg.convai || null,
+    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
@@ -488,8 +488,12 @@ function injectEditor(html, schema) {
     el.addEventListener('input',placeSel);
     el.addEventListener('blur',function(){el.classList.add('cms-edited');send(id,RICH.has(id)?el.innerHTML:el.innerText);});
   });
-  // links to other pages navigate; other links just select for editing
-  document.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){var raw=a.getAttribute('href')||'';e.preventDefault();e.stopPropagation();if(!raw||raw.charAt(0)==='#'||/^(mailto:|tel:|javascript:)/i.test(raw))return;if(/^https?:\\/\\//i.test(raw)&&raw.indexOf(location.host)===-1)return;parent.postMessage({type:'cms-nav',href:raw},'*');},true);});
+  // links to other pages navigate; other links just select for editing.
+  // Runs on capture, so an editable element NESTED inside this anchor (e.g. a
+  // card image inside <a class="card">) must be excluded first — otherwise this
+  // fires and stops propagation before the event ever reaches that descendant's
+  // own click handler, and it can never be selected at all.
+  document.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){var editable=e.target.closest('[data-cms],[data-cms-img]');if(editable&&editable!==a)return;var raw=a.getAttribute('href')||'';e.preventDefault();e.stopPropagation();if(!raw||raw.charAt(0)==='#'||/^(mailto:|tel:|javascript:)/i.test(raw))return;if(/^https?:\\/\\//i.test(raw)&&raw.indexOf(location.host)===-1)return;parent.postMessage({type:'cms-nav',href:raw},'*');},true);});
   document.querySelectorAll('button[id],form').forEach(function(el){el.addEventListener('click',function(e){if(!e.target.closest('[data-cms-img]'))e.preventDefault();},true);});
   window.addEventListener('scroll',function(){hideHover();placeSel();placeSection();},true);
   window.addEventListener('resize',function(){placeSel();placeSection();});
@@ -550,7 +554,7 @@ app.get('/api/sites', (_req, res) => res.json({
   plannerMode: plannerMode(),
   sites: Object.keys(sites).map((name) => {
     const s = sites[name];
-    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), sourceUrl: s.sourceUrl || null, versions: s.versions.length, vercelProject: s.vercel?.project || null, vercelUrl: s.vercel?.lastUrl || null };
+    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), sourceUrl: s.sourceUrl || null, versions: s.versions.length };
   }),
 }));
 
@@ -929,8 +933,7 @@ app.post('/api/review/approve', requireOwner, async (req, res) => {
   if (r.error) return res.status(400).json({ error: r.error, errors: r.errors });
   clearReview(get(req));
   auditLog(get(req), { role: 'owner', action: 'approve', version: s.head });
-  const vercel = await deployVercel(get(req));
-  res.json({ ok: true, head: r.head, vercel });
+  res.json({ ok: true, head: r.head });
 });
 app.post('/api/review/reject', requireOwner, (req, res) => {
   const s = need(req, res); if (!s) return;
@@ -979,8 +982,7 @@ app.post('/api/publish', authWrite, async (req, res) => {
   const r = applyAndCommit(get(req), pendingByPage, req.role);
   if (r.error) return res.status(400).json({ error: r.error, errors: r.errors });
   clearReview(get(req));                                   // an owner publish also clears any pending review
-  const vercel = await deployVercel(get(req));             // push to the agency's Vercel if connected
-  res.json({ ok: true, head: r.head, published: r.totalEdits, liveUrl: `/live/${get(req)}`, vercel });
+  res.json({ ok: true, head: r.head, published: r.totalEdits, liveUrl: `/live/${get(req)}` });
 });
 
 app.get('/api/versions', (req, res) => { const s = need(req, res); if (!s) return; res.json({ head: s.head, versions: s.versions }); });
@@ -1150,35 +1152,20 @@ app.get('/u/:name/:file', (req, res) => {
   res.sendFile(f);
 });
 
-// AI settings — paste an API key in the console; never returns the raw key.
+// AI settings (OpenRouter only) — paste an API key in the console; never returns the raw key.
+// Prefer OPENROUTER_API_KEY as an env var: env vars always win (see lib/config.mjs aiCreds()),
+// this UI/config path is only a fallback for when no env var is set.
 app.get('/api/admin/config', requireOwner, (_req, res) => {
   const c = getConfig(); const creds = aiCreds();
-  res.json({ hasKey: !!creds.key, provider: creds.provider, model: c.model || creds.model, hasVercel: !!c.vercelToken, vercelAccount: c.vercelAccount || null, vercelTeam: c.vercelTeam || null });
+  res.json({ hasKey: !!creds.key, provider: creds.provider, model: c.model || creds.model });
 });
 app.post('/api/admin/config', requireOwner, async (req, res) => {
   const patch = {};
   if (typeof req.body?.apiKey === 'string' && req.body.apiKey.trim()) patch.apiKey = req.body.apiKey.trim();
-  if (req.body?.provider) patch.provider = req.body.provider;
   if (req.body?.model) patch.model = req.body.model;
   if (req.body?.clearKey) patch.apiKey = '';
-  if (req.body?.vercelTeam !== undefined) patch.vercelTeam = req.body.vercelTeam || '';
-  if (typeof req.body?.vercelToken === 'string' && req.body.vercelToken.trim()) {
-    try { patch.vercelAccount = await vercelWhoami(req.body.vercelToken.trim(), req.body.vercelTeam); patch.vercelToken = req.body.vercelToken.trim(); }
-    catch (e) { return res.status(400).json({ error: 'Vercel: ' + e.message }); }
-  }
-  if (req.body?.clearVercel) { patch.vercelToken = ''; patch.vercelAccount = ''; }
   await setConfig(patch);
-  res.json({ ok: true, provider: aiCreds().provider, vercelAccount: getConfig().vercelAccount || null });
-});
-
-// Link a site to a Vercel project + deploy on demand.
-app.post('/api/admin/site-vercel', requireOwner, async (req, res) => {
-  const s = sites[String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '')]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
-  const name = String(req.body.site).replace(/[^a-z0-9_-]/gi, '');
-  s.vercel = { ...(s.vercel || {}), project: String(req.body?.project || '').trim() };
-  writeCfg(name);
-  if (req.body?.deploy) { const r = await deployVercel(name); return res.json({ ok: true, deploy: r }); }
-  res.json({ ok: true, project: s.vercel.project });
+  res.json({ ok: true, provider: aiCreds().provider });
 });
 
 app.post('/api/admin/site-clarity', requireOwner, (req, res) => {
