@@ -20,7 +20,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { render } from './lib/render.mjs';
 import { validate } from './lib/guardian.mjs';
-import { plan, plannerMode } from './lib/agent.mjs';
+import { plan, planTotal, plannerMode } from './lib/agent.mjs';
+import { applyTotalOps } from './lib/total.mjs';
 import { autotag, autotagSnippet } from './lib/autotag.mjs';
 import { applyStructure } from './lib/structure.mjs';
 import { deployer } from './lib/deploy.mjs';
@@ -89,7 +90,7 @@ function writePage(name, slug, p) {
 }
 function writeCfg(name) {
   const s = sites[name];
-  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null }, null, 2));
+  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null, totalMode: !!s.totalMode }, null, 2));
 }
 
 /* ───── drafts: staged-but-not-live edits, persisted so a Save survives reload/restart ───── */
@@ -102,6 +103,19 @@ function clearDrafts(name) {
   const s = sites[name];
   for (const slug of Object.keys(s.draft)) rmSync(draftFile(name, slug), { force: true });
   s.draft = {};
+  delete totalUndo[name]; // draft gone ⇒ nothing left to step back through
+}
+
+/* ── Total mode: per-page undo stack (in-memory, capped) ──
+   Each entry is the page's draft state BEFORE an AI command (null = there was
+   no draft, i.e. the command started from the published page). Cleared whenever
+   the draft itself is resolved (publish / discard / restore). */
+const totalUndo = {}; // name -> slug -> [prevStateOrNull, ...]
+const TOTAL_UNDO_MAX = 20;
+function pushTotalUndo(name, slug, prev) {
+  const st = ((totalUndo[name] ||= {})[slug] ||= []);
+  st.push(prev ? JSON.parse(JSON.stringify(prev)) : null);
+  if (st.length > TOTAL_UNDO_MAX) st.shift();
 }
 
 // Best-known public base URL for a site (owner can set s.domain; else placeholder).
@@ -169,7 +183,7 @@ function loadSite(name) {
   if (!order.length) { console.error(`Site "${name}": no readable pages — site skipped.`); return null; }
   const home = order.includes(cfg.home) ? cfg.home : order[0];
   sites[name] = {
-    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null,
+    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null, totalMode: !!cfg.totalMode,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
@@ -267,6 +281,7 @@ function restoreVersion(name, seq) {
   if (!existsSync(f)) return false;
   const { state } = JSON.parse(readFileSync(f, 'utf8'));
   s.order = state.order; s.home = state.home; s.pagesMeta = state.pagesMeta; s.pages = {}; s.draft = {};
+  delete totalUndo[name];
   for (const slug of state.order) {
     const ps = state.pages[slug];
     s.pages[slug] = { templateHtml: ps.template, schema: ps.schema, content: ps.content, sections: ps.sections || [], collections: ps.collections || [] };
@@ -573,7 +588,7 @@ app.get('/api/sites', (_req, res) => res.json({
   plannerMode: plannerMode(),
   sites: Object.keys(sites).map((name) => {
     const s = sites[name];
-    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), sourceUrl: s.sourceUrl || null, versions: s.versions.length };
+    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), totalMode: !!s.totalMode, sourceUrl: s.sourceUrl || null, versions: s.versions.length };
   }),
 }));
 
@@ -589,7 +604,7 @@ app.get('/api/me', (req, res) => {
   const locked = role === 'none' && !!(s && s.access?.tokenHash);
   // Capabilities the UI should honour: owners are unrestricted; clients get the site's grants.
   const capabilities = role === 'owner' ? { canAddPages: true, canDeletePages: true, canChangeHome: true } : capsOf(s);
-  res.json({ role, locked, hasAccess: !!(s && s.access?.tokenHash), requireApproval: !!(s && s.access?.requireApproval), clientName: s?.access?.clientName || null, capabilities, mustChangePassword: role === 'client' && !!s?.access?.mustChangePassword, site: get(req), plannerMode: plannerMode() });
+  res.json({ role, locked, hasAccess: !!(s && s.access?.tokenHash), requireApproval: !!(s && s.access?.requireApproval), clientName: s?.access?.clientName || null, capabilities, totalMode: !!s?.totalMode, mustChangePassword: role === 'client' && !!s?.access?.mustChangePassword, site: get(req), plannerMode: plannerMode() });
 });
 
 app.get('/api/pages', (req, res) => {
@@ -772,6 +787,56 @@ app.post('/api/plan', authWrite, async (req, res) => {
   const { summary, changeset } = await plan(command, a.content, a.schema, history);
   const g = validate(changeset, a);
   res.json({ summary, plannerMode: plannerMode(), diff: g.diff, candidate: g.candidate, ok: g.ok, errors: g.errors, warnings: g.warnings });
+});
+
+/* ── Total mode: AI command → sanitized ops → applied straight to the DRAFT ──
+   The client sees the change in the preview immediately; undo is one click;
+   nothing goes live until Publish (which stays the versioned release flow). */
+const totalUsage = {}; // `${site}:${yyyy-mm-dd}` -> count (in-memory; resets on redeploy)
+function totalBudgetLeft(name) {
+  const limit = Number(getConfig().totalDailyLimit) || 100;
+  const key = `${name}:${new Date().toISOString().slice(0, 10)}`;
+  return { key, left: limit - (totalUsage[key] || 0), limit };
+}
+
+app.post('/api/total', authWrite, async (req, res) => {
+  const s = need(req, res); if (!s) return;
+  if (!s.totalMode) return res.status(403).json({ error: 'Total mode is not enabled for this site.' });
+  const command = String(req.body?.command || '').trim();
+  if (!command) return res.status(400).json({ error: 'Empty command.' });
+  const budget = totalBudgetLeft(get(req));
+  if (req.role === 'client' && budget.left <= 0) return res.status(429).json({ error: `Daily AI limit reached (${budget.limit} commands). It resets tomorrow — or ask the site owner to raise it.` });
+
+  const slug = pageOf(req, s);
+  const base = s.draft[slug] || s.pages[slug];
+  const history = Array.isArray(req.body?.history)
+    ? req.body.history.slice(-8).map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: String(m.content || '').slice(0, 2000) }))
+    : [];
+
+  const { summary, ops } = await planTotal(command, base, history);
+  totalUsage[budget.key] = (totalUsage[budget.key] || 0) + 1;
+  if (!ops.length) return res.json({ ok: false, summary, errors: [] });
+
+  const r = applyTotalOps(base, ops);
+  if (!r.ok) return res.json({ ok: false, summary, errors: r.errors });
+
+  pushTotalUndo(get(req), slug, s.draft[slug] || null);
+  s.draft[slug] = r.state;
+  writeDraft(get(req), slug, r.state);
+  auditLog(get(req), { role: req.role || 'owner', action: 'total-ai', page: slug, command: command.slice(0, 200), did: r.did });
+  res.json({ ok: true, summary, did: r.did, undoDepth: (totalUndo[get(req)]?.[slug] || []).length });
+});
+
+app.post('/api/total/undo', authWrite, (req, res) => {
+  const s = need(req, res); if (!s) return;
+  const slug = pageOf(req, s);
+  const st = totalUndo[get(req)]?.[slug];
+  if (!st || !st.length) return res.status(400).json({ error: 'Nothing to undo.' });
+  const prev = st.pop();
+  if (prev) { s.draft[slug] = prev; writeDraft(get(req), slug, prev); }
+  else { delete s.draft[slug]; rmSync(draftFile(get(req), slug), { force: true }); }
+  auditLog(get(req), { role: req.role || 'owner', action: 'total-undo', page: slug });
+  res.json({ ok: true, undoDepth: st.length });
 });
 
 app.post('/api/render', (req, res) => {
@@ -1185,6 +1250,15 @@ app.post('/api/admin/config', requireOwner, async (req, res) => {
   if (req.body?.clearKey) patch.apiKey = '';
   await setConfig(patch);
   res.json({ ok: true, provider: aiCreds().provider });
+});
+
+// Total mode: per-site switch — the AI may redesign layout & style, not just content.
+app.post('/api/admin/site-total', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  s.totalMode = !!req.body?.totalMode;
+  writeCfg(name);
+  res.json({ ok: true, totalMode: s.totalMode });
 });
 
 app.post('/api/admin/site-clarity', requireOwner, (req, res) => {

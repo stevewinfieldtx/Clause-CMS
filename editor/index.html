@@ -359,7 +359,7 @@ let schemaCache={};  // id → {label,group,type,rich,allow,value}
 const KQ=()=>KEY?('&key='+encodeURIComponent(KEY)):'';
 const PQ=()=>'&page='+encodeURIComponent(PAGE);
 let pendingByPage={}, hasDraft=false, pagesList=[];   // hasDraft = server holds a saved-but-unpublished draft
-let IS_OWNER=true, REQUIRE_APPROVAL=false, reviewPending=false, unreadForms=0;
+let IS_OWNER=true, REQUIRE_APPROVAL=false, TOTAL=false, reviewPending=false, unreadForms=0;
 const pending=()=>(pendingByPage[PAGE]||(pendingByPage[PAGE]={}));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const absUrl=u=>{u=String(u||'');return !u?'':/^(https?:|data:|\/)/.test(u)?u:'/'+u;};
@@ -387,7 +387,7 @@ function showLogin(me){
 async function init(){
   const me=await (await fetch('/api/me?site='+SITE+KQ())).json();
   if(me.locked){return showLogin(me);}   // site is password-protected and we don't have a valid key yet
-  planner=me.plannerMode; const isOwner=me.role==='owner'; IS_OWNER=isOwner; REQUIRE_APPROVAL=!!me.requireApproval;
+  planner=me.plannerMode; const isOwner=me.role==='owner'; IS_OWNER=isOwner; REQUIRE_APPROVAL=!!me.requireApproval; TOTAL=!!me.totalMode&&planner!=='local';
   if(!isOwner){const needsApproval=REQUIRE_APPROVAL;$('#publishBtn').textContent=needsApproval?'Submit for review':'Publish';$('#publishBtn').title=needsApproval?'Send your changes to the agency to approve':'Publish your changes live';$('#auditBtn').style.display='none';}
   if(isOwner){
     const meta=await (await fetch('/api/sites')).json();
@@ -403,7 +403,7 @@ async function init(){
     const bh=$('#backHome');bh.style.display='';bh.href='/client/?site='+encodeURIComponent(SITE)+(KEY?'&key='+encodeURIComponent(KEY):'');
   }
   const mb=$('#modeBadge');
-  if(planner!=='local'){mb.className='badge';mb.style.display='';mb.innerHTML=`AI: <b>${planner}</b>`;}
+  if(planner!=='local'){mb.className='badge';mb.style.display='';mb.innerHTML=TOTAL?'✨ <b>Total AI</b> — ask for any change':`AI: <b>${planner}</b>`;}
   else if(isOwner){mb.className='badge warn';mb.style.display='';mb.textContent='⚠ Add AI key';mb.onclick=()=>window.open('/admin/?key=owner-dev','_blank');}
   else mb.style.display='none';           // client doesn't manage keys
   $('#howBtn').onclick=()=>{$('#howBtn').classList.toggle('open');$('#howBody').classList.toggle('open');};
@@ -917,10 +917,35 @@ function showResult(r){
   r.diff.forEach(d=>pending()[d.id]=r.candidate[d.id]);flashIds=r.diff.map(d=>d.id).filter(id=>!id.includes(':'));loadPreview();updateBar();
   const c=document.createElement('div');c.className='card ok';c.innerHTML=`<h4>📝 staged ${r.diff.length} change${r.diff.length>1?'s':''}</h4><div class="body">${r.diff.map(d=>`<div class="rowd"><div class="lbl">${esc(d.label)}</div><div class="from">${esc(strip(d.from)||'(empty)')}</div><div class="to">${esc(strip(d.to))}</div></div>`).join('')}</div>`;log.appendChild(c);log.scrollTop=log.scrollHeight;
 }
+/* Total mode: the command is applied to the draft server-side; the preview
+   reloads to show it immediately, with a one-click Undo on every change. */
+function showTotalResult(r){
+  bubble('bot',esc(r.summary||'Done.'));
+  if(!r.ok){if(r.errors&&r.errors.length){const c=document.createElement('div');c.className='card bad';c.innerHTML=`<h4>⛔ Blocked by safety check</h4><div class="body">${r.errors.map(e=>`<div class="err">${esc(e)}</div>`).join('')}</div>`;log.appendChild(c);log.scrollTop=log.scrollHeight;}return;}
+  const c=document.createElement('div');c.className='card ok';
+  c.innerHTML=`<h4>✨ Applied to your draft</h4><div class="body">${(r.did||[]).map(d=>`<div class="rowd"><div class="lbl">${esc(d)}</div></div>`).join('')}<button class="ghost" style="margin-top:8px;padding:6px 12px">↶ Undo this</button></div>`;
+  c.querySelector('button').onclick=async(e)=>{e.target.disabled=true;
+    const u=await (await fetch('/api/total/undo?site='+SITE+PQ()+KQ(),{method:'POST'})).json();
+    if(u.ok){c.style.opacity='.45';bubble('bot','↶ Undone.');hasDraft=u.undoDepth>0||hasDraft;await loadPreview();updateBar();}
+    else{e.target.disabled=false;toast('⛔ '+(u.error||'Could not undo.'));}};
+  log.appendChild(c);log.scrollTop=log.scrollHeight;
+}
 async function send(){const command=input.value.trim();if(!command)return;input.value='';input.style.height='auto';bubble('client',esc(command));
   const scoped=(sel&&sel.id&&sel.text)?`${command} — (the ${(sel.tag||'text').toLowerCase()} that currently says "${sel.text.slice(0,60)}")`:command;
   const hist=pageHistory();
-  const t=bubble('bot','<span class="spin"></span> Planning &amp; checking…');try{const r=await (await fetch('/api/plan?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({command:scoped,history:hist})})).json();t.remove();showResult(r);
+  const t=bubble('bot','<span class="spin"></span> '+(TOTAL?'Designing &amp; checking…':'Planning &amp; checking…'));
+  try{
+    if(TOTAL){
+      const r=await (await fetch('/api/total?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({command:scoped,history:hist})})).json();
+      t.remove();
+      if(r.error){bubble('bot','⛔ '+esc(r.error));return;}
+      showTotalResult(r);
+      if(r.ok){hasDraft=true;sel=null;showScope();await loadPreview();updateBar();}
+      hist.push({role:'user',content:scoped},{role:'assistant',content:r.summary||'Done.'});
+      chatHistory[PAGE]=hist.slice(-12);
+      return;
+    }
+    const r=await (await fetch('/api/plan?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({command:scoped,history:hist})})).json();t.remove();showResult(r);
     hist.push({role:'user',content:scoped},{role:'assistant',content:r.summary||'Done.'});
     chatHistory[PAGE]=hist.slice(-12);
   }catch(e){t.remove();bubble('bot','Error: '+esc(e.message));}}
