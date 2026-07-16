@@ -90,7 +90,7 @@ function writePage(name, slug, p) {
 }
 function writeCfg(name) {
   const s = sites[name];
-  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null, totalMode: !!s.totalMode }, null, 2));
+  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null, totalMode: !!s.totalMode, domain: s.domain || null, embed: s.embed || null }, null, 2));
 }
 
 /* ───── drafts: staged-but-not-live edits, persisted so a Save survives reload/restart ───── */
@@ -183,7 +183,7 @@ function loadSite(name) {
   if (!order.length) { console.error(`Site "${name}": no readable pages — site skipped.`); return null; }
   const home = order.includes(cfg.home) ? cfg.home : order[0];
   sites[name] = {
-    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null, totalMode: !!cfg.totalMode,
+    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null, totalMode: !!cfg.totalMode, domain: cfg.domain || null, embed: cfg.embed || null,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
@@ -228,12 +228,21 @@ function wireConvai(html, name) {
   const widget = `<elevenlabs-convai agent-id="${String(id).replace(/"/g, '')}"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>`;
   return html.includes('</body>') ? html.replace('</body>', widget + '</body>') : html + widget;
 }
+// Owner-provided embed snippet (e.g. a live-chat widget's <script> tag) —
+// injected at build time, same seam as Clarity/ConvAI. Scripts are stripped at
+// ingest, so this is how a site keeps its third-party widgets. Owner-only.
+function wireEmbed(html, name) {
+  const snippet = sites[name]?.embed || '';
+  if (!snippet) return html;
+  return html.includes('</body>') ? html.replace('</body>', snippet + '</body>') : html + snippet;
+}
 function publishedPageHtml(name, slug) {
   const p = sites[name].pages[slug];
   let html = withBase(render(p.templateHtml, p.schema, p.content));
   html = wireForms(html, name);
   html = wireClarity(html, name);
   html = wireConvai(html, name);
+  html = wireEmbed(html, name);
   return html;
 }
 
@@ -334,25 +343,61 @@ app.use((req, res, next) => {
   res.set('X-Frame-Options', 'SAMEORIGIN');
   // microphone=(self) so the ElevenLabs voice widget can use the mic on the live sites.
   res.set('Permissions-Policy', 'geolocation=(), microphone=(self), camera=(), interest-cohort=()');
-  if (req.path.startsWith('/live/')) {
-    const pub = (getConfig().publicUrl || '').replace(/\/+$/, ''); // form handler may post here
-    res.set('Content-Security-Policy', [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.clarity.ms https://*.clarity.ms https://unpkg.com https://*.elevenlabs.io",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com https://*.elevenlabs.io data:",
-      "img-src 'self' data: https:",
-      `connect-src 'self' https://*.clarity.ms https://formspree.io https://*.elevenlabs.io wss://*.elevenlabs.io${pub ? ' ' + pub : ''}`,
-      "media-src 'self' blob: https://*.elevenlabs.io",
-      "worker-src 'self' blob:",
-      "frame-src 'self' https://www.youtube.com https://player.vimeo.com https://*.elevenlabs.io",
-      "frame-ancestors 'self'",
-      "base-uri 'self'",
-      "form-action 'self' https://formspree.io",
-      'upgrade-insecure-requests',
-    ].join('; '));
-  }
+  if (req.path.startsWith('/live/')) res.set('Content-Security-Policy', liveCsp());
   next();
+});
+
+// CSP for published sites — used on /live/ paths AND on custom domains.
+// interactivechat.up.railway.app is the ChatDesk live-chat widget (chat bubble +
+// voice-agent iframe) that client sites embed via their custom snippet.
+function liveCsp() {
+  const pub = (getConfig().publicUrl || '').replace(/\/+$/, ''); // form handler may post here
+  return [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' https://www.clarity.ms https://*.clarity.ms https://unpkg.com https://*.elevenlabs.io https://interactivechat.up.railway.app",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com https://*.elevenlabs.io data:",
+    "img-src 'self' data: https:",
+    `connect-src 'self' https://*.clarity.ms https://formspree.io https://*.elevenlabs.io wss://*.elevenlabs.io https://interactivechat.up.railway.app${pub ? ' ' + pub : ''}`,
+    "media-src 'self' blob: https://*.elevenlabs.io",
+    "worker-src 'self' blob:",
+    "frame-src 'self' https://www.youtube.com https://player.vimeo.com https://*.elevenlabs.io https://interactivechat.up.railway.app",
+    "frame-ancestors 'self'",
+    "base-uri 'self'",
+    "form-action 'self' https://formspree.io https://interactivechat.up.railway.app",
+    'upgrade-insecure-requests',
+  ].join('; ');
+}
+
+/* ── custom domains: Publish IS the live site ──
+   A site with `domain` set is served at that domain's ROOT from its active
+   release — point the domain at this Railway service and rainnetworks.com is
+   whatever was last published. CMS surfaces (/api, /editor, /admin, /client,
+   /u uploads) still work on the custom domain so forms and assets resolve. */
+function siteByHost(host) {
+  const h = String(host || '').toLowerCase().split(':')[0].replace(/^www\./, '');
+  if (!h) return null;
+  for (const [name, s] of Object.entries(sites)) {
+    if (!s.domain) continue;
+    const d = String(s.domain).toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
+    if (d === h) return name;
+  }
+  return null;
+}
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  const p = req.path;
+  if (/^\/(api|u|editor|admin|client|live|s)\b/.test(p)) return next();
+  const name = siteByHost(req.headers.host);
+  if (!name) return next();
+  const file = p === '/' ? 'index.html'
+    : /^\/(sitemap\.xml|robots\.txt|llms\.txt)$/.test(p) ? p.slice(1)
+    : /^\/[a-z0-9_-]+(\.html)?$/i.test(p) ? p.slice(1).replace(/\.html$/i, '') + '.html'
+    : null;
+  const body = file && deployer.liveHtml(siteDir(name), file);
+  if (!body) return next();
+  res.set('Content-Security-Policy', liveCsp());
+  res.type(file.endsWith('.xml') ? 'application/xml' : file.endsWith('.txt') ? 'text/plain' : 'html').send(body);
 });
 app.use('/assets', express.static(join(ROOT, 'site/assets')));
 app.use('/editor', express.static(join(ROOT, 'editor')));
@@ -614,7 +659,7 @@ app.get('/api/sites', (_req, res) => res.json({
   plannerMode: plannerMode(),
   sites: Object.keys(sites).map((name) => {
     const s = sites[name];
-    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), totalMode: !!s.totalMode, sourceUrl: s.sourceUrl || null, versions: s.versions.length };
+    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), totalMode: !!s.totalMode, domain: s.domain || null, hasEmbed: !!s.embed, sourceUrl: s.sourceUrl || null, versions: s.versions.length };
   }),
 }));
 
@@ -1302,6 +1347,30 @@ app.post('/api/admin/site-clarity', requireOwner, (req, res) => {
   writeCfg(name);
   if (s.head >= 0) buildRelease(name, s.head); // re-bake the active release so the tag is injected now
   res.json({ ok: true, clarity: s.clarity, rebuilt: s.head >= 0 });
+});
+
+// Custom domain: serve this site's published release at the domain root.
+// (Point the domain at this Railway service; Publish is then instantly live.)
+app.post('/api/admin/site-domain', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  const d = String(req.body?.domain || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+  if (d && !/^[a-z0-9.-]+\.[a-z]{2,}$/.test(d)) return res.status(400).json({ error: 'That doesn’t look like a domain (e.g. rainnetworks.com).' });
+  s.domain = d || null;
+  writeCfg(name);
+  if (s.head >= 0) buildRelease(name, s.head); // sitemap/llms URLs pick up the domain
+  res.json({ ok: true, domain: s.domain, rebuilt: s.head >= 0 });
+});
+
+// Custom embed snippet (chat widgets etc.) — owner-only, injected at build.
+app.post('/api/admin/site-embed', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  const snippet = String(req.body?.embed || '').trim().slice(0, 4000);
+  s.embed = snippet || null;
+  writeCfg(name);
+  if (s.head >= 0) buildRelease(name, s.head); // re-bake so the widget appears now
+  res.json({ ok: true, hasEmbed: !!s.embed, rebuilt: s.head >= 0 });
 });
 
 app.post('/api/admin/site-convai', requireOwner, (req, res) => {

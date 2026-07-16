@@ -121,6 +121,8 @@ async function load(){
       <div class="hd"><h3>${esc(s.name)}</h3>${s.handedOff?`<span class="pill off">● live with client${s.client?' · '+esc(s.client):''}</span> <button class="ghost" style="padding:2px 8px;font-size:11px" onclick="renameClient('${esc(s.name)}','${esc(s.client||'')}')" title="Change the name shown on their login screen">✎ rename</button>`:'<span class="pill dft">not handed off</span>'}</div>
       <div class="meta">${s.pages} page${s.pages!==1?'s':''} · ${s.versions} version${s.versions!==1?'s':''} in history</div>
       <label class="appr" title="With Total mode on, the editor's AI chat can restructure sections, restyle the page and add new blocks — every change lands in the draft with one-click undo, and Publish still works exactly as before."><input type="checkbox" id="tot-${esc(s.name)}" ${s.totalMode?'checked':''} onchange="setTotal('${esc(s.name)}',this.checked)"> <span>✨ <b>Total mode</b> — the AI may redesign layout &amp; style, not just content</span></label>
+      <div class="lkrow" style="margin-top:8px" title="Point this domain at THIS Railway service (custom domain in Railway + DNS), and the site's published release is served at the domain root — Publish is instantly live."><input id="dom-${esc(s.name)}" type="text" placeholder="Custom domain (e.g. rainnetworks.com)" value="${esc(s.domain||'')}"><button class="ghost" onclick="setDomain('${esc(s.name)}')">🌐 Set domain</button></div>
+      <div class="lkrow" style="margin-top:6px" title="Pasted as-is into every published page just before the closing body tag — use it for chat widgets or other scripts that were stripped at ingest. Owner-only."><input id="emb-${esc(s.name)}" type="text" placeholder="Embed snippet: paste a widget script tag here${s.hasEmbed?' (currently set)':''}"><button class="ghost" onclick="setEmbed('${esc(s.name)}')">🧩 Set embed</button></div>
       <div class="acts">
         <a class="ghost" href="/live/${encodeURIComponent(s.name)}" target="_blank">🌐 View live site</a>
         <a class="ghost" href="/editor/?site=${encodeURIComponent(s.name)}&key=${encodeURIComponent(keyEl.value)}" target="_blank">✎ Open editor</a>
@@ -170,6 +172,20 @@ async function renameClient(name,current){
   const clientName=prompt('Client name (shown on their login screen):',current);
   if(clientName===null)return;   // cancelled
   await fetch('/api/admin/rename-client',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name,clientName})});
+  load();
+}
+async function setDomain(name){
+  const domain=$('#dom-'+name).value.trim();
+  const r=await (await fetch('/api/admin/site-domain',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name,domain})})).json();
+  if(r.error){alert(r.error);return;}
+  alert(domain?('✓ '+domain+' will now serve this site\'s published release.\n\nIn Railway: add "'+domain+'" as a custom domain on the CMS service, and point the domain\'s DNS there. Publish is then instantly live.'):'✓ Custom domain removed.');
+  load();
+}
+async function setEmbed(name){
+  const embed=$('#emb-'+name).value.trim();
+  const r=await (await fetch('/api/admin/site-embed',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name,embed})})).json();
+  if(r.error){alert(r.error);return;}
+  alert(embed?'✓ Embed saved — it\'s now on every published page.':'✓ Embed removed.');
   load();
 }
 async function setTotal(name,on){
