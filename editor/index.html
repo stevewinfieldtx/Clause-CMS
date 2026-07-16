@@ -334,6 +334,7 @@
           <textarea id="input" rows="1" placeholder="Ask AI to change anything…"></textarea>
           <div class="inbar">
             <button class="send" id="attachBtn" title="Attach an image or file" aria-label="Attach" style="display:none;background:transparent;color:inherit;opacity:.75"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
+            <button class="send" id="micBtn" title="Speak instead of typing" aria-label="Dictate" style="display:none;background:transparent;color:inherit;opacity:.75"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg></button>
             <button class="send" id="send" title="Send" aria-label="Send"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4l17.45-7.48a1 1 0 0 0 0-1.84L3.4 3.6a.993.993 0 0 0-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .67.71 1.13 1.39.91z"/></svg></button>
           </div>
         </div>
@@ -958,6 +959,29 @@ async function uploadChatFile(file){
   chatAttach.push({name:file.name,url:j.url,kind});renderAttach();
 }
 $('#attachBtn').onclick=(e)=>{e.preventDefault();$('#chatFiles').click();};
+/* ── dictation: Web Speech API (built into Chrome/Edge/Safari) — button only
+   appears when the browser supports it. Click to talk, click again to stop;
+   words land in the input so you can review before sending. ── */
+(function(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const mb=$('#micBtn');
+  if(!SR)return;                                  // unsupported browser: stay hidden
+  mb.style.display='';
+  let rec=null,listening=false,baseText='';
+  function stopRec(){if(rec){try{rec.stop();}catch(e){}}listening=false;mb.style.opacity='.75';mb.style.color='inherit';mb.title='Speak instead of typing';}
+  mb.onclick=(e)=>{e.preventDefault();
+    if(listening)return stopRec();
+    rec=new SR();rec.lang=navigator.language||'en-US';rec.continuous=true;rec.interimResults=true;
+    baseText=input.value?input.value.replace(/\s+$/,'')+' ':'';
+    rec.onresult=(ev)=>{let fin='',inter='';
+      for(let i=0;i<ev.results.length;i++){const r=ev.results[i];if(r.isFinal)fin+=r[0].transcript;else inter+=r[0].transcript;}
+      input.value=baseText+fin+inter;input.style.height='auto';input.style.height=input.scrollHeight+'px';};
+    rec.onerror=(ev)=>{stopRec();if(ev.error==='not-allowed')toast('⛔ Microphone blocked — allow mic access for this site in your browser.');};
+    rec.onend=()=>{if(listening)stopRec();};
+    try{rec.start();listening=true;mb.style.opacity='1';mb.style.color='#ff5b4f';mb.title='Stop listening';toast('🎙 Listening — click the mic again to stop');}
+    catch(e){stopRec();}
+  };
+})();
 $('#chatFiles').onchange=async(e)=>{const fs=[...e.target.files];e.target.value='';if(!fs.length)return;toast('Uploading…',1500);for(const f of fs)await uploadChatFile(f);};
 function attachNote(){
   if(!chatAttach.length)return '';
