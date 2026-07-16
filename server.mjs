@@ -399,6 +399,32 @@ function clientCan(cap) {
   };
 }
 
+/* Simple (Total) preview: NO editing chrome — the page looks exactly like the
+   live site. Only page-to-page navigation is intercepted (so clicking the
+   site's own nav switches pages inside the editor) and forms are inert. All
+   editing happens through the chat. */
+function injectNav(html) {
+  const overlay = `
+<script>
+(function(){
+  document.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(e){
+    var raw=a.getAttribute('href')||'';
+    if(!raw)return e.preventDefault();
+    if(raw.charAt(0)==='#')return;                                        // in-page anchor: let it scroll
+    e.preventDefault();e.stopPropagation();
+    if(/^(mailto:|tel:|javascript:)/i.test(raw))return;
+    if(/^https?:\\/\\//i.test(raw)&&raw.indexOf(location.host)===-1)return; // external: inert in preview
+    parent.postMessage({type:'cms-nav',href:raw},'*');
+  },true);});
+  document.querySelectorAll('form').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();},true);});
+  window.addEventListener('message',function(e){var d=e.data;if(!d)return;
+    if(d.type==='scroll-to'){var sc=document.querySelector(d.sel);if(sc)sc.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+})();
+<\/script>`;
+  return html.includes('</body>') ? html.replace('</body>', overlay + '</body>') : html + overlay;
+}
+
 function injectEditor(html, schema) {
   const richIds = Object.entries(schema).filter(([, d]) => d.rich).map(([id]) => id);
   const overlay = `
@@ -844,7 +870,8 @@ app.post('/api/render', (req, res) => {
   const a = pageState(s, pageOf(req, s));
   const merged = req.body?.content && typeof req.body.content === 'object' ? { ...a.content, ...req.body.content } : a.content;
   let html = withBase(render(a.templateHtml, a.schema, merged));
-  if (req.query.edit) html = injectEditor(html, a.schema);
+  if (req.query.edit === 'nav') html = injectNav(html);
+  else if (req.query.edit) html = injectEditor(html, a.schema);
   res.type('html').send(html);
 });
 

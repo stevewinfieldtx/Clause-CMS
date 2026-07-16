@@ -347,6 +347,17 @@
       </div>
     </div>
   </div>
+<style>
+/* ── Simple (Total) view: just the website + the chat. ──
+   For clients on a Total-mode site the editor collapses to two panes: their
+   actual site (left, ~2/3) and the AI chat (right, ~1/3). Every panel, dial
+   and button that isn't "look at your site" or "tell the AI / publish" is
+   hidden — the AI is the interface. */
+body.simple #deviceSeg,body.simple #zenBtn,body.simple #secBtn,body.simple #seoBtn,body.simple #inboxBtn,
+body.simple #undoBtn,body.simple #redoBtn,body.simple #saveBtn,body.simple #pubMenuBtn,body.simple #rsz,
+body.simple #scope,body.simple #frameTag{display:none !important}
+body.simple{--chatw:clamp(380px,33.4vw,560px)}
+</style>
 <script>
 const $=s=>document.querySelector(s);
 const log=$('#log'),frame=$('#frame'),input=$('#input');
@@ -359,7 +370,7 @@ let schemaCache={};  // id → {label,group,type,rich,allow,value}
 const KQ=()=>KEY?('&key='+encodeURIComponent(KEY)):'';
 const PQ=()=>'&page='+encodeURIComponent(PAGE);
 let pendingByPage={}, hasDraft=false, pagesList=[];   // hasDraft = server holds a saved-but-unpublished draft
-let IS_OWNER=true, REQUIRE_APPROVAL=false, TOTAL=false, reviewPending=false, unreadForms=0;
+let IS_OWNER=true, REQUIRE_APPROVAL=false, TOTAL=false, SIMPLE=false, reviewPending=false, unreadForms=0;
 const pending=()=>(pendingByPage[PAGE]||(pendingByPage[PAGE]={}));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const absUrl=u=>{u=String(u||'');return !u?'':/^(https?:|data:|\/)/.test(u)?u:'/'+u;};
@@ -388,6 +399,11 @@ async function init(){
   const me=await (await fetch('/api/me?site='+SITE+KQ())).json();
   if(me.locked){return showLogin(me);}   // site is password-protected and we don't have a valid key yet
   planner=me.plannerMode; const isOwner=me.role==='owner'; IS_OWNER=isOwner; REQUIRE_APPROVAL=!!me.requireApproval; TOTAL=!!me.totalMode&&planner!=='local';
+  // Simple view: clients on a Total site get website + chat, nothing else.
+  // Owners keep the full toolkit (preview it with ?view=simple; ?view=full opts a client back in).
+  SIMPLE=TOTAL&&((!isOwner&&_qs.get('view')!=='full')||_qs.get('view')==='simple');
+  if(SIMPLE){document.body.classList.add('simple');
+    $('#howBody').innerHTML='<div class="r"><span class="i">💬</span><span><b>Tell the AI</b> what you want changed — copy, colors, layout, new sections, anything.</span></div><div class="r"><span class="i">🔗</span><span>Click your site\'s own <b>menu links</b> on the left to move between pages.</span></div><div class="r"><span class="i">↶</span><span>Every change has an <b>Undo</b> — nothing is ever stuck.</span></div><div class="r"><span class="i">🚀</span><span>Happy with it? <b>Publish</b> makes it live.</span></div>';}
   if(!isOwner){const needsApproval=REQUIRE_APPROVAL;$('#publishBtn').textContent=needsApproval?'Submit for review':'Publish';$('#publishBtn').title=needsApproval?'Send your changes to the agency to approve':'Publish your changes live';$('#auditBtn').style.display='none';}
   if(isOwner){
     const meta=await (await fetch('/api/sites')).json();
@@ -408,7 +424,8 @@ async function init(){
   else mb.style.display='none';           // client doesn't manage keys
   $('#howBtn').onclick=()=>{$('#howBtn').classList.toggle('open');$('#howBody').classList.toggle('open');};
   await loadPages();await loadVersions();await loadReview();refreshInbox();loadChips();
-  bubble('bot',`${isOwner?'Editing':'Welcome — you can edit'} <b style="color:#f0f0f2">${esc(SITE)}</b>. Click any text to change it, select something to tweak its link/spacing on the right. <b>Save</b> keeps a draft; <b>Publish</b> pushes it live.`);
+  if(SIMPLE)bubble('bot',`This is your website, <b style="color:#f0f0f2">${esc(SITE)}</b> — and I'm your editor. Tell me what you'd like changed: wording, colors, layout, whole new sections. I'll show you every change right here, and you can undo anything. When you're happy, hit <b>Publish</b> to make it live.`);
+  else bubble('bot',`${isOwner?'Editing':'Welcome — you can edit'} <b style="color:#f0f0f2">${esc(SITE)}</b>. Click any text to change it, select something to tweak its link/spacing on the right. <b>Save</b> keeps a draft; <b>Publish</b> pushes it live.`);
   maybeTour();
 }
 
@@ -478,7 +495,7 @@ function navToHref(href){
 
 let flashIds=[];
 function loadPreview(){
-  return fetch('/api/render?edit=1&site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:pending()})}).then(r=>r.text()).then(html=>{frame.style.opacity='0';frame.onload=()=>{frame.style.opacity='1';if(flashIds.length){const f=flashIds;flashIds=[];setTimeout(()=>toFrame({type:'flash',ids:f}),140);}};frame.srcdoc=html;});
+  return fetch('/api/render?edit='+(SIMPLE?'nav':'1')+'&site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:pending()})}).then(r=>r.text()).then(html=>{frame.style.opacity='0';frame.onload=()=>{frame.style.opacity='1';if(flashIds.length){const f=flashIds;flashIds=[];setTimeout(()=>toFrame({type:'flash',ids:f}),140);}};frame.srcdoc=html;});
 }
 function updateBar(){
   const n=Object.values(pendingByPage).reduce((a,m)=>a+Object.keys(m).length,0);
