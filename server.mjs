@@ -254,13 +254,26 @@ const publishedPageHtml = (name, slug) => pageHtmlFor(name, sites[name].pages[sl
    main, and the repo's host (Railway watching main) redeploys the real site.
    Sync failures never block the CMS — they're audit-logged and reported. */
 const repoBranchOf = (s) => s.repoBranch || 'cms-edits';
-function repoFilesFor(name, useDraft) {
+/* Rendered page files with COLLISION-PROOF names. A crawl can ingest the same
+   landing page twice (slug "home" AND slug "index"): both map to index.html,
+   and whichever rendered last silently overwrote the real homepage in every
+   release and repo push — edits to the homepage then never went live. The
+   home page renders first and owns its filename; any other slug that maps to
+   an already-taken filename is skipped. */
+function renderedPageFiles(name, useDraft) {
   const s = sites[name];
-  return s.order.map((slug) => ({
-    path: fileFor(s, slug),
-    content: pageHtmlFor(name, (useDraft && s.draft[slug]) || s.pages[slug]),
-  }));
+  const files = [];
+  const seen = new Set();
+  for (const slug of [s.home, ...s.order.filter((x) => x !== s.home)]) {
+    if (!s.pages[slug]) continue;
+    const path = fileFor(s, slug);
+    if (seen.has(path)) continue;
+    seen.add(path);
+    files.push({ path, content: pageHtmlFor(name, (useDraft && s.draft[slug]) || s.pages[slug]) });
+  }
+  return files;
 }
+const repoFilesFor = renderedPageFiles;
 const _repoTimers = {};
 function queueRepoSync(name) {   // debounced: rapid edits become one branch commit
   const s = sites[name];
@@ -286,8 +299,7 @@ async function repoPublish(name, summary) {
 
 /* ───── deploy: build the whole static site for a version ───── */
 function buildRelease(name, seq) {
-  const s = sites[name];
-  const files = s.order.map((slug) => ({ path: fileFor(s, slug), content: publishedPageHtml(name, slug) }));
+  const files = renderedPageFiles(name, false);
   files.push({ path: 'sitemap.xml', content: sitemapXml(name) });
   files.push({ path: 'robots.txt', content: robotsTxt(name) });
   files.push({ path: 'llms.txt', content: llmsTxt(name) });
