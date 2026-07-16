@@ -1244,13 +1244,20 @@ app.post('/api/admin/approval', requireOwner, (req, res) => {
   res.json({ ok: true, requireApproval: s.access.requireApproval });
 });
 // Image upload — client picks a file; we store it under the site and return a URL.
+// Uploads: images everywhere; Total-mode chat can also attach PDFs, video and
+// audio (brochures, menus, background loops). Type is decided by the data-URL
+// MIME against a strict allowlist — never by filename.
+const UPLOAD_TYPES = {
+  'image/png': 'png', 'image/jpeg': 'jpg', 'image/jpg': 'jpg', 'image/webp': 'webp', 'image/gif': 'gif', 'image/svg+xml': 'svg', 'image/avif': 'avif',
+  'application/pdf': 'pdf', 'video/mp4': 'mp4', 'video/webm': 'webm', 'audio/mpeg': 'mp3', 'audio/wav': 'wav',
+};
 app.post('/api/upload', authWrite, (req, res) => {
   if (!sites[get(req)]) return res.status(404).json({ error: 'Unknown site.' });
   const m = /^data:([\w/+.-]+);base64,(.+)$/s.exec(req.body?.dataUrl || '');
-  if (!m || !/^image\//.test(m[1])) return res.status(400).json({ error: 'Please choose an image file.' });
-  const ext = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/jpg': 'jpg', 'image/webp': 'webp', 'image/gif': 'gif', 'image/svg+xml': 'svg', 'image/avif': 'avif' }[m[1]] || 'png';
+  const ext = m && UPLOAD_TYPES[m[1]];
+  if (!ext) return res.status(400).json({ error: 'That file type isn’t supported — images, PDF, MP4/WebM video, or MP3/WAV audio.' });
   const buf = Buffer.from(m[2], 'base64');
-  if (buf.length > 12 * 1024 * 1024) return res.status(400).json({ error: 'Image too large (max 12MB).' });
+  if (buf.length > 12 * 1024 * 1024) return res.status(400).json({ error: 'File too large (max 12MB).' });
   const dir = join(siteDir(get(req)), 'uploads');
   mkdirSync(dir, { recursive: true });
   const fn = createHash('sha256').update(buf).digest('hex').slice(0, 16) + '.' + ext;
