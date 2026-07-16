@@ -27,6 +27,7 @@ import { applyStructure } from './lib/structure.mjs';
 import { deployer } from './lib/deploy.mjs';
 import { effectiveSeo, SEO_FIELDS, STYLE_SPEC, sectionList } from './lib/fields.mjs';
 import { getConfig, setConfig, aiCreds, loadConfig } from './lib/config.mjs';
+import { pushFilesToBranch, mergeBranchToMain, ghToken } from './lib/github.mjs';
 import { randomBytes, createHash } from 'node:crypto';
 
 const ADMIN_KEY = process.env.ADMIN_KEY || 'owner-dev';
@@ -90,7 +91,7 @@ function writePage(name, slug, p) {
 }
 function writeCfg(name) {
   const s = sites[name];
-  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null, totalMode: !!s.totalMode, domain: s.domain || null, embed: s.embed || null }, null, 2));
+  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null, totalMode: !!s.totalMode, domain: s.domain || null, embed: s.embed || null, repo: s.repo || null, repoBranch: s.repoBranch || null }, null, 2));
 }
 
 /* ───── drafts: staged-but-not-live edits, persisted so a Save survives reload/restart ───── */
@@ -98,6 +99,7 @@ const draftFile = (name, slug) => join(pageDir(name, slug), 'draft.json');
 function writeDraft(name, slug, state) {
   const pd = pageDir(name, slug); mkdirSync(pd, { recursive: true });
   writeFileSync(draftFile(name, slug), JSON.stringify(state));
+  queueRepoSync(name);   // mirror the draft onto the site's working branch
 }
 function clearDrafts(name) {
   const s = sites[name];
@@ -183,7 +185,7 @@ function loadSite(name) {
   if (!order.length) { console.error(`Site "${name}": no readable pages — site skipped.`); return null; }
   const home = order.includes(cfg.home) ? cfg.home : order[0];
   sites[name] = {
-    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null, totalMode: !!cfg.totalMode, domain: cfg.domain || null, embed: cfg.embed || null,
+    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null, totalMode: !!cfg.totalMode, domain: cfg.domain || null, embed: cfg.embed || null, repo: cfg.repo || null, repoBranch: cfg.repoBranch || null,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
@@ -236,14 +238,50 @@ function wireEmbed(html, name) {
   if (!snippet) return html;
   return html.includes('</body>') ? html.replace('</body>', snippet + '</body>') : html + snippet;
 }
-function publishedPageHtml(name, slug) {
-  const p = sites[name].pages[slug];
+function pageHtmlFor(name, p) {
   let html = withBase(render(p.templateHtml, p.schema, p.content));
   html = wireForms(html, name);
   html = wireClarity(html, name);
   html = wireConvai(html, name);
   html = wireEmbed(html, name);
   return html;
+}
+const publishedPageHtml = (name, slug) => pageHtmlFor(name, sites[name].pages[slug]);
+
+/* ── GitHub repo sync ──
+   When a site has `repo` set (owner/name), every edit mirrors the rendered
+   pages onto a working branch of that repo; Publish merges the branch into
+   main, and the repo's host (Railway watching main) redeploys the real site.
+   Sync failures never block the CMS — they're audit-logged and reported. */
+const repoBranchOf = (s) => s.repoBranch || 'cms-edits';
+function repoFilesFor(name, useDraft) {
+  const s = sites[name];
+  return s.order.map((slug) => ({
+    path: fileFor(s, slug),
+    content: pageHtmlFor(name, (useDraft && s.draft[slug]) || s.pages[slug]),
+  }));
+}
+const _repoTimers = {};
+function queueRepoSync(name) {   // debounced: rapid edits become one branch commit
+  const s = sites[name];
+  if (!s?.repo || !ghToken()) return;
+  clearTimeout(_repoTimers[name]);
+  _repoTimers[name] = setTimeout(async () => {
+    const r = await pushFilesToBranch({ repo: s.repo, branch: repoBranchOf(s), files: repoFilesFor(name, true), message: `CMS: draft sync (${name})` });
+    if (!r.ok && !r.skipped) { console.error(`[repo] draft sync ${name}:`, r.error); auditLog(name, { role: 'system', action: 'repo-sync-failed', error: r.error }); }
+  }, 4000);
+}
+async function repoPublish(name, summary) {
+  const s = sites[name];
+  if (!s?.repo || !ghToken()) return null;
+  clearTimeout(_repoTimers[name]);
+  const files = repoFilesFor(name, false);   // published state, not draft
+  const msg = `CMS publish: ${summary || name}`;
+  const push = await pushFilesToBranch({ repo: s.repo, branch: repoBranchOf(s), files, message: msg });
+  if (!push.ok) { auditLog(name, { role: 'system', action: 'repo-publish-failed', error: push.error }); return { ok: false, error: push.error }; }
+  const merge = await mergeBranchToMain({ repo: s.repo, branch: repoBranchOf(s), files, message: msg });
+  auditLog(name, merge.ok ? { role: 'system', action: 'repo-merged', sha: merge.sha } : { role: 'system', action: 'repo-merge-failed', error: merge.error });
+  return merge;
 }
 
 /* ───── deploy: build the whole static site for a version ───── */
@@ -659,7 +697,7 @@ app.get('/api/sites', (_req, res) => res.json({
   plannerMode: plannerMode(),
   sites: Object.keys(sites).map((name) => {
     const s = sites[name];
-    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), totalMode: !!s.totalMode, domain: s.domain || null, hasEmbed: !!s.embed, sourceUrl: s.sourceUrl || null, versions: s.versions.length };
+    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), totalMode: !!s.totalMode, domain: s.domain || null, hasEmbed: !!s.embed, repo: s.repo || null, sourceUrl: s.sourceUrl || null, versions: s.versions.length };
   }),
 }));
 
@@ -1089,7 +1127,8 @@ app.post('/api/review/approve', requireOwner, async (req, res) => {
   if (r.error) return res.status(400).json({ error: r.error, errors: r.errors });
   clearReview(get(req));
   auditLog(get(req), { role: 'owner', action: 'approve', version: s.head });
-  res.json({ ok: true, head: r.head });
+  const repo = await repoPublish(get(req), r.summary);
+  res.json({ ok: true, head: r.head, repo });
 });
 app.post('/api/review/reject', requireOwner, (req, res) => {
   const s = need(req, res); if (!s) return;
@@ -1138,24 +1177,27 @@ app.post('/api/publish', authWrite, async (req, res) => {
   const r = applyAndCommit(get(req), pendingByPage, req.role);
   if (r.error) return res.status(400).json({ error: r.error, errors: r.errors });
   clearReview(get(req));                                   // an owner publish also clears any pending review
-  res.json({ ok: true, head: r.head, published: r.totalEdits, liveUrl: `/live/${get(req)}` });
+  const repo = await repoPublish(get(req), r.summary);     // merge the working branch into the site repo's main
+  res.json({ ok: true, head: r.head, published: r.totalEdits, liveUrl: `/live/${get(req)}`, repo });
 });
 
 app.get('/api/versions', (req, res) => { const s = need(req, res); if (!s) return; res.json({ head: s.head, versions: s.versions }); });
 
-app.post('/api/version/restore', authWrite, (req, res) => {
+app.post('/api/version/restore', authWrite, async (req, res) => {
   const s = need(req, res); if (!s) return;
   const seq = Number(req.body?.seq);
   if (!restoreVersion(get(req), seq)) return res.status(400).json({ error: `No version ${seq}.` });
   auditLog(get(req), { role: req.role || 'owner', action: 'restore', version: seq });
-  res.json({ ok: true, head: s.head });
+  const repo = await repoPublish(get(req), `restore v${seq}`);   // a restore is a publish of the restored state
+  res.json({ ok: true, head: s.head, repo });
 });
-app.post('/api/rollback', authWrite, (req, res) => {
+app.post('/api/rollback', authWrite, async (req, res) => {
   const s = need(req, res); if (!s) return;
   const idx = s.versions.findIndex((v) => v.seq === s.head);
   if (idx <= 0) return res.status(400).json({ error: 'Already at the earliest version.' });
   restoreVersion(get(req), s.versions[idx - 1].seq);
-  res.json({ ok: true, head: s.head });
+  const repo = await repoPublish(get(req), `rollback to v${s.head}`);
+  res.json({ ok: true, head: s.head, repo });
 });
 
 /* ───── PAGE MANAGEMENT (WordPress-style) — auto-versioned + deployed ───── */
@@ -1347,6 +1389,19 @@ app.post('/api/admin/site-clarity', requireOwner, (req, res) => {
   writeCfg(name);
   if (s.head >= 0) buildRelease(name, s.head); // re-bake the active release so the tag is injected now
   res.json({ ok: true, clarity: s.clarity, rebuilt: s.head >= 0 });
+});
+
+// GitHub deploy: mirror edits to a branch of the site's repo; Publish merges to main.
+app.post('/api/admin/site-repo', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  const repo = String(req.body?.repo || '').trim().replace(/^https?:\/\/github\.com\//i, '').replace(/\.git$/i, '').replace(/\/+$/, '');
+  if (repo && !/^[\w.-]+\/[\w.-]+$/.test(repo)) return res.status(400).json({ error: 'Use the owner/name form, e.g. stevewinfieldtx/ws-rain-networks-v2.' });
+  s.repo = repo || null;
+  s.repoBranch = String(req.body?.branch || '').trim().replace(/[^\w./-]/g, '') || null;
+  writeCfg(name);
+  if (s.repo && !ghToken()) return res.json({ ok: true, repo: s.repo, warning: 'No GITHUB_TOKEN set on this service yet — syncing will start once you add one.' });
+  res.json({ ok: true, repo: s.repo, branch: repoBranchOf(s) });
 });
 
 // Custom domain: serve this site's published release at the domain root.

@@ -615,7 +615,9 @@ async function publish(){
   $('#publishBtn').disabled=true;$('#saveStat').textContent='Publishing…';
   const r=await (await fetch('/api/publish?site='+SITE+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pages:pendingByPage})})).json();
   if(r.ok){pendingByPage={};hasDraft=false;updateBar();await loadPreview();await loadVersions();
-    toast(`✓ Your site is live — <a href="/live/${SITE}" target="_blank">view it ↗</a>`);}
+    if(r.repo&&r.repo.ok)toast('✓ Published — your live site is rebuilding now (1–2 min).',5000);
+    else if(r.repo&&!r.repo.ok&&!r.repo.skipped)toast('⚠ Published here, but the site repo update failed: '+esc(r.repo.error||'unknown')+' — tell your agency.',7000);
+    else toast(`✓ Your site is live — <a href="/live/${SITE}" target="_blank">view it ↗</a>`);}
   else{updateBar();const c=document.createElement('div');c.className='card bad';c.innerHTML=`<h4>⛔ Blocked by safety check</h4><div class="body">${(r.errors||[r.error]).map(x=>`<div class="err">${esc(x)}</div>`).join('')}</div>`;log.appendChild(c);}
 }
 async function discard(){pendingByPage={};hasDraft=false;sel=null;showScope();await fetch('/api/discard?site='+SITE+KQ(),{method:'POST'});updateBar();await loadPreview();toast('Changes discarded');}
