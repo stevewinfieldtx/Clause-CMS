@@ -91,7 +91,7 @@ function writePage(name, slug, p) {
 }
 function writeCfg(name) {
   const s = sites[name];
-  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null, totalMode: !!s.totalMode, domain: s.domain || null, embed: s.embed || null, repo: s.repo || null, repoBranch: s.repoBranch || null }, null, 2));
+  writeFileSync(join(siteDir(name), 'site.json'), JSON.stringify({ order: s.order, home: s.home, pages: s.pagesMeta, sourceUrl: s.sourceUrl || null, clarity: s.clarity || null, convai: s.convai || null, totalMode: !!s.totalMode, domain: s.domain || null, embed: s.embed || null, repo: s.repo || null, repoBranch: s.repoBranch || null, notifyEmail: s.notifyEmail || null }, null, 2));
 }
 
 /* ───── drafts: staged-but-not-live edits, persisted so a Save survives reload/restart ───── */
@@ -185,7 +185,7 @@ function loadSite(name) {
   if (!order.length) { console.error(`Site "${name}": no readable pages — site skipped.`); return null; }
   const home = order.includes(cfg.home) ? cfg.home : order[0];
   sites[name] = {
-    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null, totalMode: !!cfg.totalMode, domain: cfg.domain || null, embed: cfg.embed || null, repo: cfg.repo || null, repoBranch: cfg.repoBranch || null,
+    pages, order, home, pagesMeta: cfg.pages, sourceUrl: cfg.sourceUrl || null, clarity: cfg.clarity || null, convai: cfg.convai || null, totalMode: !!cfg.totalMode, domain: cfg.domain || null, embed: cfg.embed || null, repo: cfg.repo || null, repoBranch: cfg.repoBranch || null, notifyEmail: cfg.notifyEmail || null,
     draft: {}, versions: [], head: -1,
     access: existsSync(join(dir, 'access.json')) ? JSON.parse(readFileSync(join(dir, 'access.json'), 'utf8')) : null,
   };
@@ -214,9 +214,18 @@ function cmsPublicUrl() {
 }
 
 // Inject a tiny script so live/deployed forms post submissions back to the CMS inbox.
+// Each site belongs to a different, unrelated company — routing every one of
+// their contact-form leads into a shared CMS inbox nobody but us can see has
+// no upside for them. When the owner sets a notify email for a site, form
+// submissions instead go STRAIGHT to that company's inbox via FormSubmit.co
+// (free, no account/signup required) — permanently independent of the CMS,
+// same principle as the self-contained upload fix. No email configured ⇒
+// unchanged default: the CMS Inbox, so existing sites don't break.
 function wireForms(html, name) {
-  const ep = `${cmsPublicUrl()}/api/forms/${name}`;
-  const script = `<script>(function(){var EP=${JSON.stringify(ep)};document.querySelectorAll('form').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var d={_page:location.pathname};new FormData(f).forEach(function(v,k){if(typeof v==='string')d[k]=v;});fetch(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(){f.innerHTML='<p style="padding:18px;font-size:16px;text-align:center">✓ Thanks — we\\'ve got your message.</p>';}).catch(function(){});});});})();</script>`;
+  const notify = String(sites[name]?.notifyEmail || '').trim();
+  const ep = notify ? `https://formsubmit.co/ajax/${encodeURIComponent(notify)}` : `${cmsPublicUrl()}/api/forms/${name}`;
+  const subject = notify ? `,_subject:${JSON.stringify(`New message from the ${name} website`)}` : '';
+  const script = `<script>(function(){var EP=${JSON.stringify(ep)};document.querySelectorAll('form').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var d={_page:location.pathname${subject}};new FormData(f).forEach(function(v,k){if(typeof v==='string')d[k]=v;});fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(d)}).then(function(){f.innerHTML='<p style="padding:18px;font-size:16px;text-align:center">✓ Thanks — we\\'ve got your message.</p>';}).catch(function(){});});});})();</script>`;
   return html.includes('</body>') ? html.replace('</body>', script + '</body>') : html + script;
 }
 // Microsoft Clarity (analytics/heatmaps) is a <script> — stripped at ingest — so we
@@ -448,13 +457,13 @@ function liveCsp() {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com https://*.elevenlabs.io data:",
     "img-src 'self' data: https:",
-    `connect-src 'self' https://*.clarity.ms https://formspree.io https://*.elevenlabs.io wss://*.elevenlabs.io https://interactivechat.up.railway.app${pub ? ' ' + pub : ''}`,
+    `connect-src 'self' https://*.clarity.ms https://formspree.io https://formsubmit.co https://*.elevenlabs.io wss://*.elevenlabs.io https://interactivechat.up.railway.app${pub ? ' ' + pub : ''}`,
     "media-src 'self' blob: https://*.elevenlabs.io",
     "worker-src 'self' blob:",
     "frame-src 'self' https://www.youtube.com https://player.vimeo.com https://*.elevenlabs.io https://interactivechat.up.railway.app",
     "frame-ancestors 'self'",
     "base-uri 'self'",
-    "form-action 'self' https://formspree.io https://interactivechat.up.railway.app",
+    "form-action 'self' https://formspree.io https://formsubmit.co https://interactivechat.up.railway.app",
     'upgrade-insecure-requests',
   ].join('; ');
 }
@@ -749,7 +758,7 @@ app.get('/api/sites', (_req, res) => res.json({
   plannerMode: plannerMode(),
   sites: Object.keys(sites).map((name) => {
     const s = sites[name];
-    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), totalMode: !!s.totalMode, domain: s.domain || null, hasEmbed: !!s.embed, repo: s.repo || null, sourceUrl: s.sourceUrl || null, versions: s.versions.length };
+    return { name, pages: s.order.length, handedOff: !!s.access?.tokenHash, authMode: s.access?.mode || (s.access?.tokenHash ? 'link' : null), client: s.access?.clientName || null, requireApproval: !!s.access?.requireApproval, capabilities: capsOf(s), totalMode: !!s.totalMode, domain: s.domain || null, hasEmbed: !!s.embed, repo: s.repo || null, notifyEmail: s.notifyEmail || null, sourceUrl: s.sourceUrl || null, versions: s.versions.length };
   }),
 }));
 
@@ -1442,6 +1451,21 @@ app.post('/api/admin/site-clarity', requireOwner, (req, res) => {
   writeCfg(name);
   if (s.head >= 0) buildRelease(name, s.head); // re-bake the active release so the tag is injected now
   res.json({ ok: true, clarity: s.clarity, rebuilt: s.head >= 0 });
+});
+
+// Contact-form notification: which real inbox should THIS site's own leads go
+// to. Set ⇒ submissions bypass the CMS entirely (FormSubmit.co, no signup).
+// Unset ⇒ the CMS Inbox (previous default), so nothing breaks for a site
+// nobody's configured yet.
+app.post('/api/admin/site-notify-email', requireOwner, (req, res) => {
+  const name = String(req.body?.site || '').replace(/[^a-z0-9_-]/gi, '');
+  const s = sites[name]; if (!s) return res.status(404).json({ error: 'Unknown site.' });
+  const email = String(req.body?.email || '').trim();
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'That doesn’t look like a valid email address.' });
+  s.notifyEmail = email || null;
+  writeCfg(name);
+  if (s.head >= 0) buildRelease(name, s.head); // re-bake so the new handler is live now
+  res.json({ ok: true, notifyEmail: s.notifyEmail, rebuilt: s.head >= 0 });
 });
 
 // GitHub deploy: mirror edits to a branch of the site's repo; Publish merges to main.

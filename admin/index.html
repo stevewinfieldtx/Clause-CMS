@@ -122,6 +122,7 @@ async function load(){
       <div class="meta">${s.pages} page${s.pages!==1?'s':''} · ${s.versions} version${s.versions!==1?'s':''} in history</div>
       <label class="appr" title="With Total mode on, the editor's AI chat can restructure sections, restyle the page and add new blocks — every change lands in the draft with one-click undo, and Publish still works exactly as before."><input type="checkbox" id="tot-${esc(s.name)}" ${s.totalMode?'checked':''} onchange="setTotal('${esc(s.name)}',this.checked)"> <span>✨ <b>Total mode</b> — the AI may redesign layout &amp; style, not just content</span></label>
       <div class="lkrow" style="margin-top:8px" title="Mirror this site's rendered pages into a branch of its GitHub repo as edits happen; Publish merges the branch into main, and whatever hosts that repo (e.g. Railway) redeploys the real site. Needs a GITHUB_TOKEN env var on this CMS service."><input id="repo-${esc(s.name)}" type="text" placeholder="GitHub repo (owner/name)" value="${esc(s.repo||'')}"><button class="ghost" onclick="setRepo('${esc(s.name)}')">🐙 Set repo</button></div>
+      <div class="lkrow" style="margin-top:8px" title="This site's own contact-form leads go straight here (via FormSubmit.co — free, no account needed) instead of the CMS Inbox. Independent of the CMS forever, same as this company owning its own site."><input id="notify-${esc(s.name)}" type="text" placeholder="Notify email for this site's leads" value="${esc(s.notifyEmail||'')}"><button class="ghost" onclick="setNotifyEmail('${esc(s.name)}')">📧 Set notify email</button></div>
       <div class="lkrow" style="margin-top:8px" title="Point this domain at THIS Railway service (custom domain in Railway + DNS), and the site's published release is served at the domain root — Publish is instantly live."><input id="dom-${esc(s.name)}" type="text" placeholder="Custom domain (e.g. rainnetworks.com)" value="${esc(s.domain||'')}"><button class="ghost" onclick="setDomain('${esc(s.name)}')">🌐 Set domain</button></div>
       <div class="lkrow" style="margin-top:6px" title="Pasted as-is into every published page just before the closing body tag — use it for chat widgets or other scripts that were stripped at ingest. Owner-only."><input id="emb-${esc(s.name)}" type="text" placeholder="Embed snippet: paste a widget script tag here${s.hasEmbed?' (currently set)':''}"><button class="ghost" onclick="setEmbed('${esc(s.name)}')">🧩 Set embed</button></div>
       <div class="acts">
@@ -180,6 +181,13 @@ async function setRepo(name){
   const r=await (await fetch('/api/admin/site-repo',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name,repo})})).json();
   if(r.error){alert(r.error);return;}
   alert(repo?('✓ Connected to '+r.repo+'.\n\nEdits mirror to the "'+(r.branch||'cms-edits')+'" branch; Publish merges it into main so the repo\'s host redeploys.'+(r.warning?'\n\n⚠ '+r.warning:'')):'✓ Repo disconnected.');
+  load();
+}
+async function setNotifyEmail(name){
+  const email=$('#notify-'+name).value.trim();
+  const r=await (await fetch('/api/admin/site-notify-email',{method:'POST',headers:{'Content-Type':'application/json','x-edit-key':keyEl.value},body:JSON.stringify({site:name,email})})).json();
+  if(r.error){alert(r.error);return;}
+  alert(email?('✓ This site\'s leads now go straight to '+r.notifyEmail+' — no CMS involved.'):'✓ Reverted to the CMS Inbox.');
   load();
 }
 async function setDomain(name){
