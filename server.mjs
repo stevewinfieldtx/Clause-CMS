@@ -200,9 +200,29 @@ const pageState = (s, slug) => s.draft[slug] || s.pages[slug];
 const hasDraft = (s) => Object.keys(s.draft).length > 0;
 const fileFor = (s, slug) => (slug === s.home ? 'index.html' : `${slug}.html`);
 
+// This CMS's own reachable origin — needed for anything a PUBLISHED page must
+// reach back to the CMS for: form submissions, and uploaded images/files when
+// the page is served from somewhere else entirely (a GitHub-deployed site).
+// Auto-detects Railway's own public-domain env var; a saved config value
+// (settable via /api/admin/config) always wins for a custom setup.
+function cmsPublicUrl() {
+  const cfg = getConfig().publicUrl;
+  if (cfg) return cfg.replace(/\/+$/, '');
+  if (process.env.RAILWAY_PUBLIC_DOMAIN) return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`;
+  return 'http://localhost:4321';
+}
+// Uploaded images/files are served from THIS CMS at /u/<site>/<file> — fine
+// when the CMS also serves the page, but a page copied verbatim to another
+// host (GitHub → Railway) has no such route, so the relative path 404s and
+// the image silently fails to load. Make every /u/ reference absolute.
+function absolutizeUploads(html) {
+  const base = cmsPublicUrl();
+  return html.replace(/((?:src|href|poster)=")(\/u\/[^"]+)(")/g, `$1${base}$2$3`);
+}
+
 // Inject a tiny script so live/deployed forms post submissions back to the CMS inbox.
 function wireForms(html, name) {
-  const ep = `${(getConfig().publicUrl || 'http://localhost:4321').replace(/\/+$/, '')}/api/forms/${name}`;
+  const ep = `${cmsPublicUrl()}/api/forms/${name}`;
   const script = `<script>(function(){var EP=${JSON.stringify(ep)};document.querySelectorAll('form').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var d={_page:location.pathname};new FormData(f).forEach(function(v,k){if(typeof v==='string')d[k]=v;});fetch(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(){f.innerHTML='<p style="padding:18px;font-size:16px;text-align:center">✓ Thanks — we\\'ve got your message.</p>';}).catch(function(){});});});})();</script>`;
   return html.includes('</body>') ? html.replace('</body>', script + '</body>') : html + script;
 }
@@ -240,6 +260,7 @@ function wireEmbed(html, name) {
 }
 function pageHtmlFor(name, p) {
   let html = withBase(render(p.templateHtml, p.schema, p.content));
+  html = absolutizeUploads(html);
   html = wireForms(html, name);
   html = wireClarity(html, name);
   html = wireConvai(html, name);
@@ -401,7 +422,7 @@ app.use((req, res, next) => {
 // interactivechat.up.railway.app is the ChatDesk live-chat widget (chat bubble +
 // voice-agent iframe) that client sites embed via their custom snippet.
 function liveCsp() {
-  const pub = (getConfig().publicUrl || '').replace(/\/+$/, ''); // form handler may post here
+  const pub = cmsPublicUrl(); // form handler may post here
   return [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' https://www.clarity.ms https://*.clarity.ms https://unpkg.com https://*.elevenlabs.io https://interactivechat.up.railway.app",
@@ -1381,6 +1402,7 @@ app.post('/api/admin/config', requireOwner, async (req, res) => {
   if (typeof req.body?.apiKey === 'string' && req.body.apiKey.trim()) patch.apiKey = req.body.apiKey.trim();
   if (req.body?.model) patch.model = req.body.model;
   if (req.body?.clearKey) patch.apiKey = '';
+  if (typeof req.body?.publicUrl === 'string') patch.publicUrl = req.body.publicUrl.trim().replace(/\/+$/, '');
   await setConfig(patch);
   res.json({ ok: true, provider: aiCreds().provider });
 });
