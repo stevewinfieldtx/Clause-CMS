@@ -322,16 +322,31 @@ function embedUploadsForRepo(name, files) {
   return rewritten;
 }
 const repoFilesFor = renderedPageFiles;
+
+/* A debounced draft-sync and an explicit Publish push to the SAME branch, if
+   ever in flight at once, race each other for the branch ref — whichever's
+   GitHub round-trip finishes first gets overwritten by the other, non-fast-
+   forward. clearTimeout can't stop an already-firing async callback, so
+   cancelling the timer isn't enough. Serialize every repo operation per site
+   through one promise chain instead: publish always waits for any sync
+   already in flight, so they run one after another, never concurrently. */
+const _repoQueue = {};
+function repoSerial(name, fn) {
+  const p = (_repoQueue[name] || Promise.resolve()).then(fn, fn);
+  _repoQueue[name] = p.catch(() => {}); // one failure must never wedge the queue for the next call
+  return p;
+}
+
 const _repoTimers = {};
 function queueRepoSync(name) {   // debounced: rapid edits become one branch commit
   const s = sites[name];
   if (!s?.repo || !ghToken()) return;
   clearTimeout(_repoTimers[name]);
-  _repoTimers[name] = setTimeout(async () => {
+  _repoTimers[name] = setTimeout(() => repoSerial(name, async () => {
     const files = embedUploadsForRepo(name, repoFilesFor(name, true));
     const r = await pushFilesToBranch({ repo: s.repo, branch: repoBranchOf(s), files, message: `CMS: draft sync (${name})` });
     if (!r.ok && !r.skipped) { console.error(`[repo] draft sync ${name}:`, r.error); auditLog(name, { role: 'system', action: 'repo-sync-failed', error: r.error }); }
-  }, 4000);
+  }), 4000);
 }
 async function repoPublish(name, summary) {
   const s = sites[name];
@@ -339,11 +354,13 @@ async function repoPublish(name, summary) {
   clearTimeout(_repoTimers[name]);
   const files = embedUploadsForRepo(name, repoFilesFor(name, false));   // published state, not draft
   const msg = `CMS publish: ${summary || name}`;
-  const push = await pushFilesToBranch({ repo: s.repo, branch: repoBranchOf(s), files, message: msg });
-  if (!push.ok) { auditLog(name, { role: 'system', action: 'repo-publish-failed', error: push.error }); return { ok: false, error: push.error }; }
-  const merge = await mergeBranchToMain({ repo: s.repo, branch: repoBranchOf(s), files, message: msg });
-  auditLog(name, merge.ok ? { role: 'system', action: 'repo-merged', sha: merge.sha } : { role: 'system', action: 'repo-merge-failed', error: merge.error });
-  return merge;
+  return repoSerial(name, async () => {
+    const push = await pushFilesToBranch({ repo: s.repo, branch: repoBranchOf(s), files, message: msg });
+    if (!push.ok) { auditLog(name, { role: 'system', action: 'repo-publish-failed', error: push.error }); return { ok: false, error: push.error }; }
+    const merge = await mergeBranchToMain({ repo: s.repo, branch: repoBranchOf(s), files, message: msg });
+    auditLog(name, merge.ok ? { role: 'system', action: 'repo-merged', sha: merge.sha } : { role: 'system', action: 'repo-merge-failed', error: merge.error });
+    return merge;
+  });
 }
 
 /* ───── deploy: build the whole static site for a version ───── */
