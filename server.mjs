@@ -200,24 +200,17 @@ const pageState = (s, slug) => s.draft[slug] || s.pages[slug];
 const hasDraft = (s) => Object.keys(s.draft).length > 0;
 const fileFor = (s, slug) => (slug === s.home ? 'index.html' : `${slug}.html`);
 
-// This CMS's own reachable origin — needed for anything a PUBLISHED page must
-// reach back to the CMS for: form submissions, and uploaded images/files when
-// the page is served from somewhere else entirely (a GitHub-deployed site).
-// Auto-detects Railway's own public-domain env var; a saved config value
-// (settable via /api/admin/config) always wins for a custom setup.
+// This CMS's own reachable origin — needed ONLY for the one thing a published
+// page still legitimately talks to the CMS for: submitting a contact form into
+// the shared inbox. (Uploaded images are NOT resolved through this — see
+// embedUploadsForRepo below. The CMS is an editing tool, not a runtime
+// dependency of the published site.) Auto-detects Railway's own public-domain
+// env var; a saved config value (settable via /api/admin/config) always wins.
 function cmsPublicUrl() {
   const cfg = getConfig().publicUrl;
   if (cfg) return cfg.replace(/\/+$/, '');
   if (process.env.RAILWAY_PUBLIC_DOMAIN) return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`;
   return 'http://localhost:4321';
-}
-// Uploaded images/files are served from THIS CMS at /u/<site>/<file> — fine
-// when the CMS also serves the page, but a page copied verbatim to another
-// host (GitHub → Railway) has no such route, so the relative path 404s and
-// the image silently fails to load. Make every /u/ reference absolute.
-function absolutizeUploads(html) {
-  const base = cmsPublicUrl();
-  return html.replace(/((?:src|href|poster)=")(\/u\/[^"]+)(")/g, `$1${base}$2$3`);
 }
 
 // Inject a tiny script so live/deployed forms post submissions back to the CMS inbox.
@@ -260,7 +253,6 @@ function wireEmbed(html, name) {
 }
 function pageHtmlFor(name, p) {
   let html = withBase(render(p.templateHtml, p.schema, p.content));
-  html = absolutizeUploads(html);
   html = wireForms(html, name);
   html = wireClarity(html, name);
   html = wireConvai(html, name);
@@ -294,6 +286,32 @@ function renderedPageFiles(name, useDraft) {
   }
   return files;
 }
+/* A site pushed to its OWN repo must be able to run with the CMS switched off
+   forever — so an uploaded image (stored only in the CMS's own store, at
+   /u/<site>/<file>) can never ship as a reference to that path. Instead, every
+   uploaded file actually IN USE gets committed into the repo itself (under
+   uploads/) and the HTML is rewritten to point at that local copy. */
+function siteUploadBytes(name, filename) {
+  const p = join(siteDir(name), 'uploads', filename.replace(/[^a-z0-9_.-]/gi, ''));
+  return existsSync(p) ? readFileSync(p) : null;
+}
+function embedUploadsForRepo(name, files) {
+  const uploadRe = new RegExp(`/u/${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/([\\w.-]+)`, 'g');
+  const seen = new Map(); // filename -> base64 (dedupe across pages)
+  const rewritten = files.map((f) => {
+    if (f.base64 != null || typeof f.content !== 'string') return f;
+    const content = f.content.replace(uploadRe, (whole, fn) => {
+      if (!seen.has(fn)) {
+        const buf = siteUploadBytes(name, fn);
+        seen.set(fn, buf ? buf.toString('base64') : null);
+      }
+      return seen.get(fn) != null ? `/uploads/${fn}` : whole; // leave unreadable refs as-is rather than break the page
+    });
+    return { ...f, content };
+  });
+  for (const [fn, base64] of seen) if (base64 != null) rewritten.push({ path: `uploads/${fn}`, base64 });
+  return rewritten;
+}
 const repoFilesFor = renderedPageFiles;
 const _repoTimers = {};
 function queueRepoSync(name) {   // debounced: rapid edits become one branch commit
@@ -301,7 +319,8 @@ function queueRepoSync(name) {   // debounced: rapid edits become one branch com
   if (!s?.repo || !ghToken()) return;
   clearTimeout(_repoTimers[name]);
   _repoTimers[name] = setTimeout(async () => {
-    const r = await pushFilesToBranch({ repo: s.repo, branch: repoBranchOf(s), files: repoFilesFor(name, true), message: `CMS: draft sync (${name})` });
+    const files = embedUploadsForRepo(name, repoFilesFor(name, true));
+    const r = await pushFilesToBranch({ repo: s.repo, branch: repoBranchOf(s), files, message: `CMS: draft sync (${name})` });
     if (!r.ok && !r.skipped) { console.error(`[repo] draft sync ${name}:`, r.error); auditLog(name, { role: 'system', action: 'repo-sync-failed', error: r.error }); }
   }, 4000);
 }
@@ -309,7 +328,7 @@ async function repoPublish(name, summary) {
   const s = sites[name];
   if (!s?.repo || !ghToken()) return null;
   clearTimeout(_repoTimers[name]);
-  const files = repoFilesFor(name, false);   // published state, not draft
+  const files = embedUploadsForRepo(name, repoFilesFor(name, false));   // published state, not draft
   const msg = `CMS publish: ${summary || name}`;
   const push = await pushFilesToBranch({ repo: s.repo, branch: repoBranchOf(s), files, message: msg });
   if (!push.ok) { auditLog(name, { role: 'system', action: 'repo-publish-failed', error: push.error }); return { ok: false, error: push.error }; }
