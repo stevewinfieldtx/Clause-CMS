@@ -1,0 +1,17 @@
+{
+  "sections": [
+    "header",
+    "nav",
+    "main",
+    "#hero",
+    "#impact",
+    "#solutions",
+    "#why-rain",
+    "#process",
+    "#promise",
+    "#faq",
+    "#contact",
+    "footer"
+  ],
+  "collections": []
+}

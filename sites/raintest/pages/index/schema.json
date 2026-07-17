@@ -1,0 +1,394 @@
+{
+  "cms-1": {
+    "type": "text",
+    "label": "Link: \"Solutions\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-2": {
+    "type": "text",
+    "label": "Link: \"Why us\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-3": {
+    "type": "text",
+    "label": "Link: \"Vendors\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-4": {
+    "type": "text",
+    "label": "Link: \"Endpoint Security\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-5": {
+    "type": "text",
+    "label": "Link: \"ESET\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-6": {
+    "type": "text",
+    "label": "Link: \"Bitdefender\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-7": {
+    "type": "text",
+    "label": "Link: \"Heimdal\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-8": {
+    "type": "text",
+    "label": "Link: \"Guardz\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-9": {
+    "type": "text",
+    "label": "Link: \"VIPRE\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-10": {
+    "type": "text",
+    "label": "Link: \"Avast Business\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-11": {
+    "type": "text",
+    "label": "Link: \"Email Security\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-12": {
+    "type": "text",
+    "label": "Link: \"Proofpoint\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-13": {
+    "type": "text",
+    "label": "Link: \"Barracuda\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-14": {
+    "type": "text",
+    "label": "Link: \"Trustifi\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-15": {
+    "type": "text",
+    "label": "Link: \"Sendmarc\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-16": {
+    "type": "text",
+    "label": "Link: \"Backup & Recovery\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-17": {
+    "type": "text",
+    "label": "Link: \"Macrium\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-18": {
+    "type": "text",
+    "label": "Link: \"Redstor\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-19": {
+    "type": "text",
+    "label": "Link: \"Security Awareness\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-20": {
+    "type": "text",
+    "label": "Link: \"NINJIO\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-21": {
+    "type": "text",
+    "label": "Link: \"RMM & IT Management\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-22": {
+    "type": "text",
+    "label": "Link: \"Atera\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-23": {
+    "type": "text",
+    "label": "Link: \"Pulseway\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-24": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-25": {
+    "type": "text",
+    "label": "Link: \"Become a reseller\"",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-26": {
+    "type": "text",
+    "label": "Heading: \"Index\"",
+    "group": "Main",
+    "rich": false,
+    "allow": []
+  },
+  "cms-27": {
+    "type": "text",
+    "label": "Heading: \"Add a subheading that tells visitors…\"",
+    "group": "Main",
+    "rich": false,
+    "allow": []
+  },
+  "cms-28": {
+    "type": "text",
+    "label": "Text: \"This is your new page. Click any tex…\"",
+    "group": "Main",
+    "rich": false,
+    "allow": []
+  },
+  "cms-29": {
+    "type": "text",
+    "label": "Text: \"Security-focused value-added distrib…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-30": {
+    "type": "text",
+    "label": "Link: \"contact@rainnetworks.com\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-31": {
+    "type": "text",
+    "label": "Link: \"(425) 893-9800\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-32": {
+    "type": "text",
+    "label": "Text: \"16212 Bothell Everett Highway, Suite…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-33": {
+    "type": "text",
+    "label": "Text: \"Mill Creek, WA 98012\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-34": {
+    "type": "text",
+    "label": "Heading: \"Explore\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-35": {
+    "type": "text",
+    "label": "Link: \"Solutions\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-36": {
+    "type": "text",
+    "label": "Link: \"Why us\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-37": {
+    "type": "text",
+    "label": "Link: \"Vendors\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-38": {
+    "type": "text",
+    "label": "Link: \"Contact\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-39": {
+    "type": "text",
+    "label": "Link: \"Privacy policy\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-40": {
+    "type": "text",
+    "label": "Link: \"Terms of use\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-41": {
+    "type": "text",
+    "label": "Heading: \"Solutions\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-42": {
+    "type": "text",
+    "label": "Link: \"Endpoint Security\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-43": {
+    "type": "text",
+    "label": "Link: \"Email Security\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-44": {
+    "type": "text",
+    "label": "Link: \"Backup & Recovery\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-45": {
+    "type": "text",
+    "label": "Link: \"Security Awareness\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-46": {
+    "type": "text",
+    "label": "Link: \"RMM & IT Management\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-47": {
+    "type": "text",
+    "label": "Text: \"© 2026 Rain Networks. All rights res…\"",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-48": {
+    "type": "image",
+    "label": "Image: Rain Networks",
+    "group": "Nav",
+    "rich": false,
+    "allow": []
+  },
+  "cms-49": {
+    "type": "image",
+    "label": "Image: Rain Networks",
+    "group": "Footer",
+    "rich": false,
+    "allow": []
+  },
+  "cms-50": {
+    "type": "text",
+    "label": "Browser tab title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-51": {
+    "type": "meta-attr",
+    "label": "Google meta description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-52": {
+    "type": "meta-attr",
+    "label": "Social share title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-53": {
+    "type": "meta-attr",
+    "label": "Social share description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-54": {
+    "type": "meta-attr",
+    "label": "Social share image URL",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-55": {
+    "type": "meta-attr",
+    "label": "Twitter card title",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  },
+  "cms-56": {
+    "type": "meta-attr",
+    "label": "Twitter card description",
+    "group": "SEO & social",
+    "rich": false,
+    "allow": []
+  }
+}

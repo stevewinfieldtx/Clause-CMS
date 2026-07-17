@@ -1,0 +1,1205 @@
+{
+  "seq": 0,
+  "ts": "2026-07-16T21:49:15.492Z",
+  "summary": "Initial version",
+  "state": {
+    "order": [
+      "home"
+    ],
+    "home": "home",
+    "pagesMeta": {
+      "home": {
+        "title": "Home",
+        "path": "/"
+      }
+    },
+    "pages": {
+      "home": {
+        "template": "<!DOCTYPE html><html lang=\"en\"><head><base href=\"/\"><base href=\"/\">\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title data-cms=\"cms-139\">RAIN NETWORKS, VALUE-ADDED CYBERSECURITY DISTRIBUTION</title>\n  <meta name=\"description\" content=\"Rain Networks is a security-focused value-added distributor since 2003. We help resellers and MSPs find, price, and deploy the best cybersecurity products across North America.\" data-cms=\"cms-140\">\n  <link rel=\"canonical\" href=\"https://rain-networks-v2.up.railway.app/\">\n  <link rel=\"alternate\" hreflang=\"en\" href=\"https://rain-networks-v2.up.railway.app/\">\n  <link rel=\"alternate\" hreflang=\"x-default\" href=\"https://rain-networks-v2.up.railway.app/\">\n  <link rel=\"icon\" href=\"https://rain3.up.railway.app/favicon.ico\" sizes=\"any\">\n  <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"https://rain3.up.railway.app/favicon-32.png\">\n  <link rel=\"apple-touch-icon\" href=\"https://rain3.up.railway.app/apple-touch-icon.png\">\n  <meta property=\"og:type\" content=\"website\">\n  <meta property=\"og:url\" content=\"https://rain-networks-v2.up.railway.app/\">\n  <meta property=\"og:site_name\" content=\"Rain Networks\">\n  <meta property=\"og:title\" content=\"RAIN NETWORKS, VALUE-ADDED CYBERSECURITY DISTRIBUTION\" data-cms=\"cms-141\">\n  <meta property=\"og:description\" content=\"Security-first distribution for resellers and MSPs. Find the right products, get trained, win more deals.\" data-cms=\"cms-142\">\n  <meta property=\"og:image\" content=\"https://rain-networks-v2.up.railway.app/hero_sunny.jpg\" data-cms=\"cms-143\">\n  <meta name=\"twitter:card\" content=\"summary_large_image\">\n  <meta name=\"twitter:title\" content=\"RAIN NETWORKS, VALUE-ADDED CYBERSECURITY DISTRIBUTION\" data-cms=\"cms-144\">\n  <meta name=\"twitter:description\" content=\"Security-first distribution for resellers and MSPs. Find the right products, get trained, win more deals.\" data-cms=\"cms-145\">\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\">\n  <link href=\"https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap\" rel=\"stylesheet\">\n  \n  <style>\n    :root{\n      --bg:#060d18; --surface:#0b1322; --surface-2:#0f1b2e;\n      --border:#1b2740; --border-2:#2a3a57;\n      --text:#e8eef6; --muted:#93a4ba; --faint:#5f7188;\n      --accent:#3b82f6; --accent-text:#6ea2ff; --accent-strong:#2563eb;\n      --radius:14px; --radius-lg:22px; --maxw:1220px;\n      --shadow:0 20px 50px rgba(2,6,16,.55);\n      --font:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;\n      --display:'Space Grotesk','Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;\n    }\n    *{box-sizing:border-box;margin:0;padding:0}\n    html{scroll-behavior:smooth;scroll-padding-top:80px}\n    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}\n    body::before{content:\"\";position:fixed;inset:0;z-index:-2;background:\n      radial-gradient(110% 60% at 50% -10%, rgba(37,99,235,.16) 0%, transparent 55%),\n      var(--bg)}\n    img{display:block;max-width:100%}\n    a{color:inherit;text-decoration:none}\n    h1,h2,h3,h4{font-family:var(--display);line-height:1.08;letter-spacing:-.02em;font-weight:600}\n    section{padding:clamp(60px,8vw,116px) 24px;position:relative}\n    .wrap{max-width:var(--maxw);margin:0 auto}\n    .accent{color:var(--accent-text)}\n    .eyebrow{display:inline-block;font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-text);font-family:var(--font)}\n    .lead{color:var(--muted);font-size:clamp(1.02rem,1.4vw,1.16rem);max-width:60ch}\n    .center{text-align:center;margin-inline:auto}\n    .ico svg{width:26px;height:26px;stroke:var(--accent-text);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}\n\n    .btn{display:inline-flex;align-items:center;gap:.5em;font-weight:600;font-size:.98rem;padding:.82em 1.55em;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease}\n    .btn-primary{background:var(--accent-strong);color:#fff}\n    .btn-primary:hover{background:#1e54cf;transform:translateY(-2px)}\n    .btn-primary:active{transform:translateY(0)}\n    .btn-ghost{background:transparent;color:var(--text);border-color:var(--border-2)}\n    .btn-ghost:hover{border-color:var(--accent);background:rgba(59,130,246,.08);transform:translateY(-2px)}\n\n    header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px) saturate(150%);background:rgba(6,13,24,.78);border-bottom:1px solid var(--border)}\n    nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:18px;padding:13px 24px;height:64px}\n    .logo-link{display:flex;align-items:center;gap:10px;margin-right:auto}\n    .logo-img{height:34px;width:auto;border-radius:7px;display:block}\n    .logo-text{font-family:var(--display);font-weight:600;font-size:1.1rem;letter-spacing:-.01em}\n    .nav-links{display:flex;align-items:center;gap:4px;list-style:none}\n    .nav-links a{padding:8px 13px;border-radius:8px;font-weight:500;font-size:.94rem;color:var(--muted);transition:color .2s,background .2s}\n    .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.05)}\n    .btn-nav{background:var(--accent-strong);color:#fff;padding:9px 16px;border-radius:9px;font-weight:600;font-size:.9rem;transition:background .2s,transform .2s}\n    .btn-nav:hover{background:#1e54cf;transform:translateY(-1px)}\n    .nav-toggle,.nav-burger{display:none}\n    .nav-burger{flex-direction:column;gap:5px;cursor:pointer;padding:8px}\n    .nav-burger span{display:block;width:23px;height:2px;background:var(--text);border-radius:2px;transition:.3s}\n\n    #hero{padding:0;min-height:88vh;display:flex;align-items:center;overflow:hidden}\n    .hero-media{position:absolute;inset:0;z-index:0}\n    .hero-bg{width:100%;height:100%;object-fit:cover}\n    .hero-media::after{content:\"\";position:absolute;inset:0;background:linear-gradient(100deg,rgba(6,13,24,.62) 0%,rgba(6,13,24,.30) 38%,transparent 66%)}\n    .hero-inner{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:96px 24px;width:100%}\n    .hero-inner h1{font-size:clamp(2.6rem,6vw,4.7rem);font-weight:700;max-width:15ch;margin:.34em 0 .42em}\n    .hero-inner .lead{margin-bottom:2em;font-size:clamp(1.06rem,1.7vw,1.3rem);color:#eef3fa;max-width:46ch}\n    .hero-inner h1,.hero-inner .lead,.hero-inner .eyebrow{text-shadow:0 2px 18px rgba(2,6,16,.6),0 1px 4px rgba(2,6,16,.7)}\n    .hero-ctas{display:flex;flex-wrap:wrap;gap:13px}\n    .hero-ctas .btn-ghost{background:#0e1b2e;color:#fff;border-color:rgba(255,255,255,.7)}\n    .hero-ctas .btn-ghost:hover{background:#16263d;border-color:var(--accent)}\n\n    #impact{padding-block:clamp(40px,5vw,64px);border-bottom:1px solid var(--border)}\n    .impact-grid{display:grid;grid-template-columns:repeat(4,1fr)}\n    .stat{padding:8px 26px;border-left:1px solid var(--border)}\n    .stat:first-child{border-left:0;padding-left:0}\n    .stat .n{display:block;font-family:var(--display);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:600;color:#fff;letter-spacing:-.02em}\n    .stat .l{display:block;font-size:.9rem;color:var(--muted);margin-top:4px}\n\n    .sec-head{max-width:680px;margin-bottom:48px}\n    .sec-head h2{font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:600;margin:.34em 0 .4em}\n    .sec-head.center{margin-inline:auto}\n\n    .sol-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}\n    .sol-card{display:flex;flex-direction:column;flex:0 1 calc(33.333% - 12px);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:transform .3s ease,border-color .3s ease}\n    .sol-link{margin-top:auto;color:var(--accent-text);font-weight:600;font-size:.92rem}\n    .sol-card:hover{transform:translateY(-6px);border-color:var(--accent)}\n    .sol-card .thumb{aspect-ratio:16/10;overflow:hidden}\n    .sol-card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}\n    .sol-card:hover .thumb img{transform:scale(1.05)}\n    .sol-body{padding:22px;display:flex;flex-direction:column;flex:1}\n    .sol-body h3{font-size:1.24rem;margin-bottom:.45em}\n    .sol-body p{color:var(--muted);font-size:.95rem;margin-bottom:1.1em}\n    .feat-list{list-style:none;display:grid;gap:9px;margin-top:auto}\n    .feat-list li{padding-left:26px;position:relative;font-size:.9rem;color:var(--text)}\n    .feat-list li svg{position:absolute;left:0;top:3px;width:16px;height:16px;stroke:var(--accent-text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n\n    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}\n    .why-item{display:flex;gap:18px;padding:26px 0;border-top:1px solid var(--border)}\n    .why-item .ico{flex:0 0 auto;width:46px;height:46px;border-radius:11px;display:grid;place-items:center;background:rgba(59,130,246,.1);border:1px solid var(--border-2)}\n    .why-item h3{font-size:1.12rem;margin-bottom:.35em;font-family:var(--display);font-weight:600}\n    .why-item p{color:var(--muted);font-size:.94rem}\n\n    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0}\n    .step{padding:0 34px;border-left:1px solid var(--border)}\n    .step:first-child{border-left:0;padding-left:0}\n    .step .k{font-family:var(--display);font-size:1rem;font-weight:600;color:var(--accent-text)}\n    .step h3{font-size:1.45rem;margin:.5em 0 .4em;font-weight:600}\n    .step p{color:var(--muted);font-size:.96rem}\n\n    .vcard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}\n    .vendor-card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:transform .3s,border-color .3s}\n    .vendor-card:hover{transform:translateY(-6px);border-color:var(--accent)}\n    .vendor-card .v-img{aspect-ratio:16/10;object-fit:cover;width:100%}\n    .v-body{padding:22px;display:flex;flex-direction:column;flex:1}\n    .v-cat{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text);font-family:var(--font)}\n    .v-body h3{font-size:1.28rem;font-weight:600;margin:.4em 0 .1em}\n    .v-tag{color:var(--text);font-weight:500;font-size:.94rem;margin-bottom:.5em}\n    .v-desc{color:var(--muted);font-size:.9rem;margin-bottom:1.1em}\n    .v-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:13px;border-top:1px solid var(--border)}\n    .v-rating{font-size:.9rem;font-weight:600;color:var(--text);display:inline-flex;align-items:center;gap:5px}\n    .v-rating svg{width:15px;height:15px;fill:var(--accent-text)}\n    .v-link{color:var(--accent-text);font-weight:600;font-size:.9rem}\n\n    .pull{max-width:900px;margin:0 auto;text-align:center}\n    .pull blockquote{font-family:var(--display);font-size:clamp(1.5rem,3.4vw,2.4rem);font-weight:500;line-height:1.32;letter-spacing:-.015em;color:#eef3fa}\n    .pull blockquote .accent{font-weight:600}\n    .pull-by{margin-top:24px;color:var(--muted);font-weight:500;font-size:.98rem}\n\n    .faq-list{max-width:800px;margin:0 auto;display:grid;gap:10px}\n    details{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s}\n    details[open]{border-color:var(--border-2)}\n    summary{padding:19px 22px;font-weight:600;font-size:1.04rem;font-family:var(--display);cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}\n    summary::-webkit-details-marker{display:none}\n    summary::after{content:\"+\";font-size:1.45rem;font-weight:400;color:var(--accent-text);transition:transform .3s}\n    details[open] summary::after{transform:rotate(45deg)}\n    details p{padding:0 22px 21px;color:var(--muted)}\n\n    .contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:44px}\n    @media (max-width:880px){.contact-grid{grid-template-columns:1fr 1fr}}\n    @media (max-width:480px){.contact-grid{grid-template-columns:1fr}}\n    .contact-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:30px 24px;text-align:center;transition:transform .3s,border-color .3s}\n    .contact-card:hover{transform:translateY(-5px);border-color:var(--accent)}\n    .contact-card .ico{width:48px;height:48px;border-radius:12px;margin:0 auto 16px;display:grid;place-items:center;background:rgba(59,130,246,.1);border:1px solid var(--border-2)}\n    .contact-card h3{font-size:1.08rem;font-weight:600;margin-bottom:.5em}\n    .contact-card a,.contact-card p{color:var(--muted);font-size:.94rem;display:block}\n    .contact-card a:hover{color:var(--accent-text)}\n\n    .cta-band{background:var(--surface);border:1px solid var(--border-2);border-radius:var(--radius-lg);padding:clamp(40px,6vw,72px);text-align:center}\n    .cta-band h2{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:600;margin-bottom:.4em}\n    .cta-band .lead{margin:0 auto 1.7em}\n    .lead-form{max-width:560px;margin:0 auto;text-align:left;display:flex;flex-direction:column;gap:14px}\n    .lf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}\n    .lead-form label{display:flex;flex-direction:column;gap:6px;font-size:.82rem;font-weight:600;letter-spacing:.02em;color:var(--muted)}\n    .lead-form input,.lead-form textarea{font-family:var(--font);font-size:.96rem;color:var(--text);background:var(--surface-2);border:1px solid var(--border-2);border-radius:10px;padding:.7em .85em;outline:none;transition:border-color .2s ease}\n    .lead-form input:focus,.lead-form textarea:focus{border-color:var(--accent)}\n    .lead-form textarea{resize:vertical}\n    .lead-form button{justify-content:center;margin-top:4px}\n    .lf-status{min-height:1.2em;font-size:.9rem;font-weight:600;text-align:center;color:var(--accent-text)}\n    .lf-status.ok{color:#5ed39a}\n    .lf-status.err{color:#ff8f8f}\n    @media(max-width:560px){.lf-row{grid-template-columns:1fr}}\n\n    footer{border-top:1px solid var(--border);padding:60px 24px 36px;background:rgba(6,13,24,.6)}\n    .foot-grid{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px}\n    .foot-brand{display:flex;align-items:center;gap:10px;margin-bottom:16px}\n    .foot-brand img{height:30px;width:auto;border-radius:7px}\n    .foot-brand .logo-text{font-size:1.05rem}\n    .foot-tag{color:var(--muted);font-size:.93rem;max-width:34ch}\n    .foot-contact{margin-top:18px;display:grid;gap:6px}\n    .foot-contact a,.foot-contact p{color:var(--muted);font-size:.91rem}\n    .foot-contact a:hover{color:var(--accent-text)}\n    .foot-col h3{font-family:var(--font);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:15px;font-weight:600}\n    .foot-col ul{list-style:none;display:grid;gap:10px}\n    .foot-col a{color:var(--muted);font-size:.92rem}\n    .foot-col a:hover{color:var(--accent-text)}\n    .foot-bottom{max-width:var(--maxw);margin:38px auto 0;padding-top:22px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}\n    .foot-bottom p{color:var(--faint);font-size:.85rem}\n    .social{display:flex;gap:9px}\n    .social a{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);display:grid;place-items:center;color:var(--muted);transition:.22s}\n    .social a svg{width:17px;height:17px;fill:currentColor}\n    .social a:hover{color:#fff;border-color:var(--accent);background:rgba(37,99,235,.16)}\n\n    @keyframes reveal{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}\n    @media (prefers-reduced-motion:no-preference){\n      .reveal{animation:reveal linear both;animation-timeline:view();animation-range:entry 0% entry 24%}\n    }\n\n    @media (max-width:900px){\n      .sol-card{flex:0 1 calc(50% - 9px)}\n      .why-grid{grid-template-columns:1fr}\n      .steps{grid-template-columns:1fr}\n      .step{border-left:0;padding:0;border-top:1px solid var(--border);padding-top:26px;margin-top:26px}\n      .step:first-child{border-top:0;margin-top:0;padding-top:0}\n    }\n    @media (max-width:860px){\n      .nav-links{position:fixed;inset:64px 0 auto 0;flex-direction:column;align-items:stretch;gap:0;background:rgba(6,13,24,.98);border-bottom:1px solid var(--border);padding:10px 16px 18px;transform:translateY(-130%);transition:transform .32s ease;backdrop-filter:blur(18px)}\n      .nav-links a{padding:14px;border-radius:10px}\n      .nav-toggle:checked ~ .nav-links{transform:translateY(0)}\n      .nav-burger{display:flex}\n      .nav-toggle:checked ~ .nav-burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}\n      .nav-toggle:checked ~ .nav-burger span:nth-child(2){opacity:0}\n      .nav-toggle:checked ~ .nav-burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}\n      .btn-nav{display:none}\n      .impact-grid{grid-template-columns:1fr 1fr;gap:24px 0}\n      .stat{padding:8px 22px}\n      .stat:nth-child(odd){border-left:0;padding-left:0}\n      .foot-grid{grid-template-columns:1fr;gap:30px}\n    }\n    @media (max-width:600px){.sol-card{flex:1 1 100%}}\n    @media (max-width:480px){.hero-ctas .btn{width:100%;justify-content:center}}\n    /* On tall phone screens the ultrawide hero is cropped hard. Use a shorter hero so more of\n       the panorama shows (less tight), and bias the crop right so the ferry stays in frame. */\n    @media (max-width:640px){\n      #hero{min-height:58vh}\n      .hero-inner{padding:46px 24px}\n      .hero-bg{object-position:88% 45%}\n    }\n      /* vendors mega-dropdown */\n    .nav-dd{position:relative}\n    .nav-dd>.nav-dd-toggle::after{content:\"\\25BE\";font-size:.7em;margin-left:5px;opacity:.7}\n    .nav-dd-menu{position:absolute;top:calc(100% + 8px);right:0;left:auto;display:none;grid-template-columns:repeat(3,minmax(146px,1fr));gap:14px 22px;background:rgba(8,15,27,.99);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:0 26px 64px rgba(0,0,0,.55);backdrop-filter:blur(14px);z-index:60}\n    .nav-dd:hover .nav-dd-menu,.nav-dd:focus-within .nav-dd-menu{display:grid}\n    .dd-cat{display:flex;flex-direction:column}\n    .nav-dd-menu a{padding:4px 0!important;border-radius:0!important;background:none!important;font-size:.86rem;color:var(--muted)!important;white-space:nowrap}\n    .nav-dd-menu a:hover{color:var(--accent-text)!important}\n    .nav-dd-menu .dd-cat-link{font-family:var(--display);font-weight:600;font-size:.9rem;color:var(--text)!important;padding-bottom:6px!important;margin-bottom:5px;border-bottom:1px solid var(--border)}\n    @media (max-width:860px){\n      .nav-dd-menu{position:static;display:grid;grid-template-columns:1fr;background:none;border:0;box-shadow:none;padding:4px 0 8px 14px;backdrop-filter:none}\n      .nav-dd>.nav-dd-toggle::after{display:none}\n    }\n  </style>\n</head>\n<body>\n\n  <header>\n    <nav>\n      <a href=\"#hero\" class=\"logo-link\">\n        <img src=\"https://rain3.up.railway.app/logo-wordmark.png\" alt=\"Rain Networks\" class=\"logo-img\" data-cms-img=\"cms-131\">\n      </a>\n      <input type=\"checkbox\" id=\"nav-toggle\" class=\"nav-toggle\">\n      <ul class=\"nav-links\" data-cms-collection=\"col1\">\n        <li data-cms-item=\"col1\"><a href=\"#solutions\" data-cms=\"cms-1\">Solutions</a></li>\n        <li data-cms-item=\"col1\"><a href=\"#why-rain\" data-cms=\"cms-2\">Why us</a></li>\n        <li class=\"nav-dd\"><a href=\"index.html#solutions\" class=\"nav-dd-toggle\" data-cms=\"cms-3\">Vendors</a>\n          <div class=\"nav-dd-menu\" data-cms-collection=\"col2\">\n            <div class=\"dd-cat\" data-cms-item=\"col2\" data-cms-collection=\"col3\"><a class=\"dd-cat-link\" href=\"solutions-endpoint.html\" data-cms=\"cms-4\">Endpoint Security</a><a href=\"vendor-eset.html\" data-cms=\"cms-5\" data-cms-item=\"col3\">ESET</a><a href=\"vendor-bitdefender.html\" data-cms=\"cms-6\" data-cms-item=\"col3\">Bitdefender</a><a href=\"vendor-heimdal.html\" data-cms=\"cms-7\" data-cms-item=\"col3\">Heimdal</a><a href=\"vendor-guardz.html\" data-cms=\"cms-8\" data-cms-item=\"col3\">Guardz</a><a href=\"vendor-vipre.html\" data-cms=\"cms-9\" data-cms-item=\"col3\">VIPRE</a><a href=\"vendor-avast.html\" data-cms=\"cms-10\" data-cms-item=\"col3\">Avast Business</a></div>\n            <div class=\"dd-cat\" data-cms-item=\"col2\" data-cms-collection=\"col4\"><a class=\"dd-cat-link\" href=\"solutions-email.html\" data-cms=\"cms-11\">Email Security</a><a href=\"vendor-proofpoint.html\" data-cms=\"cms-12\" data-cms-item=\"col4\">Proofpoint</a><a href=\"vendor-barracuda.html\" data-cms=\"cms-13\" data-cms-item=\"col4\">Barracuda</a><a href=\"vendor-trustifi.html\" data-cms=\"cms-14\" data-cms-item=\"col4\">Trustifi</a><a href=\"vendor-sendmarc.html\" data-cms=\"cms-15\" data-cms-item=\"col4\">Sendmarc</a></div>\n            <div class=\"dd-cat\" data-cms-item=\"col2\" data-cms-collection=\"col5\"><a class=\"dd-cat-link\" href=\"solutions-backup.html\" data-cms=\"cms-16\">Backup &amp; Recovery</a><a href=\"vendor-macrium.html\" data-cms=\"cms-17\" data-cms-item=\"col5\">Macrium</a><a href=\"vendor-redstor.html\" data-cms=\"cms-18\" data-cms-item=\"col5\">Redstor</a></div>\n            <div class=\"dd-cat\" data-cms-item=\"col2\"><a class=\"dd-cat-link\" href=\"solutions-awareness.html\" data-cms=\"cms-19\">Security Awareness</a><a href=\"vendor-ninjio.html\" data-cms=\"cms-20\">NINJIO</a></div>\n            <div class=\"dd-cat\" data-cms-item=\"col2\" data-cms-collection=\"col6\"><a class=\"dd-cat-link\" href=\"solutions-it-management.html\" data-cms=\"cms-21\">RMM &amp; IT Management</a><a href=\"vendor-atera.html\" data-cms=\"cms-22\" data-cms-item=\"col6\">Atera</a><a href=\"vendor-pulseway.html\" data-cms=\"cms-23\" data-cms-item=\"col6\">Pulseway</a></div>\n          </div>\n        </li>\n        <li data-cms-item=\"col1\"><a href=\"#contact\" data-cms=\"cms-24\">Contact</a></li>\n      </ul>\n      <label for=\"nav-toggle\" class=\"nav-burger\" aria-label=\"Toggle menu\"><span></span><span></span><span></span></label>\n      <a href=\"#contact\" class=\"btn-nav\" data-cms=\"cms-25\">Become a reseller</a>\n    </nav>\n  </header>\n\n  <main data-cms-collection=\"col7\">\n\n    <section id=\"hero\" data-cms-item=\"col7\">\n      <div class=\"hero-media\">\n        <video class=\"hero-bg\" autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" preload=\"auto\" poster=\"https://rain3.up.railway.app/hero_sunny.jpg\" data-cms-img=\"cms-138\">\n          <source src=\"https://rain3.up.railway.app/sunny.mp4\" type=\"video/mp4\">\n        </video>\n      </div>\n      <div class=\"hero-inner\">\n        <span class=\"eyebrow\" data-cms=\"cms-26\">Value-added cybersecurity distribution since 2003</span>\n        <h1 data-cms=\"cms-27\">Sell security with total <span class=\"accent\">confidence</span></h1>\n        <p class=\"lead\" data-cms=\"cms-28\">Rain Networks helps resellers and MSPs find, price, and deploy the right cybersecurity products, with expert training behind every deal.</p>\n        <div class=\"hero-ctas\">\n          <a href=\"#contact\" class=\"btn btn-primary\" data-cms=\"cms-29\">Call to Order</a>\n          <a href=\"#solutions\" class=\"btn btn-ghost\" data-cms=\"cms-30\">Explore solutions</a>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"impact\" data-cms-item=\"col7\">\n      <div class=\"wrap\">\n        <div class=\"impact-grid\" data-cms-collection=\"col8\">\n          <div class=\"stat\" data-cms-item=\"col8\"><span class=\"n\" data-cms=\"cms-31\">3,500+</span><span class=\"l\" data-cms=\"cms-32\">reseller partners</span></div>\n          <div class=\"stat\" data-cms-item=\"col8\"><span class=\"n\" data-cms=\"cms-33\">50 states</span><span class=\"l\" data-cms=\"cms-34\">plus every Canadian province</span></div>\n          <div class=\"stat\" data-cms-item=\"col8\"><span class=\"n\" data-cms=\"cms-35\">20+ years</span><span class=\"l\" data-cms=\"cms-36\">of channel expertise</span></div>\n          <div class=\"stat\" data-cms-item=\"col8\"><span class=\"n\" data-cms=\"cms-37\">15 vendors</span><span class=\"l\" data-cms=\"cms-38\">across 5 security categories</span></div>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"solutions\" data-cms-item=\"col7\">\n      <div class=\"wrap\">\n        <div class=\"sec-head reveal\">\n          <span class=\"eyebrow\" data-cms=\"cms-39\">What we cover</span>\n          <h2 data-cms=\"cms-40\">Five categories, one trusted distributor</h2>\n          <p class=\"lead\" data-cms=\"cms-41\">Every product we carry is vetted for the channel. We match you to the right fit and stand behind it with pre-sales and post-sales support.</p>\n        </div>\n        <div class=\"sol-grid\" data-cms-collection=\"col9\">\n          <a class=\"sol-card reveal\" href=\"solutions-endpoint.html\" data-cms-item=\"col9\">\n            <div class=\"thumb\"><img loading=\"lazy\" src=\"https://rain3.up.railway.app/u/Rain/11aa2edfa5cc1086.jpg\" alt=\"Endpoint security illustration\" data-cms-img=\"cms-132\"></div>\n            <div class=\"sol-body\">\n              <h3 data-cms=\"cms-42\">Endpoint Security</h3>\n              <p data-cms=\"cms-43\">Layered, lightweight defense for desktops, laptops, and servers against malware and ransomware.</p>\n              <span class=\"sol-link\" data-cms=\"cms-44\">View 6 solutions →</span>\n            </div>\n          </a>\n          <a class=\"sol-card reveal\" href=\"solutions-email.html\" data-cms-item=\"col9\">\n            <div class=\"thumb\"><img loading=\"lazy\" src=\"https://rain3.up.railway.app/u/Rain/612eb8bcf4380eb0.jpg\" alt=\"Email security illustration\" data-cms-img=\"cms-133\"></div>\n            <div class=\"sol-body\">\n              <h3 data-cms=\"cms-45\">Email Security</h3>\n              <p data-cms=\"cms-46\">Stop phishing, business email compromise, and data loss before it reaches the inbox.</p>\n              <span class=\"sol-link\" data-cms=\"cms-47\">View 4 solutions →</span>\n            </div>\n          </a>\n          <a class=\"sol-card reveal\" href=\"solutions-backup.html\" data-cms-item=\"col9\">\n            <div class=\"thumb\"><img loading=\"lazy\" src=\"https://rain3.up.railway.app/container_logistics.jpg\" alt=\"Backup and recovery illustration\" data-cms-img=\"cms-134\"></div>\n            <div class=\"sol-body\">\n              <h3 data-cms=\"cms-48\">Backup &amp; Recovery</h3>\n              <p data-cms=\"cms-49\">Fast disk imaging, cloud backup, and rapid recovery that keeps clients running through any disruption.</p>\n              <span class=\"sol-link\" data-cms=\"cms-50\">View 2 solutions →</span>\n            </div>\n          </a>\n          <a class=\"sol-card reveal\" href=\"solutions-awareness.html\" data-cms-item=\"col9\">\n            <div class=\"thumb\"><img loading=\"lazy\" src=\"https://rain3.up.railway.app/workspace_monitors.jpg\" alt=\"Security awareness training illustration\" data-cms-img=\"cms-135\"></div>\n            <div class=\"sol-body\">\n              <h3 data-cms=\"cms-51\">Security Awareness</h3>\n              <p data-cms=\"cms-52\">Turn employees into a first line of defense with engaging, story-driven training.</p>\n              <span class=\"sol-link\" data-cms=\"cms-53\">View solution →</span>\n            </div>\n          </a>\n          <a class=\"sol-card reveal\" href=\"solutions-it-management.html\" data-cms-item=\"col9\">\n            <div class=\"thumb\"><img loading=\"lazy\" src=\"https://rain3.up.railway.app/city_intersection_night.jpg\" alt=\"RMM and IT management illustration\" data-cms-img=\"cms-136\"></div>\n            <div class=\"sol-body\">\n              <h3 data-cms=\"cms-54\">RMM &amp; IT Management</h3>\n              <p data-cms=\"cms-55\">Unified remote monitoring, automation, and helpdesk tools built for modern MSPs.</p>\n              <span class=\"sol-link\" data-cms=\"cms-56\">View 2 solutions →</span>\n            </div>\n          </a>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"why-rain\" data-cms-item=\"col7\">\n      <div class=\"wrap\">\n        <div class=\"sec-head reveal\">\n          <h2 data-cms=\"cms-57\">Distribution that adds real value</h2>\n          <p class=\"lead\" data-cms=\"cms-58\">We are not just fulfillment. Every partnership comes with consulting, training, and protection that helps you close more business at better margins.</p>\n        </div>\n        <div class=\"why-grid\" data-cms-collection=\"col10\">\n          <div class=\"why-item reveal\" data-cms-item=\"col10\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><circle cx=\"12\" cy=\"12\" r=\"6\"></circle><circle cx=\"12\" cy=\"12\" r=\"2\"></circle></svg></span>\n            <div><h3 data-cms=\"cms-59\">Vendor matching</h3><p data-cms=\"cms-60\">We learn your clients and requirements, then match you to the products that actually fit, not the ones with the biggest spiff.</p></div>\n          </div>\n          <div class=\"why-item reveal\" data-cms-item=\"col10\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><path d=\"M22 10 12 5 2 10l10 5 10-5Z\"></path><path d=\"M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5\"></path></svg></span>\n            <div><h3 data-cms=\"cms-61\">Technical training</h3><p data-cms=\"cms-62\">Hands-on enablement so your team can deploy, configure, and support every solution with confidence.</p></div>\n          </div>\n          <div class=\"why-item reveal\" data-cms-item=\"col10\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z\"></path><path d=\"m9 12 2 2 4-4\"></path></svg></span>\n            <div><h3 data-cms=\"cms-63\">Deal registration</h3><p data-cms=\"cms-64\">Register your opportunities and protect your margins. We help you win the deal and keep it.</p></div>\n          </div>\n          <div class=\"why-item reveal\" data-cms-item=\"col10\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><path d=\"M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8Z\"></path><circle cx=\"7\" cy=\"7\" r=\"1.2\"></circle></svg></span>\n            <div><h3 data-cms=\"cms-65\">Competitive pricing</h3><p data-cms=\"cms-66\">Partner pricing tuned to your requirements and volume, so you stay sharp against the competition.</p></div>\n          </div>\n          <div class=\"why-item reveal\" data-cms-item=\"col10\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><path d=\"m3 11 18-5v12L3 14v-3Z\"></path><path d=\"M11.6 16.8a3 3 0 1 1-5.8-1.6\"></path></svg></span>\n            <div><h3 data-cms=\"cms-67\">Marketing resources</h3><p data-cms=\"cms-68\">Co-branded campaigns, collateral, and enablement assets that help you take products to market faster.</p></div>\n          </div>\n          <div class=\"why-item reveal\" data-cms-item=\"col10\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><circle cx=\"12\" cy=\"12\" r=\"4\"></circle><path d=\"m4.9 4.9 4.3 4.3M14.8 14.8l4.3 4.3M14.8 9.2l4.3-4.3M9.2 14.8l-4.3 4.3\"></path></svg></span>\n            <div><h3 data-cms=\"cms-69\">Post-sales support</h3><p data-cms=\"cms-70\">Real people who pick up the phone. We stay with you long after the purchase order is signed.</p></div>\n          </div>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"process\" data-cms-item=\"col7\">\n      <div class=\"wrap\">\n        <div class=\"sec-head reveal\"><h2 data-cms=\"cms-71\">From first call to closed deal</h2></div>\n        <div class=\"steps\" data-cms-collection=\"col11\">\n          <div class=\"step reveal\" data-cms-item=\"col11\">\n            <span class=\"k\" data-cms=\"cms-72\">Match</span>\n            <h3 data-cms=\"cms-73\">Tell us your goals</h3>\n            <p data-cms=\"cms-74\">Share your clients and requirements. We recommend the right vendors and walk you through the differences.</p>\n          </div>\n          <div class=\"step reveal\" data-cms-item=\"col11\">\n            <span class=\"k\" data-cms=\"cms-75\">Enable</span>\n            <h3 data-cms=\"cms-76\">Price and train</h3>\n            <p data-cms=\"cms-77\">Get partner pricing, register the deal, and train your team with our pre-sales and technical experts.</p>\n          </div>\n          <div class=\"step reveal\" data-cms-item=\"col11\">\n            <span class=\"k\" data-cms=\"cms-78\">Grow</span>\n            <h3 data-cms=\"cms-79\">Deploy and scale</h3>\n            <p data-cms=\"cms-80\">Deploy with confidence and lean on ongoing support, renewals, and new opportunities as you grow.</p>\n          </div>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"promise\" data-cms-item=\"col7\">\n      <div class=\"wrap\">\n        <div class=\"pull reveal\">\n          <blockquote data-cms=\"cms-81\">We do not just ship licenses. We make our partners the <span class=\"accent\">expert in the room</span>.</blockquote>\n          <p class=\"pull-by\" data-cms=\"cms-82\">Rain Networks, distributing security since 2003</p>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"faq\" data-cms-item=\"col7\">\n      <div class=\"wrap\">\n        <div class=\"sec-head center reveal\"><h2 data-cms=\"cms-83\">Frequently asked questions</h2></div>\n        <div class=\"faq-list\" data-cms-collection=\"col12\">\n          <details data-cms-item=\"col12\">\n            <summary data-cms=\"cms-84\">Who can become a Rain Networks reseller?</summary>\n            <p data-cms=\"cms-85\">We partner with MSPs, technical consulting firms, computer repair shops, OEM hardware providers, and retail computer stores across the United States and Canada.</p>\n          </details>\n          <details data-cms-item=\"col12\">\n            <summary data-cms=\"cms-86\">What does value-added distribution actually mean?</summary>\n            <p data-cms=\"cms-87\">Beyond fulfilling orders, we add pre-sales consulting, technical training, deal registration, marketing resources, and post-sales support so you can sell and deploy with confidence.</p>\n          </details>\n          <details data-cms-item=\"col12\">\n            <summary data-cms=\"cms-88\">Which security categories do you cover?</summary>\n            <p data-cms=\"cms-89\">Endpoint security, email security, backup and recovery, security awareness training, and RMM with IT management, spanning 15 carefully selected vendors.</p>\n          </details>\n          <details data-cms-item=\"col12\">\n            <summary data-cms=\"cms-90\">How is partner pricing determined?</summary>\n            <p data-cms=\"cms-91\">Pricing is based on your requirements and volume. Tell us what you need and we will put together competitive partner pricing for your deals.</p>\n          </details>\n          <details data-cms-item=\"col12\">\n            <summary data-cms=\"cms-92\">Is there a cost to become a partner?</summary>\n            <p data-cms=\"cms-93\">No. Becoming a Rain Networks reseller is free. You get pricing and enablement based on your business needs, and we respond to new inquiries within one business day.</p>\n          </details>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"contact\" data-cms-item=\"col7\">\n      <div class=\"wrap\">\n        <div class=\"sec-head center reveal\">\n          <h2 data-cms=\"cms-94\">Let us help you sell security better</h2>\n        </div>\n        <div class=\"contact-grid\" data-cms-collection=\"col13\">\n          <div class=\"contact-card reveal\" data-cms-item=\"col13\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\"></rect><path d=\"m22 7-10 6L2 7\"></path></svg></span>\n            <h3 data-cms=\"cms-95\">Email us</h3>\n            <a href=\"mailto:contact@rainnetworks.com\" data-cms=\"cms-96\">contact@rainnetworks.com</a>\n          </div>\n          <div class=\"contact-card reveal\" data-cms-item=\"col13\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><path d=\"M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z\"></path></svg></span>\n            <h3 data-cms=\"cms-97\">Call us</h3>\n            <a href=\"tel:14258939800\" data-cms=\"cms-98\">(425) 893-9800</a>\n          </div>\n          <div class=\"contact-card reveal\" data-cms-item=\"col13\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z\"></path><circle cx=\"12\" cy=\"10\" r=\"3\"></circle></svg></span>\n            <h3 data-cms=\"cms-99\">Visit us</h3>\n            <p data-cms=\"cms-100\">16212 Bothell Everett Highway, Suite F180</p>\n            <p data-cms=\"cms-101\">Mill Creek, WA 98012</p>\n          </div>\n          <div class=\"contact-card reveal\" data-cms-item=\"col13\">\n            <span class=\"ico\"><svg viewBox=\"0 0 24 24\"><path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"></path><circle cx=\"9\" cy=\"7\" r=\"4\"></circle><path d=\"M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8\"></path></svg></span>\n            <h3 data-cms=\"cms-102\">Who we partner with</h3>\n            <p data-cms=\"cms-103\">MSPs, IT consultants, repair shops, OEMs, and retail computer stores across the US and Canada.</p>\n          </div>\n        </div>\n        <div class=\"cta-band reveal\">\n          <h2 data-cms=\"cms-104\">READY TO GROW YOUR SECURITY PRACTICE?</h2>\n          <p class=\"lead center\" data-cms=\"cms-105\">Send us your company name, location, and the security categories you are interested in. We will be in touch within one business day.</p>\n          <form id=\"lead-form\" class=\"lead-form\" action=\"mailto:contact@rainnetworks.com\" method=\"post\" enctype=\"text/plain\" data-cms-collection=\"col14\">\n            <div class=\"lf-row\" data-cms-item=\"col14\">\n              <label data-cms=\"cms-106\">Your name<input type=\"text\" name=\"name\" required=\"\" autocomplete=\"name\"></label>\n              <label data-cms=\"cms-107\">Company<input type=\"text\" name=\"company\" required=\"\" autocomplete=\"organization\"></label>\n            </div>\n            <div class=\"lf-row\" data-cms-item=\"col14\">\n              <label data-cms=\"cms-108\">Work email<input type=\"email\" name=\"email\" required=\"\" autocomplete=\"email\"></label>\n              <label data-cms=\"cms-109\">Phone (optional)<input type=\"tel\" name=\"phone\" autocomplete=\"tel\"></label>\n            </div>\n            <label data-cms=\"cms-110\">What are you looking for?<textarea name=\"message\" rows=\"3\" placeholder=\"Categories, vendors, or deals you want partner pricing on\" required=\"\"></textarea></label>\n            <button type=\"submit\" class=\"btn btn-primary\" data-cms=\"cms-111\">Request partner pricing</button>\n            <p class=\"lf-status\" id=\"lf-status\" role=\"status\" aria-live=\"polite\"></p>\n          </form>\n        </div>\n      </div>\n    </section>\n\n  </main>\n\n  <footer>\n    <div class=\"foot-grid\" data-cms-collection=\"col15\">\n      <div class=\"foot-col\" data-cms-item=\"col15\">\n        <div class=\"foot-brand\">\n          <img loading=\"lazy\" src=\"https://rain3.up.railway.app/logo-wordmark.png\" alt=\"Rain Networks\" data-cms-img=\"cms-137\">\n        </div>\n        <p class=\"foot-tag\" data-cms=\"cms-112\">Security-focused value-added distribution. Located near Seattle in Mill Creek, Washington.</p>\n        <div class=\"foot-contact\" data-cms-collection=\"col16\">\n          <a href=\"mailto:contact@rainnetworks.com\" data-cms=\"cms-113\" data-cms-item=\"col16\">contact@rainnetworks.com</a>\n          <a href=\"tel:14258939800\" data-cms=\"cms-114\" data-cms-item=\"col16\">(425) 893-9800</a>\n          <p data-cms=\"cms-115\">16212 Bothell Everett Highway, Suite F180</p>\n          <p data-cms=\"cms-116\">Mill Creek, WA 98012</p>\n        </div>\n      </div>\n      <div class=\"foot-col\" data-cms-item=\"col15\">\n        <h3 data-cms=\"cms-117\">Explore</h3>\n        <ul data-cms-collection=\"col17\">\n          <li data-cms-item=\"col17\"><a href=\"#solutions\" data-cms=\"cms-118\">Solutions</a></li>\n          <li data-cms-item=\"col17\"><a href=\"#why-rain\" data-cms=\"cms-119\">Why us</a></li>\n          <li data-cms-item=\"col17\"><a href=\"index.html#solutions\" data-cms=\"cms-120\">Vendors</a></li>\n          <li data-cms-item=\"col17\"><a href=\"#contact\" data-cms=\"cms-121\">Contact</a></li>\n          <li data-cms-item=\"col17\"><a href=\"privacy.html\" data-cms=\"cms-122\">Privacy policy</a></li>\n          <li data-cms-item=\"col17\"><a href=\"terms.html\" data-cms=\"cms-123\">Terms of use</a></li>\n        </ul>\n      </div>\n      <div class=\"foot-col\" data-cms-item=\"col15\">\n        <h3 data-cms=\"cms-124\">Solutions</h3>\n        <ul data-cms-collection=\"col18\">\n          <li data-cms-item=\"col18\"><a href=\"solutions-endpoint.html\" data-cms=\"cms-125\">Endpoint Security</a></li>\n          <li data-cms-item=\"col18\"><a href=\"solutions-email.html\" data-cms=\"cms-126\">Email Security</a></li>\n          <li data-cms-item=\"col18\"><a href=\"solutions-backup.html\" data-cms=\"cms-127\">Backup &amp; Recovery</a></li>\n          <li data-cms-item=\"col18\"><a href=\"solutions-awareness.html\" data-cms=\"cms-128\">Security Awareness</a></li>\n          <li data-cms-item=\"col18\"><a href=\"solutions-it-management.html\" data-cms=\"cms-129\">RMM &amp; IT Management</a></li>\n        </ul>\n      </div>\n    </div>\n    <div class=\"foot-bottom\">\n      <p data-cms=\"cms-130\">© 2026 Rain Networks. All rights reserved.</p>\n      <div class=\"social\">\n        <a href=\"https://www.linkedin.com/company/rainnetworks/\" target=\"_blank\" rel=\"noopener\" aria-label=\"LinkedIn\"><svg viewBox=\"0 0 24 24\"><path d=\"M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.2 8.2h4.5V24H.2zM8.5 8.2H13v2.2h.06c.62-1.18 2.14-2.42 4.4-2.42 4.7 0 5.57 3.1 5.57 7.13V24h-4.5v-7.02c0-1.67-.03-3.82-2.33-3.82-2.33 0-2.69 1.82-2.69 3.7V24H8.5z\"></path></svg></a>\n        <a href=\"https://twitter.com/Rain_Networks\" target=\"_blank\" rel=\"noopener\" aria-label=\"X\"><svg viewBox=\"0 0 24 24\"><path d=\"M18.9 2H22l-7.5 8.6L23.3 22h-6.8l-5.3-7-6.1 7H2l8-9.2L1.2 2h7l4.8 6.4L18.9 2zm-2.4 18h1.9L7.6 4H5.6l10.9 16z\"></path></svg></a>\n        <a href=\"https://www.facebook.com/RainNetworks1\" target=\"_blank\" rel=\"noopener\" aria-label=\"Facebook\"><svg viewBox=\"0 0 24 24\"><path d=\"M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z\"></path></svg></a>\n        <a href=\"https://www.youtube.com/@RainNetworks\" target=\"_blank\" rel=\"noopener\" aria-label=\"YouTube\"><svg viewBox=\"0 0 24 24\"><path d=\"M23.5 6.2a3 3 0 0 0-2.12-2.12C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.53A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.12 2.12c1.88.53 9.38.53 9.38.53s7.5 0 9.38-.53a3 3 0 0 0 2.12-2.12A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z\"></path></svg></a>\n        <a href=\"https://www.instagram.com/rainnetworks_official\" target=\"_blank\" rel=\"noopener\" aria-label=\"Instagram\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zm0 10.16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.41-10.41a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z\"></path></svg></a>\n      </div>\n    </div>\n  </footer>\n\n  \n  \n  <!-- InteractiveChat live chat -->\n  \n\n\n</body></html>",
+        "schema": {
+          "cms-1": {
+            "type": "text",
+            "label": "Link: \"Solutions\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-2": {
+            "type": "text",
+            "label": "Link: \"Why us\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-3": {
+            "type": "text",
+            "label": "Link: \"Vendors\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-4": {
+            "type": "text",
+            "label": "Link: \"Endpoint Security\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-5": {
+            "type": "text",
+            "label": "Link: \"ESET\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-6": {
+            "type": "text",
+            "label": "Link: \"Bitdefender\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-7": {
+            "type": "text",
+            "label": "Link: \"Heimdal\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-8": {
+            "type": "text",
+            "label": "Link: \"Guardz\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-9": {
+            "type": "text",
+            "label": "Link: \"VIPRE\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-10": {
+            "type": "text",
+            "label": "Link: \"Avast Business\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-11": {
+            "type": "text",
+            "label": "Link: \"Email Security\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-12": {
+            "type": "text",
+            "label": "Link: \"Proofpoint\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-13": {
+            "type": "text",
+            "label": "Link: \"Barracuda\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-14": {
+            "type": "text",
+            "label": "Link: \"Trustifi\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-15": {
+            "type": "text",
+            "label": "Link: \"Sendmarc\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-16": {
+            "type": "text",
+            "label": "Link: \"Backup & Recovery\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-17": {
+            "type": "text",
+            "label": "Link: \"Macrium\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-18": {
+            "type": "text",
+            "label": "Link: \"Redstor\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-19": {
+            "type": "text",
+            "label": "Link: \"Security Awareness\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-20": {
+            "type": "text",
+            "label": "Link: \"NINJIO\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-21": {
+            "type": "text",
+            "label": "Link: \"RMM & IT Management\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-22": {
+            "type": "text",
+            "label": "Link: \"Atera\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-23": {
+            "type": "text",
+            "label": "Link: \"Pulseway\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-24": {
+            "type": "text",
+            "label": "Link: \"Contact\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-25": {
+            "type": "text",
+            "label": "Link: \"Become a reseller\"",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-26": {
+            "type": "text",
+            "label": "Text: \"Value-added cybersecurity distributi…\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-27": {
+            "type": "text",
+            "label": "Heading: \"Sell security with total\"",
+            "group": "Hero",
+            "rich": true,
+            "allow": [
+              "span"
+            ]
+          },
+          "cms-28": {
+            "type": "text",
+            "label": "Text: \"Rain Networks helps resellers and MS…\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-29": {
+            "type": "text",
+            "label": "Link: \"Call to Order\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-30": {
+            "type": "text",
+            "label": "Link: \"Explore solutions\"",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-31": {
+            "type": "text",
+            "label": "Text: \"3,500+\"",
+            "group": "Impact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-32": {
+            "type": "text",
+            "label": "Text: \"reseller partners\"",
+            "group": "Impact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-33": {
+            "type": "text",
+            "label": "Text: \"50 states\"",
+            "group": "Impact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-34": {
+            "type": "text",
+            "label": "Text: \"plus every Canadian province\"",
+            "group": "Impact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-35": {
+            "type": "text",
+            "label": "Text: \"20+ years\"",
+            "group": "Impact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-36": {
+            "type": "text",
+            "label": "Text: \"of channel expertise\"",
+            "group": "Impact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-37": {
+            "type": "text",
+            "label": "Text: \"15 vendors\"",
+            "group": "Impact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-38": {
+            "type": "text",
+            "label": "Text: \"across 5 security categories\"",
+            "group": "Impact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-39": {
+            "type": "text",
+            "label": "Text: \"What we cover\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-40": {
+            "type": "text",
+            "label": "Heading: \"Five categories, one trusted distrib…\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-41": {
+            "type": "text",
+            "label": "Text: \"Every product we carry is vetted for…\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-42": {
+            "type": "text",
+            "label": "Heading: \"Endpoint Security\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-43": {
+            "type": "text",
+            "label": "Text: \"Layered, lightweight defense for des…\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-44": {
+            "type": "text",
+            "label": "Text: \"View 6 solutions →\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-45": {
+            "type": "text",
+            "label": "Heading: \"Email Security\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-46": {
+            "type": "text",
+            "label": "Text: \"Stop phishing, business email compro…\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-47": {
+            "type": "text",
+            "label": "Text: \"View 4 solutions →\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-48": {
+            "type": "text",
+            "label": "Heading: \"Backup & Recovery\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-49": {
+            "type": "text",
+            "label": "Text: \"Fast disk imaging, cloud backup, and…\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-50": {
+            "type": "text",
+            "label": "Text: \"View 2 solutions →\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-51": {
+            "type": "text",
+            "label": "Heading: \"Security Awareness\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-52": {
+            "type": "text",
+            "label": "Text: \"Turn employees into a first line of …\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-53": {
+            "type": "text",
+            "label": "Text: \"View solution →\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-54": {
+            "type": "text",
+            "label": "Heading: \"RMM & IT Management\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-55": {
+            "type": "text",
+            "label": "Text: \"Unified remote monitoring, automatio…\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-56": {
+            "type": "text",
+            "label": "Text: \"View 2 solutions →\"",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-57": {
+            "type": "text",
+            "label": "Heading: \"Distribution that adds real value\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-58": {
+            "type": "text",
+            "label": "Text: \"We are not just fulfillment. Every p…\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-59": {
+            "type": "text",
+            "label": "Heading: \"Vendor matching\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-60": {
+            "type": "text",
+            "label": "Text: \"We learn your clients and requiremen…\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-61": {
+            "type": "text",
+            "label": "Heading: \"Technical training\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-62": {
+            "type": "text",
+            "label": "Text: \"Hands-on enablement so your team can…\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-63": {
+            "type": "text",
+            "label": "Heading: \"Deal registration\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-64": {
+            "type": "text",
+            "label": "Text: \"Register your opportunities and prot…\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-65": {
+            "type": "text",
+            "label": "Heading: \"Competitive pricing\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-66": {
+            "type": "text",
+            "label": "Text: \"Partner pricing tuned to your requir…\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-67": {
+            "type": "text",
+            "label": "Heading: \"Marketing resources\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-68": {
+            "type": "text",
+            "label": "Text: \"Co-branded campaigns, collateral, an…\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-69": {
+            "type": "text",
+            "label": "Heading: \"Post-sales support\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-70": {
+            "type": "text",
+            "label": "Text: \"Real people who pick up the phone. W…\"",
+            "group": "Why Rain",
+            "rich": false,
+            "allow": []
+          },
+          "cms-71": {
+            "type": "text",
+            "label": "Heading: \"From first call to closed deal\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-72": {
+            "type": "text",
+            "label": "Text: \"Match\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-73": {
+            "type": "text",
+            "label": "Heading: \"Tell us your goals\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-74": {
+            "type": "text",
+            "label": "Text: \"Share your clients and requirements.…\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-75": {
+            "type": "text",
+            "label": "Text: \"Enable\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-76": {
+            "type": "text",
+            "label": "Heading: \"Price and train\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-77": {
+            "type": "text",
+            "label": "Text: \"Get partner pricing, register the de…\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-78": {
+            "type": "text",
+            "label": "Text: \"Grow\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-79": {
+            "type": "text",
+            "label": "Heading: \"Deploy and scale\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-80": {
+            "type": "text",
+            "label": "Text: \"Deploy with confidence and lean on o…\"",
+            "group": "Process",
+            "rich": false,
+            "allow": []
+          },
+          "cms-81": {
+            "type": "text",
+            "label": "Quote: \"We do not just ship licenses. We mak…\"",
+            "group": "Promise",
+            "rich": true,
+            "allow": [
+              "span"
+            ]
+          },
+          "cms-82": {
+            "type": "text",
+            "label": "Text: \"Rain Networks, distributing security…\"",
+            "group": "Promise",
+            "rich": false,
+            "allow": []
+          },
+          "cms-83": {
+            "type": "text",
+            "label": "Heading: \"Frequently asked questions\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-84": {
+            "type": "text",
+            "label": "Text: \"Who can become a Rain Networks resel…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-85": {
+            "type": "text",
+            "label": "Text: \"We partner with MSPs, technical cons…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-86": {
+            "type": "text",
+            "label": "Text: \"What does value-added distribution a…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-87": {
+            "type": "text",
+            "label": "Text: \"Beyond fulfilling orders, we add pre…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-88": {
+            "type": "text",
+            "label": "Text: \"Which security categories do you cov…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-89": {
+            "type": "text",
+            "label": "Text: \"Endpoint security, email security, b…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-90": {
+            "type": "text",
+            "label": "Text: \"How is partner pricing determined?\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-91": {
+            "type": "text",
+            "label": "Text: \"Pricing is based on your requirement…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-92": {
+            "type": "text",
+            "label": "Text: \"Is there a cost to become a partner?\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-93": {
+            "type": "text",
+            "label": "Text: \"No. Becoming a Rain Networks reselle…\"",
+            "group": "Faq",
+            "rich": false,
+            "allow": []
+          },
+          "cms-94": {
+            "type": "text",
+            "label": "Heading: \"Let us help you sell security better\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-95": {
+            "type": "text",
+            "label": "Heading: \"Email us\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-96": {
+            "type": "text",
+            "label": "Link: \"contact@rainnetworks.com\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-97": {
+            "type": "text",
+            "label": "Heading: \"Call us\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-98": {
+            "type": "text",
+            "label": "Link: \"(425) 893-9800\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-99": {
+            "type": "text",
+            "label": "Heading: \"Visit us\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-100": {
+            "type": "text",
+            "label": "Text: \"16212 Bothell Everett Highway, Suite…\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-101": {
+            "type": "text",
+            "label": "Text: \"Mill Creek, WA 98012\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-102": {
+            "type": "text",
+            "label": "Heading: \"Who we partner with\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-103": {
+            "type": "text",
+            "label": "Text: \"MSPs, IT consultants, repair shops, …\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-104": {
+            "type": "text",
+            "label": "Heading: \"READY TO GROW YOUR SECURITY PRACTICE?\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-105": {
+            "type": "text",
+            "label": "Text: \"Send us your company name, location,…\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-106": {
+            "type": "text",
+            "label": "Text: \"Your name\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-107": {
+            "type": "text",
+            "label": "Text: \"Company\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-108": {
+            "type": "text",
+            "label": "Text: \"Work email\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-109": {
+            "type": "text",
+            "label": "Text: \"Phone (optional)\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-110": {
+            "type": "text",
+            "label": "Text: \"What are you looking for?\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-111": {
+            "type": "text",
+            "label": "Button: \"Request partner pricing\"",
+            "group": "Contact",
+            "rich": false,
+            "allow": []
+          },
+          "cms-112": {
+            "type": "text",
+            "label": "Text: \"Security-focused value-added distrib…\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-113": {
+            "type": "text",
+            "label": "Link: \"contact@rainnetworks.com\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-114": {
+            "type": "text",
+            "label": "Link: \"(425) 893-9800\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-115": {
+            "type": "text",
+            "label": "Text: \"16212 Bothell Everett Highway, Suite…\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-116": {
+            "type": "text",
+            "label": "Text: \"Mill Creek, WA 98012\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-117": {
+            "type": "text",
+            "label": "Heading: \"Explore\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-118": {
+            "type": "text",
+            "label": "Link: \"Solutions\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-119": {
+            "type": "text",
+            "label": "Link: \"Why us\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-120": {
+            "type": "text",
+            "label": "Link: \"Vendors\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-121": {
+            "type": "text",
+            "label": "Link: \"Contact\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-122": {
+            "type": "text",
+            "label": "Link: \"Privacy policy\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-123": {
+            "type": "text",
+            "label": "Link: \"Terms of use\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-124": {
+            "type": "text",
+            "label": "Heading: \"Solutions\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-125": {
+            "type": "text",
+            "label": "Link: \"Endpoint Security\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-126": {
+            "type": "text",
+            "label": "Link: \"Email Security\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-127": {
+            "type": "text",
+            "label": "Link: \"Backup & Recovery\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-128": {
+            "type": "text",
+            "label": "Link: \"Security Awareness\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-129": {
+            "type": "text",
+            "label": "Link: \"RMM & IT Management\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-130": {
+            "type": "text",
+            "label": "Text: \"© 2026 Rain Networks. All rights res…\"",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-131": {
+            "type": "image",
+            "label": "Image: Rain Networks",
+            "group": "Nav",
+            "rich": false,
+            "allow": []
+          },
+          "cms-132": {
+            "type": "image",
+            "label": "Image: Endpoint security illustration",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-133": {
+            "type": "image",
+            "label": "Image: Email security illustration",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-134": {
+            "type": "image",
+            "label": "Image: Backup and recovery illustration",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-135": {
+            "type": "image",
+            "label": "Image: Security awareness training illustration",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-136": {
+            "type": "image",
+            "label": "Image: RMM and IT management illustration",
+            "group": "Solutions",
+            "rich": false,
+            "allow": []
+          },
+          "cms-137": {
+            "type": "image",
+            "label": "Image: Rain Networks",
+            "group": "Footer",
+            "rich": false,
+            "allow": []
+          },
+          "cms-138": {
+            "type": "image",
+            "label": "Video poster",
+            "group": "Hero",
+            "rich": false,
+            "allow": []
+          },
+          "cms-139": {
+            "type": "text",
+            "label": "Browser tab title",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-140": {
+            "type": "meta-attr",
+            "label": "Google meta description",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-141": {
+            "type": "meta-attr",
+            "label": "Social share title",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-142": {
+            "type": "meta-attr",
+            "label": "Social share description",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-143": {
+            "type": "meta-attr",
+            "label": "Social share image URL",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-144": {
+            "type": "meta-attr",
+            "label": "Twitter card title",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          },
+          "cms-145": {
+            "type": "meta-attr",
+            "label": "Twitter card description",
+            "group": "SEO & social",
+            "rich": false,
+            "allow": []
+          }
+        },
+        "content": {
+          "cms-1": "Solutions",
+          "cms-2": "Why us",
+          "cms-3": "Vendors",
+          "cms-4": "Endpoint Security",
+          "cms-5": "ESET",
+          "cms-6": "Bitdefender",
+          "cms-7": "Heimdal",
+          "cms-8": "Guardz",
+          "cms-9": "VIPRE",
+          "cms-10": "Avast Business",
+          "cms-11": "Email Security",
+          "cms-12": "Proofpoint",
+          "cms-13": "Barracuda",
+          "cms-14": "Trustifi",
+          "cms-15": "Sendmarc",
+          "cms-16": "Backup & Recovery",
+          "cms-17": "Macrium",
+          "cms-18": "Redstor",
+          "cms-19": "Security Awareness",
+          "cms-20": "NINJIO",
+          "cms-21": "RMM & IT Management",
+          "cms-22": "Atera",
+          "cms-23": "Pulseway",
+          "cms-24": "Contact",
+          "cms-25": "Become a reseller",
+          "cms-26": "Value-added cybersecurity distribution since 2003",
+          "cms-27": "Sell security with total <span class=\"accent\">confidence</span>",
+          "cms-28": "Rain Networks helps resellers and MSPs find, price, and deploy the right cybersecurity products, with expert training behind every deal.",
+          "cms-29": "Call to Order",
+          "cms-30": "Explore solutions",
+          "cms-31": "3,500+",
+          "cms-32": "reseller partners",
+          "cms-33": "50 states",
+          "cms-34": "plus every Canadian province",
+          "cms-35": "20+ years",
+          "cms-36": "of channel expertise",
+          "cms-37": "15 vendors",
+          "cms-38": "across 5 security categories",
+          "cms-39": "What we cover",
+          "cms-40": "Five categories, one trusted distributor",
+          "cms-41": "Every product we carry is vetted for the channel. We match you to the right fit and stand behind it with pre-sales and post-sales support.",
+          "cms-42": "Endpoint Security",
+          "cms-43": "Layered, lightweight defense for desktops, laptops, and servers against malware and ransomware.",
+          "cms-44": "View 6 solutions →",
+          "cms-45": "Email Security",
+          "cms-46": "Stop phishing, business email compromise, and data loss before it reaches the inbox.",
+          "cms-47": "View 4 solutions →",
+          "cms-48": "Backup & Recovery",
+          "cms-49": "Fast disk imaging, cloud backup, and rapid recovery that keeps clients running through any disruption.",
+          "cms-50": "View 2 solutions →",
+          "cms-51": "Security Awareness",
+          "cms-52": "Turn employees into a first line of defense with engaging, story-driven training.",
+          "cms-53": "View solution →",
+          "cms-54": "RMM & IT Management",
+          "cms-55": "Unified remote monitoring, automation, and helpdesk tools built for modern MSPs.",
+          "cms-56": "View 2 solutions →",
+          "cms-57": "Distribution that adds real value",
+          "cms-58": "We are not just fulfillment. Every partnership comes with consulting, training, and protection that helps you close more business at better margins.",
+          "cms-59": "Vendor matching",
+          "cms-60": "We learn your clients and requirements, then match you to the products that actually fit, not the ones with the biggest spiff.",
+          "cms-61": "Technical training",
+          "cms-62": "Hands-on enablement so your team can deploy, configure, and support every solution with confidence.",
+          "cms-63": "Deal registration",
+          "cms-64": "Register your opportunities and protect your margins. We help you win the deal and keep it.",
+          "cms-65": "Competitive pricing",
+          "cms-66": "Partner pricing tuned to your requirements and volume, so you stay sharp against the competition.",
+          "cms-67": "Marketing resources",
+          "cms-68": "Co-branded campaigns, collateral, and enablement assets that help you take products to market faster.",
+          "cms-69": "Post-sales support",
+          "cms-70": "Real people who pick up the phone. We stay with you long after the purchase order is signed.",
+          "cms-71": "From first call to closed deal",
+          "cms-72": "Match",
+          "cms-73": "Tell us your goals",
+          "cms-74": "Share your clients and requirements. We recommend the right vendors and walk you through the differences.",
+          "cms-75": "Enable",
+          "cms-76": "Price and train",
+          "cms-77": "Get partner pricing, register the deal, and train your team with our pre-sales and technical experts.",
+          "cms-78": "Grow",
+          "cms-79": "Deploy and scale",
+          "cms-80": "Deploy with confidence and lean on ongoing support, renewals, and new opportunities as you grow.",
+          "cms-81": "We do not just ship licenses. We make our partners the <span class=\"accent\">expert in the room</span>.",
+          "cms-82": "Rain Networks, distributing security since 2003",
+          "cms-83": "Frequently asked questions",
+          "cms-84": "Who can become a Rain Networks reseller?",
+          "cms-85": "We partner with MSPs, technical consulting firms, computer repair shops, OEM hardware providers, and retail computer stores across the United States and Canada.",
+          "cms-86": "What does value-added distribution actually mean?",
+          "cms-87": "Beyond fulfilling orders, we add pre-sales consulting, technical training, deal registration, marketing resources, and post-sales support so you can sell and deploy with confidence.",
+          "cms-88": "Which security categories do you cover?",
+          "cms-89": "Endpoint security, email security, backup and recovery, security awareness training, and RMM with IT management, spanning 15 carefully selected vendors.",
+          "cms-90": "How is partner pricing determined?",
+          "cms-91": "Pricing is based on your requirements and volume. Tell us what you need and we will put together competitive partner pricing for your deals.",
+          "cms-92": "Is there a cost to become a partner?",
+          "cms-93": "No. Becoming a Rain Networks reseller is free. You get pricing and enablement based on your business needs, and we respond to new inquiries within one business day.",
+          "cms-94": "Let us help you sell security better",
+          "cms-95": "Email us",
+          "cms-96": "contact@rainnetworks.com",
+          "cms-97": "Call us",
+          "cms-98": "(425) 893-9800",
+          "cms-99": "Visit us",
+          "cms-100": "16212 Bothell Everett Highway, Suite F180",
+          "cms-101": "Mill Creek, WA 98012",
+          "cms-102": "Who we partner with",
+          "cms-103": "MSPs, IT consultants, repair shops, OEMs, and retail computer stores across the US and Canada.",
+          "cms-104": "READY TO GROW YOUR SECURITY PRACTICE?",
+          "cms-105": "Send us your company name, location, and the security categories you are interested in. We will be in touch within one business day.",
+          "cms-106": "Your name",
+          "cms-107": "Company",
+          "cms-108": "Work email",
+          "cms-109": "Phone (optional)",
+          "cms-110": "What are you looking for?",
+          "cms-111": "Request partner pricing",
+          "cms-112": "Security-focused value-added distribution. Located near Seattle in Mill Creek, Washington.",
+          "cms-113": "contact@rainnetworks.com",
+          "cms-114": "(425) 893-9800",
+          "cms-115": "16212 Bothell Everett Highway, Suite F180",
+          "cms-116": "Mill Creek, WA 98012",
+          "cms-117": "Explore",
+          "cms-118": "Solutions",
+          "cms-119": "Why us",
+          "cms-120": "Vendors",
+          "cms-121": "Contact",
+          "cms-122": "Privacy policy",
+          "cms-123": "Terms of use",
+          "cms-124": "Solutions",
+          "cms-125": "Endpoint Security",
+          "cms-126": "Email Security",
+          "cms-127": "Backup & Recovery",
+          "cms-128": "Security Awareness",
+          "cms-129": "RMM & IT Management",
+          "cms-130": "© 2026 Rain Networks. All rights reserved.",
+          "cms-131": "https://rain3.up.railway.app/logo-wordmark.png",
+          "cms-132": "https://rain3.up.railway.app/u/Rain/11aa2edfa5cc1086.jpg",
+          "cms-133": "https://rain3.up.railway.app/u/Rain/612eb8bcf4380eb0.jpg",
+          "cms-134": "https://rain3.up.railway.app/container_logistics.jpg",
+          "cms-135": "https://rain3.up.railway.app/workspace_monitors.jpg",
+          "cms-136": "https://rain3.up.railway.app/city_intersection_night.jpg",
+          "cms-137": "https://rain3.up.railway.app/logo-wordmark.png",
+          "cms-138": "https://rain3.up.railway.app/hero_sunny.jpg",
+          "cms-139": "RAIN NETWORKS, VALUE-ADDED CYBERSECURITY DISTRIBUTION",
+          "cms-140": "Rain Networks is a security-focused value-added distributor since 2003. We help resellers and MSPs find, price, and deploy the best cybersecurity products across North America.",
+          "cms-141": "RAIN NETWORKS, VALUE-ADDED CYBERSECURITY DISTRIBUTION",
+          "cms-142": "Security-first distribution for resellers and MSPs. Find the right products, get trained, win more deals.",
+          "cms-143": "https://rain-networks-v2.up.railway.app/hero_sunny.jpg",
+          "cms-144": "RAIN NETWORKS, VALUE-ADDED CYBERSECURITY DISTRIBUTION",
+          "cms-145": "Security-first distribution for resellers and MSPs. Find the right products, get trained, win more deals."
+        },
+        "sections": [
+          "header",
+          "nav",
+          "main",
+          "#hero",
+          "#impact",
+          "#solutions",
+          "#why-rain",
+          "#process",
+          "#promise",
+          "#faq",
+          "#contact",
+          "footer"
+        ],
+        "collections": []
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "order": [
+    "home",
+    "index"
+  ],
+  "home": "home",
+  "pages": {
+    "home": {
+      "title": "Home",
+      "path": "/"
+    },
+    "index": {
+      "title": "Index",
+      "path": "/index"
+    }
+  },
+  "sourceUrl": "https://rain3.up.railway.app/",
+  "clarity": null,
+  "convai": null,
+  "totalMode": false,
+  "domain": null,
+  "embed": null,
+  "repo": null,
+  "repoBranch": null
+}
