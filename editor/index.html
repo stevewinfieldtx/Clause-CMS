@@ -266,6 +266,7 @@
     <button class="barbtn" id="pagesBtn" title="Pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span id="pglabel">Home</span><span class="cz">▾</span></button>
     <a class="barbtn" id="backHome" href="#" title="Back to all my pages" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>My pages</a>
     <button class="badge warn" id="modeBadge" style="display:none">…</button>
+    <button class="barbtn" id="viewToggle" style="display:none">✏️ Edit text</button>
     <span class="spacer"></span>
     <!-- CENTER · canvas -->
     <div class="seg" id="deviceSeg">
@@ -358,8 +359,10 @@
    and button that isn't "look at your site" or "tell the AI / publish" is
    hidden — the AI is the interface. */
 body.simple #deviceSeg,body.simple #zenBtn,body.simple #secBtn,body.simple #seoBtn,body.simple #inboxBtn,
-body.simple #undoBtn,body.simple #redoBtn,body.simple #saveBtn,body.simple #pubMenuBtn,body.simple #rsz,
-body.simple #scope,body.simple #frameTag{display:none !important}
+body.simple #pubMenuBtn,body.simple #rsz,body.simple #scope{display:none !important}
+/* chat-only Total view also hides the manual-edit chrome; ?view=text (textedit) brings Save/Undo/Redo + the "click any text" hint back */
+body.simple:not(.textedit) #undoBtn,body.simple:not(.textedit) #redoBtn,
+body.simple:not(.textedit) #saveBtn,body.simple:not(.textedit) #frameTag{display:none !important}
 body.simple{--chatw:clamp(380px,33.4vw,560px)}
 </style>
 <script>
@@ -374,7 +377,7 @@ let schemaCache={};  // id → {label,group,type,rich,allow,value}
 const KQ=()=>KEY?('&key='+encodeURIComponent(KEY)):'';
 const PQ=()=>'&page='+encodeURIComponent(PAGE);
 let pendingByPage={}, hasDraft=false, pagesList=[];   // hasDraft = server holds a saved-but-unpublished draft
-let IS_OWNER=true, REQUIRE_APPROVAL=false, TOTAL=false, SIMPLE=false, reviewPending=false, unreadForms=0;
+let IS_OWNER=true, REQUIRE_APPROVAL=false, TOTAL=false, SIMPLE=false, TEXTEDIT=false, reviewPending=false, unreadForms=0;
 const pending=()=>(pendingByPage[PAGE]||(pendingByPage[PAGE]={}));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const absUrl=u=>{u=String(u||'');return !u?'':/^(https?:|data:|\/)/.test(u)?u:'/'+u;};
@@ -406,11 +409,18 @@ async function init(){
   // Total mode IS the simple view — the website + the chat, nothing else, for
   // everyone (owner included). No modules, no inspectors, no fields: you look
   // at the page and tell the AI what to change. ?view=full is the escape hatch
-  // back into the classic editor on a Total site.
-  SIMPLE=TOTAL&&_qs.get('view')!=='full';
+  // back into the classic editor; ?view=text is the middle ground — the same
+  // minimal two-pane view but with click-to-edit text turned on next to the
+  // chat (the client's choice is remembered per site).
+  let VIEW=_qs.get('view');
+  if(!VIEW&&TOTAL&&localStorage.getItem('cms_view_'+SITE)==='text')VIEW='text';
+  SIMPLE=TOTAL&&VIEW!=='full';
+  TEXTEDIT=SIMPLE&&VIEW==='text';
   if(TOTAL)$('#attachBtn').style.display='';   // 📎 uploads ride along with chat commands
-  if(SIMPLE){document.body.classList.add('simple');
-    $('#howBody').innerHTML='<div class="r"><span class="i">💬</span><span><b>Tell the AI</b> what you want changed — copy, colors, layout, new sections, anything.</span></div><div class="r"><span class="i">🔗</span><span>Click your site\'s own <b>menu links</b> on the left to move between pages.</span></div><div class="r"><span class="i">📎</span><span><b>Attach photos or files</b> with the paperclip, then say where they go — "use this as the hero photo".</span></div><div class="r"><span class="i">↶</span><span>Every change has an <b>Undo</b> — nothing is ever stuck.</span></div><div class="r"><span class="i">🚀</span><span>Happy with it? <b>Publish</b> makes it live.</span></div>';}
+  if(SIMPLE){document.body.classList.add('simple');if(TEXTEDIT)document.body.classList.add('textedit');
+    $('#howBody').innerHTML=TEXTEDIT
+      ?'<div class="r"><span class="i">✏️</span><span><b>Click any text</b> on your site and type to change it right there.</span></div><div class="r"><span class="i">💬</span><span>Or <b>ask the AI</b> for bigger changes — colors, layout, whole new sections.</span></div><div class="r"><span class="i">📎</span><span><b>Attach photos or files</b> with the paperclip, then say where they go.</span></div><div class="r"><span class="i">🚀</span><span><b>Save</b> keeps a private draft · <b>Publish</b> makes it live.</span></div>'
+      :'<div class="r"><span class="i">💬</span><span><b>Tell the AI</b> what you want changed — copy, colors, layout, new sections, anything.</span></div><div class="r"><span class="i">🔗</span><span>Click your site\'s own <b>menu links</b> on the left to move between pages.</span></div><div class="r"><span class="i">📎</span><span><b>Attach photos or files</b> with the paperclip, then say where they go — "use this as the hero photo".</span></div><div class="r"><span class="i">↶</span><span>Every change has an <b>Undo</b> — nothing is ever stuck.</span></div><div class="r"><span class="i">🚀</span><span>Happy with it? <b>Publish</b> makes it live.</span></div>';}
   if(!isOwner){const needsApproval=REQUIRE_APPROVAL;$('#publishBtn').textContent=needsApproval?'Submit for review':'Publish';$('#publishBtn').title=needsApproval?'Send your changes to the agency to approve':'Publish your changes live';$('#auditBtn').style.display='none';}
   if(isOwner){
     const meta=await (await fetch('/api/sites')).json();
@@ -429,9 +439,17 @@ async function init(){
   if(planner!=='local'){mb.className='badge';mb.style.display='';mb.innerHTML=TOTAL?'✨ <b>Total AI</b> — ask for any change':`AI: <b>${planner}</b>`;}
   else if(isOwner){mb.className='badge warn';mb.style.display='';mb.textContent='⚠ Add AI key';mb.onclick=()=>window.open('/admin/?key=owner-dev','_blank');}
   else mb.style.display='none';           // client doesn't manage keys
+  if(SIMPLE){                              // Total site: let them flip between chat-only and click-to-edit text
+    const vt=$('#viewToggle');vt.style.display='';vt.innerHTML=TEXTEDIT?'💬 Chat only':'✏️ Edit text';
+    vt.title=TEXTEDIT?'Hide on-page text editing and just use the chat':'Turn on clicking text on the page to edit it, alongside the chat';
+    vt.onclick=()=>{const toText=!TEXTEDIT;
+      if(toText)localStorage.setItem('cms_view_'+SITE,'text');else localStorage.removeItem('cms_view_'+SITE);
+      const u=new URL(location.href);if(toText)u.searchParams.set('view','text');else u.searchParams.delete('view');location.href=u.toString();};
+  }
   $('#howBtn').onclick=()=>{$('#howBtn').classList.toggle('open');$('#howBody').classList.toggle('open');};
   await loadPages();await loadVersions();await loadReview();refreshInbox();loadChips();
-  if(SIMPLE)bubble('bot',`This is your website, <b style="color:#f0f0f2">${esc(SITE)}</b> — and I'm your editor. Tell me what you'd like changed: wording, colors, layout, whole new sections. I'll show you every change right here, and you can undo anything. When you're happy, hit <b>Publish</b> to make it live.`);
+  if(TEXTEDIT)bubble('bot',`This is your website, <b style="color:#f0f0f2">${esc(SITE)}</b>. <b>Click any text</b> to edit it right on the page, or <b>ask me</b> for anything bigger. <b>Save</b> keeps a draft; <b>Publish</b> makes it live.`);
+  else if(SIMPLE)bubble('bot',`This is your website, <b style="color:#f0f0f2">${esc(SITE)}</b> — and I'm your editor. Tell me what you'd like changed: wording, colors, layout, whole new sections. I'll show you every change right here, and you can undo anything. When you're happy, hit <b>Publish</b> to make it live.`);
   else bubble('bot',`${isOwner?'Editing':'Welcome — you can edit'} <b style="color:#f0f0f2">${esc(SITE)}</b>. Click any text to change it, select something to tweak its link/spacing on the right. <b>Save</b> keeps a draft; <b>Publish</b> pushes it live.`);
   maybeTour();
 }
@@ -502,7 +520,7 @@ function navToHref(href){
 
 let flashIds=[];
 function loadPreview(){
-  return fetch('/api/render?edit='+(SIMPLE?'nav':'1')+'&site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:pending()})}).then(r=>r.text()).then(html=>{frame.style.opacity='0';frame.onload=()=>{frame.style.opacity='1';if(flashIds.length){const f=flashIds;flashIds=[];setTimeout(()=>toFrame({type:'flash',ids:f}),140);}};frame.srcdoc=html;});
+  return fetch('/api/render?edit='+((SIMPLE&&!TEXTEDIT)?'nav':'1')+'&site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:pending()})}).then(r=>r.text()).then(html=>{frame.style.opacity='0';frame.onload=()=>{frame.style.opacity='1';if(flashIds.length){const f=flashIds;flashIds=[];setTimeout(()=>toFrame({type:'flash',ids:f}),140);}};frame.srcdoc=html;});
 }
 function updateBar(){
   const n=Object.values(pendingByPage).reduce((a,m)=>a+Object.keys(m).length,0);
@@ -586,7 +604,7 @@ function toFrame(msg){frame.contentWindow&&frame.contentWindow.postMessage(msg,'
 window.addEventListener('message',async e=>{
   const d=e.data;if(!d)return;
   if(d.type==='cms-edit'){pending()[d.id]=d.value;updateBar();}
-  else if(d.type==='cms-select'){sel={id:d.id,tag:d.tag,text:d.text,href:d.href,img:d.img,embed:d.embed};showScope();openInspectorOnSelect();}
+  else if(d.type==='cms-select'){sel={id:d.id,tag:d.tag,text:d.text,href:d.href,img:d.img,embed:d.embed};showScope();if(!TEXTEDIT)openInspectorOnSelect();}   // text mode: inline-edit only, keep the dock closed
   else if(d.type==='cms-deselect'){sel=null;showScope();if($('#inspPanel').classList.contains('show'))renderInspector();}
   else if(d.type==='cms-section'){sel=null;showScope();showPanel('#inspPanel');renderSectionCard(d.label||'Section');}
   else if(d.type==='cms-open'){sel=sel&&sel.id===d.id?sel:{id:d.id,tag:'',text:'',href:d.panel==='link'?'':null,img:d.panel==='image',embed:d.panel==='embed'};showPanel('#inspPanel');renderInspector();setTimeout(()=>{const t=$(d.panel==='link'?'#insLink':'#inspPanel .dialgrp');if(t){t.scrollIntoView({block:'nearest'});if(t.focus)t.focus();}},60);}
@@ -907,7 +925,17 @@ let imgTarget=null, seoTarget=null;
 function curImgSrc(id){try{return frame.contentDocument.querySelector('[data-cms-img="'+id+'"]').getAttribute('src')||'';}catch(e){return '';}}
 function setImage(id,url){pending()[id]=url;toFrame({type:'set-img',id,value:url});updateBar();}
 function curEmbedSrc(id){try{return frame.contentDocument.querySelector('[data-cms-embed="'+id+'"]').getAttribute('src')||'';}catch(e){return '';}}
-function setEmbed(id,url){pending()[id]=url;toFrame({type:'set-embed',id,value:url});updateBar();}
+// Mirror of lib/sanitize.mjs normalizeEmbedUrl — turn any YouTube/Vimeo link the
+// client pastes into the /embed/ form an iframe can load, so the live preview
+// matches what the guardian will store on save. Unrecognized input passes through.
+function normEmbed(url){var v=String(url||'').trim();
+  if(/^https:\/\/(www\.)?(youtube\.com\/embed\/|youtube-nocookie\.com\/embed\/|player\.vimeo\.com\/video\/)/i.test(v))return v;
+  var m=v.match(/^https?:\/\/(?:www\.|m\.)?youtube\.com\/(?:watch\?(?:[^#]*&)?v=|shorts\/|live\/|v\/)([\w-]{11})/i)||v.match(/^https?:\/\/youtu\.be\/([\w-]{11})/i);
+  if(m)return 'https://www.youtube.com/embed/'+m[1];
+  m=v.match(/^https?:\/\/(?:www\.)?vimeo\.com\/(\d+)/i);
+  if(m)return 'https://player.vimeo.com/video/'+m[1];
+  return v;}
+function setEmbed(id,url){var v=normEmbed(url);pending()[id]=v;toFrame({type:'set-embed',id,value:v});updateBar();}
 async function uploadImage(file){
   if(!file)return null;
   const dataUrl=await new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(file);});
