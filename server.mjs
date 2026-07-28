@@ -25,7 +25,7 @@ import { applyTotalOps } from './lib/total.mjs';
 import { autotag, autotagSnippet } from './lib/autotag.mjs';
 import { applyStructure } from './lib/structure.mjs';
 import { deployer } from './lib/deploy.mjs';
-import { effectiveSeo, SEO_FIELDS, STYLE_SPEC, sectionList } from './lib/fields.mjs';
+import { effectiveSeo, SEO_FIELDS, STYLE_SPEC, sectionList, fieldHandles } from './lib/fields.mjs';
 import { getConfig, setConfig, aiCreds, loadConfig } from './lib/config.mjs';
 import { pushFilesToBranch, mergeBranchToMain, ghToken } from './lib/github.mjs';
 import { randomBytes, createHash } from 'node:crypto';
@@ -586,8 +586,14 @@ function injectNav(html) {
   return html.includes('</body>') ? html.replace('</body>', overlay + '</body>') : html + overlay;
 }
 
-function injectEditor(html, schema) {
+function injectEditor(html, schema, templateHtml) {
   const richIds = Object.entries(schema).filter(([, d]) => d.rich).map(([id]) => id);
+  // Human-readable handles ("Video 1", "Text 6") — the SAME names the AI planner
+  // uses — so the client sees what to call each field. urlRef maps a field to the
+  // "URL N" handle of its link/button destination.
+  const handles = fieldHandles(templateHtml || '', schema);
+  const urlRef = {};
+  for (const [id, info] of Object.entries(handles.urls)) urlRef[id] = info.ref;
   const overlay = `
 <style id="cms-ee">
   [data-cms]:focus{outline:none !important}
@@ -608,15 +614,16 @@ function injectEditor(html, schema) {
   .cmsSBar button{display:flex;align-items:center;gap:5px;border:0;background:transparent;color:#ededed;height:30px;padding:0 10px;border-radius:7px;cursor:pointer;font-size:12.5px;font-weight:500}
   .cmsSBar button:hover{background:#26262b}
 </style>
-<script>window.__CMS={rich:${JSON.stringify(richIds)}};</script>
+<script>window.__CMS={rich:${JSON.stringify(richIds)},ref:${JSON.stringify(handles.byId)},urlRef:${JSON.stringify(urlRef)}};</script>
 <script>(function(){
   var RICH=new Set(window.__CMS.rich);
   function send(id,value){parent.postMessage({type:'cms-edit',id:id,value:value},'*');}
   function isImg(el){return el.hasAttribute('data-cms-img');}
   function isEmbed(el){return el.hasAttribute('data-cms-embed');}
   function idOf(el){return el.getAttribute('data-cms')||el.getAttribute('data-cms-img')||el.getAttribute('data-cms-embed');}
-  function selInfo(el){var a=el.closest('a');return {type:'cms-select',id:idOf(el),tag:el.tagName,text:(el.innerText||'').trim(),href:a?(a.getAttribute('href')||''):null,img:isImg(el),embed:isEmbed(el)};}
-  function kind(el){var t=el.tagName.toLowerCase();if(isImg(el))return el.tagName==='VIDEO'?'Video':'Image';if(isEmbed(el))return 'Video embed';if(/^h[1-6]$/.test(t))return 'Heading';if(t==='a')return 'Link';if(t==='button'||el.closest('button'))return 'Button';if(t==='li')return 'List item';if(t==='blockquote')return 'Quote';return 'Text';}
+  function refOf(el){return (window.__CMS.ref||{})[idOf(el)]||'';}
+  function selInfo(el){var a=el.closest('a');return {type:'cms-select',id:idOf(el),tag:el.tagName,text:(el.innerText||'').trim(),href:a?(a.getAttribute('href')||''):null,img:isImg(el),embed:isEmbed(el),ref:refOf(el),urlRef:(window.__CMS.urlRef||{})[idOf(el)]||''};}
+  function kind(el){var r=refOf(el);if(r)return r;var t=el.tagName.toLowerCase();if(isImg(el))return el.tagName==='VIDEO'?'Video':'Image';if(isEmbed(el))return 'Video embed';if(/^h[1-6]$/.test(t))return 'Heading';if(t==='a')return 'Link';if(t==='button'||el.closest('button'))return 'Button';if(t==='li')return 'List item';if(t==='blockquote')return 'Quote';return 'Text';}
   // floating chrome (portal — robust over any site CSS)
   var box=document.createElement('div');box.className='cmsL';
   var tag=document.createElement('div');tag.className='cmsTag';
@@ -767,7 +774,7 @@ app.get('/s/:name', (req, res) => {
   const slug = s.pages[req.query.page] ? req.query.page : s.home;
   const a = pageState(s, slug);
   let html = withBase(render(a.templateHtml, a.schema, a.content));
-  if (req.query.edit) html = injectEditor(html, a.schema);
+  if (req.query.edit) html = injectEditor(html, a.schema, a.templateHtml);
   res.type('html').send(html);
 });
 
@@ -955,7 +962,8 @@ app.get('/api/state', (req, res) => {
   const slug = pageOf(req, s);
   const a = pageState(s, slug);
   const groups = {};
-  for (const [id, d] of Object.entries(a.schema)) (groups[d.group] ||= []).push({ id, ...d, value: a.content[id] });
+  const handles = fieldHandles(a.templateHtml, a.schema);
+  for (const [id, d] of Object.entries(a.schema)) (groups[d.group] ||= []).push({ id, ref: handles.byId[id] || null, ...d, value: a.content[id] });
   // overlay any pending seo:* values so the panel reflects unsaved edits
   const seo = effectiveSeo(a.templateHtml, a.content);
   res.json({ plannerMode: plannerMode(), site: get(req), page: slug, groups, fieldCount: Object.keys(a.schema).length, collections: a.collections, dirty: !!s.draft[slug], seo, seoFields: SEO_FIELDS, styleSpec: STYLE_SPEC, sections: sectionList(a.templateHtml) });
@@ -971,7 +979,7 @@ app.post('/api/plan', authWrite, async (req, res) => {
   const history = Array.isArray(req.body?.history)
     ? req.body.history.slice(-8).map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: String(m.content || '').slice(0, 2000) }))
     : [];
-  const { summary, changeset } = await plan(command, a.content, a.schema, history);
+  const { summary, changeset } = await plan(command, a.content, a.schema, history, a.templateHtml);
   const g = validate(changeset, a);
   res.json({ summary, plannerMode: plannerMode(), diff: g.diff, candidate: g.candidate, ok: g.ok, errors: g.errors, warnings: g.warnings });
 });
@@ -1032,7 +1040,7 @@ app.post('/api/render', (req, res) => {
   const merged = req.body?.content && typeof req.body.content === 'object' ? { ...a.content, ...req.body.content } : a.content;
   let html = withBase(render(a.templateHtml, a.schema, merged));
   if (req.query.edit === 'nav') html = injectNav(html);
-  else if (req.query.edit) html = injectEditor(html, a.schema);
+  else if (req.query.edit) html = injectEditor(html, a.schema, a.templateHtml);
   res.type('html').send(html);
 });
 

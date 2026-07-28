@@ -604,7 +604,7 @@ function toFrame(msg){frame.contentWindow&&frame.contentWindow.postMessage(msg,'
 window.addEventListener('message',async e=>{
   const d=e.data;if(!d)return;
   if(d.type==='cms-edit'){pending()[d.id]=d.value;updateBar();}
-  else if(d.type==='cms-select'){sel={id:d.id,tag:d.tag,text:d.text,href:d.href,img:d.img,embed:d.embed};showScope();if(!TEXTEDIT)openInspectorOnSelect();}   // text mode: inline-edit only, keep the dock closed
+  else if(d.type==='cms-select'){sel={id:d.id,tag:d.tag,text:d.text,href:d.href,img:d.img,embed:d.embed,ref:d.ref,urlRef:d.urlRef};showScope();if(!TEXTEDIT)openInspectorOnSelect();}   // text mode: inline-edit only, keep the dock closed
   else if(d.type==='cms-deselect'){sel=null;showScope();if($('#inspPanel').classList.contains('show'))renderInspector();}
   else if(d.type==='cms-section'){sel=null;showScope();showPanel('#inspPanel');renderSectionCard(d.label||'Section');}
   else if(d.type==='cms-open'){sel=sel&&sel.id===d.id?sel:{id:d.id,tag:'',text:'',href:d.panel==='link'?'':null,img:d.panel==='image',embed:d.panel==='embed'};showPanel('#inspPanel');renderInspector();setTimeout(()=>{const t=$(d.panel==='link'?'#insLink':'#inspPanel .dialgrp');if(t){t.scrollIntoView({block:'nearest'});if(t.focus)t.focus();}},60);}
@@ -844,7 +844,7 @@ function renderInspector(){
   const p=$('#inspPanel');
   if(!styleSpec){ensureSpec(renderInspector);return;}
   if(!sel){p.innerHTML='<h4>Element</h4><div class="selnote">👆 Click any text, button or heading on the left. Its content, link, spacing and size will appear here.</div>';return;}
-  let h=`<h4>Element <span class="insTag">${esc(sel.img?'IMAGE':sel.embed?'VIDEO EMBED':sel.tag||'')}</span></h4>`;
+  let h=`<h4>Element <span class="insTag">${esc(sel.ref||(sel.img?'IMAGE':sel.embed?'VIDEO EMBED':sel.tag||''))}</span></h4>`;
   const fieldDef=schemaCache[sel.id]||{};
   if(sel.img){
     const curSrc=pending()[sel.id]!==undefined?pending()[sel.id]:curImgSrc(sel.id);
@@ -965,9 +965,11 @@ $('#undoBtn').onclick=()=>step(-1);$('#redoBtn').onclick=()=>step(1);
 let chatHistory={};
 function pageHistory(){return chatHistory[PAGE]||(chatHistory[PAGE]=[]);}
 function showResult(r){
+  // Only surface the planner's summary when a change was ACTUALLY staged. Showing an
+  // optimistic "Changed the video" when nothing applied reads as the AI lying.
+  if(r.errors&&r.errors.length){const c=document.createElement('div');c.className='card bad';c.innerHTML=`<h4>⛔ Nothing changed</h4><div class="body">${r.errors.map(e=>`<div class="err">${esc(e)}</div>`).join('')}</div>`;log.appendChild(c);log.scrollTop=log.scrollHeight;return;}
+  if(!r.diff||!r.diff.length){bubble('bot',"I couldn't tell which item you meant, so nothing was changed. Click the item directly instead — for a video, use the 🎬 Replace button — or name it more specifically.");return;}
   bubble('bot',esc(r.summary||'Done.'));
-  if(r.errors&&r.errors.length){const c=document.createElement('div');c.className='card bad';c.innerHTML=`<h4>⛔ Blocked</h4><div class="body">${r.errors.map(e=>`<div class="err">${esc(e)}</div>`).join('')}</div>`;log.appendChild(c);return;}
-  if(!r.diff||!r.diff.length){bubble('bot',"No confident change — try clicking the text, or add an AI key.");return;}
   r.diff.forEach(d=>pending()[d.id]=r.candidate[d.id]);flashIds=r.diff.map(d=>d.id).filter(id=>!id.includes(':'));loadPreview();updateBar();
   const c=document.createElement('div');c.className='card ok';c.innerHTML=`<h4>📝 staged ${r.diff.length} change${r.diff.length>1?'s':''}</h4><div class="body">${r.diff.map(d=>`<div class="rowd"><div class="lbl">${esc(d.label)}</div><div class="from">${esc(strip(d.from)||'(empty)')}</div><div class="to">${esc(strip(d.to))}</div></div>`).join('')}</div>`;log.appendChild(c);log.scrollTop=log.scrollHeight;
 }
@@ -1049,7 +1051,8 @@ async function send(){const command=input.value.trim();if(!command&&!chatAttach.
       return;
     }
     const r=await (await fetch('/api/plan?site='+SITE+PQ()+KQ(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({command:scoped,history:hist})})).json();t.remove();showResult(r);
-    hist.push({role:'user',content:scoped},{role:'assistant',content:r.summary||'Done.'});
+    // Record the TRUE outcome in history — never a success summary for a turn that changed nothing.
+    const applied=r.diff&&r.diff.length;hist.push({role:'user',content:scoped},{role:'assistant',content:applied?(r.summary||'Done.'):'(No change was applied — I could not map that request to a field.)'});
     chatHistory[PAGE]=hist.slice(-12);
   }catch(e){t.remove();bubble('bot','Error: '+esc(e.message));}}
 $('#send').onclick=send;input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
