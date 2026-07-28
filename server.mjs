@@ -441,24 +441,31 @@ function auditLog(name, entry) {
   // One-time, idempotent data repair: fix video embeds that were stored as text
   // fields so the renderer/editor/AI can actually change them. Persists to the
   // store (Mongo in prod). A no-op once every page is already tagged correctly.
-  let repaired = 0;
-  for (const name of Object.keys(sites)) {
-    const s = sites[name];
-    let siteChanged = false;
-    for (const slug of Object.keys(s.pages)) {
-      const p = s.pages[slug];
-      const r = repairEmbedTags(p.templateHtml, p.schema, p.content);
-      if (r.changed) { p.templateHtml = r.templateHtml; p.schema = r.schema; p.content = r.content; writePage(name, slug, p); repaired++; siteChanged = true; }
+  // Fully defensive — a bad page must never crash boot (Railway would restart-loop).
+  try {
+    let repaired = 0;
+    for (const name of Object.keys(sites)) {
+      const s = sites[name];
+      let siteChanged = false;
+      for (const slug of Object.keys(s.pages)) {
+        try {
+          const p = s.pages[slug];
+          const r = repairEmbedTags(p.templateHtml, p.schema, p.content);
+          if (r.changed) { p.templateHtml = r.templateHtml; p.schema = r.schema; p.content = r.content; writePage(name, slug, p); repaired++; siteChanged = true; }
+        } catch (e) { console.error(`[migrate] page ${name}/${slug}: ${e.message}`); }
+      }
+      // Any in-progress drafts carry the same broken tags — fix and re-save them too.
+      for (const slug of Object.keys(s.draft)) {
+        try {
+          const dp = s.draft[slug];
+          const r = repairEmbedTags(dp.templateHtml, dp.schema, dp.content);
+          if (r.changed) { dp.templateHtml = r.templateHtml; dp.schema = r.schema; dp.content = r.content; writeDraft(name, slug, dp); repaired++; }
+        } catch (e) { console.error(`[migrate] draft ${name}/${slug}: ${e.message}`); }
+      }
+      if (siteChanged) { try { saveVersion(name, 'auto-repair: re-tagged video embeds so they are editable'); } catch (e) { console.error(`[migrate] saveVersion ${name}: ${e.message}`); } }
     }
-    // Any in-progress drafts carry the same broken tags — fix and re-save them too.
-    for (const slug of Object.keys(s.draft)) {
-      const dp = s.draft[slug];
-      const r = repairEmbedTags(dp.templateHtml, dp.schema, dp.content);
-      if (r.changed) { dp.templateHtml = r.templateHtml; dp.schema = r.schema; dp.content = r.content; writeDraft(name, slug, dp); repaired++; }
-    }
-    if (siteChanged) saveVersion(name, 'auto-repair: re-tagged video embeds so they are editable');
-  }
-  if (repaired) { await flushMirror(); console.log(`[migrate] re-tagged video embeds on ${repaired} page(s)/draft(s).`); }
+    if (repaired) { await flushMirror(); console.log(`[migrate] re-tagged video embeds on ${repaired} page(s)/draft(s).`); }
+  } catch (e) { console.error(`[migrate] embed repair skipped: ${e.message}`); }
 }
 
 /* ───────────────────────────── app ───────────────────────────── */
