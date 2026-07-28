@@ -994,7 +994,16 @@ app.get('/api/_diag-publish', (req, res) => {
   const out = { hasGithubToken: !!ghToken(), storeMode: store.mode, sites: {} };
   for (const name of Object.keys(sites)) {
     const s = sites[name];
-    out.sites[name] = { repo: s.repo || null, repoBranch: s.repoBranch || null, domain: s.domain || null };
+    const embeds = [];
+    for (const slug of Object.keys(s.pages)) {
+      const p = s.pages[slug];
+      const hb = fieldHandles(p.templateHtml, p.schema).byId;
+      for (const tag of (p.templateHtml.match(/<iframe[^>]*>/gi) || [])) {
+        const id = (tag.match(/data-cms(?:-embed)?="([^"]*)"/) || [])[1];
+        if (id) embeds.push({ slug, id, handle: hb[id] || null, type: p.schema[id]?.type || null });
+      }
+    }
+    out.sites[name] = { repo: s.repo || null, repoBranch: s.repoBranch || null, domain: s.domain || null, pages: Object.keys(s.pages).length, drafts: Object.keys(s.draft || {}).length, embeds };
   }
   res.json(out);
 });
