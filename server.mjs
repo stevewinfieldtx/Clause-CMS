@@ -26,6 +26,7 @@ import { autotag, autotagSnippet } from './lib/autotag.mjs';
 import { applyStructure } from './lib/structure.mjs';
 import { deployer } from './lib/deploy.mjs';
 import { effectiveSeo, SEO_FIELDS, STYLE_SPEC, sectionList, fieldHandles } from './lib/fields.mjs';
+import { repairEmbedTags } from './lib/migrate.mjs';
 import { getConfig, setConfig, aiCreds, loadConfig } from './lib/config.mjs';
 import { pushFilesToBranch, mergeBranchToMain, ghToken } from './lib/github.mjs';
 import { randomBytes, createHash } from 'node:crypto';
@@ -436,6 +437,28 @@ function auditLog(name, entry) {
     try { loadSite(d.name); }
     catch (e) { console.error(`Skipping site "${d.name}" — failed to load: ${e.message}`); }
   }
+
+  // One-time, idempotent data repair: fix video embeds that were stored as text
+  // fields so the renderer/editor/AI can actually change them. Persists to the
+  // store (Mongo in prod). A no-op once every page is already tagged correctly.
+  let repaired = 0;
+  for (const name of Object.keys(sites)) {
+    const s = sites[name];
+    let siteChanged = false;
+    for (const slug of Object.keys(s.pages)) {
+      const p = s.pages[slug];
+      const r = repairEmbedTags(p.templateHtml, p.schema, p.content);
+      if (r.changed) { p.templateHtml = r.templateHtml; p.schema = r.schema; p.content = r.content; writePage(name, slug, p); repaired++; siteChanged = true; }
+    }
+    // Any in-progress drafts carry the same broken tags — fix and re-save them too.
+    for (const slug of Object.keys(s.draft)) {
+      const dp = s.draft[slug];
+      const r = repairEmbedTags(dp.templateHtml, dp.schema, dp.content);
+      if (r.changed) { dp.templateHtml = r.templateHtml; dp.schema = r.schema; dp.content = r.content; writeDraft(name, slug, dp); repaired++; }
+    }
+    if (siteChanged) saveVersion(name, 'auto-repair: re-tagged video embeds so they are editable');
+  }
+  if (repaired) { await flushMirror(); console.log(`[migrate] re-tagged video embeds on ${repaired} page(s)/draft(s).`); }
 }
 
 /* ───────────────────────────── app ───────────────────────────── */
