@@ -987,27 +987,6 @@ app.post('/api/pages/refresh', requireOwner, async (req, res) => {
   res.json({ ok: true, slug, url, fields: Object.keys(schema).length, collections: collections.length });
 });
 
-// TEMP (token-gated, no secrets): reports the Publish→GitHub wiring per site so we
-// can see whether edits actually reach the live repo. Remove after use.
-app.get('/api/_diag-publish', (req, res) => {
-  if (req.query.t !== 'diag-pub-9f3a2b') return res.status(404).end();
-  const out = { hasGithubToken: !!ghToken(), storeMode: store.mode, sites: {} };
-  for (const name of Object.keys(sites)) {
-    const s = sites[name];
-    const embeds = [];
-    for (const slug of Object.keys(s.pages)) {
-      const p = s.pages[slug];
-      const hb = fieldHandles(p.templateHtml, p.schema).byId;
-      for (const tag of (p.templateHtml.match(/<iframe[^>]*>/gi) || [])) {
-        const id = (tag.match(/data-cms(?:-embed)?="([^"]*)"/) || [])[1];
-        if (id) embeds.push({ slug, id, handle: hb[id] || null, type: p.schema[id]?.type || null });
-      }
-    }
-    out.sites[name] = { repo: s.repo || null, repoBranch: s.repoBranch || null, domain: s.domain || null, pages: Object.keys(s.pages).length, drafts: Object.keys(s.draft || {}).length, embeds };
-  }
-  res.json(out);
-});
-
 app.get('/api/state', (req, res) => {
   const s = need(req, res); if (!s) return;
   const slug = pageOf(req, s);
