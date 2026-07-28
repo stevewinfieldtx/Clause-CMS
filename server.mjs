@@ -1003,6 +1003,15 @@ app.get('/api/_diag-embeds', (req, res) => {
         return { tag: tag.slice(0, 240), fieldId: id || null, schemaType: id ? (p.schema[id]?.type || null) : null };
       });
     }
+    // Drafts are what the editor actually renders (draft || pages) — dump those too.
+    for (const slug of Object.keys(s.draft || {})) {
+      const dp = s.draft[slug];
+      const iframes = (dp.templateHtml || '').match(/<iframe[^>]*>/gi) || [];
+      (out[name] ||= {})['DRAFT:' + slug] = iframes.map((tag) => {
+        const id = (tag.match(/data-cms(?:-embed)?="([^"]*)"/) || [])[1];
+        return { tag: tag.slice(0, 240), fieldId: id || null, schemaType: id ? (dp.schema?.[id]?.type || null) : null };
+      });
+    }
   }
   res.json(out);
 });
