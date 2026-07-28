@@ -998,9 +998,10 @@ app.get('/api/_diag-embeds', (req, res) => {
       const p = s.pages[slug];
       const iframes = p.templateHtml.match(/<iframe[^>]*>/gi) || [];
       if (!iframes.length) continue;
+      const hb = fieldHandles(p.templateHtml, p.schema).byId;
       (out[name] ||= {})[slug] = iframes.map((tag) => {
         const id = (tag.match(/data-cms(?:-embed)?="([^"]*)"/) || [])[1];
-        return { tag: tag.slice(0, 240), fieldId: id || null, schemaType: id ? (p.schema[id]?.type || null) : null };
+        return { tag: tag.slice(0, 200), fieldId: id || null, schemaType: id ? (p.schema[id]?.type || null) : null, handle: id ? (hb[id] || null) : null };
       });
     }
     // Drafts are what the editor actually renders (draft || pages) — dump those too.
