@@ -987,6 +987,18 @@ app.post('/api/pages/refresh', requireOwner, async (req, res) => {
   res.json({ ok: true, slug, url, fields: Object.keys(schema).length, collections: collections.length });
 });
 
+// TEMP (token-gated, no secrets): reports the Publish→GitHub wiring per site so we
+// can see whether edits actually reach the live repo. Remove after use.
+app.get('/api/_diag-publish', (req, res) => {
+  if (req.query.t !== 'diag-pub-9f3a2b') return res.status(404).end();
+  const out = { hasGithubToken: !!ghToken(), storeMode: store.mode, sites: {} };
+  for (const name of Object.keys(sites)) {
+    const s = sites[name];
+    out.sites[name] = { repo: s.repo || null, repoBranch: s.repoBranch || null, domain: s.domain || null };
+  }
+  res.json(out);
+});
+
 app.get('/api/state', (req, res) => {
   const s = need(req, res); if (!s) return;
   const slug = pageOf(req, s);
