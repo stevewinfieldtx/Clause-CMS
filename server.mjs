@@ -987,6 +987,26 @@ app.post('/api/pages/refresh', requireOwner, async (req, res) => {
   res.json({ ok: true, slug, url, fields: Object.keys(schema).length, collections: collections.length });
 });
 
+// TEMP diagnostic (token-gated, no secrets): dumps every <iframe> tag + the schema
+// type of its field, so we can see how videos are actually stored. Remove after use.
+app.get('/api/_diag-embeds', (req, res) => {
+  if (req.query.t !== 'diag-embeds-9f3a2b') return res.status(404).end();
+  const out = { storeMode: store.mode };
+  for (const name of Object.keys(sites)) {
+    const s = sites[name];
+    for (const slug of Object.keys(s.pages)) {
+      const p = s.pages[slug];
+      const iframes = p.templateHtml.match(/<iframe[^>]*>/gi) || [];
+      if (!iframes.length) continue;
+      (out[name] ||= {})[slug] = iframes.map((tag) => {
+        const id = (tag.match(/data-cms(?:-embed)?="([^"]*)"/) || [])[1];
+        return { tag: tag.slice(0, 240), fieldId: id || null, schemaType: id ? (p.schema[id]?.type || null) : null };
+      });
+    }
+  }
+  res.json(out);
+});
+
 app.get('/api/state', (req, res) => {
   const s = need(req, res); if (!s) return;
   const slug = pageOf(req, s);
